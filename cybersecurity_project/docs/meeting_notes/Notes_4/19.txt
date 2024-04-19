@@ -1,1 +1,1 @@
-#Testing
+Setting up meeting for next step to get Jenkins running. Approved by Eric and Carl
