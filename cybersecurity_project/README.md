@@ -21,3 +21,5 @@ Provide step-by-step instructions on how to get a development env running:
 git clone https://github.com/Sidequest040/cybersecurity_project.git
 cd cybersecurity_project
 ./setup.sh
+
+
