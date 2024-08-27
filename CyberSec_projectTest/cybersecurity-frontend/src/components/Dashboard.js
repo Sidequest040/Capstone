@@ -1,4 +1,3 @@
-// src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,12 +5,12 @@ const Dashboard = () => {
     const [threats, setThreats] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/threats')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/threats`)
             .then(response => {
                 setThreats(response.data);
             })
             .catch(error => {
-                console.error('There was an error fetching the threats!', error);
+                console.error('There was an error fetching the threats:', error);
             });
     }, []);
 
