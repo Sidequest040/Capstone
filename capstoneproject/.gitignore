@@ -1,0 +1,12 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore all log files
+*.log
+
+# Ignore build artifacts
+/build
+
+# Ignore all files except the ones you are working on
+!src/components/Login.js
+!src/components/Login.css
