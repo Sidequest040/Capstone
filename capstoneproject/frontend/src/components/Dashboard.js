@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-import Content from './Content';  // This would be where you load your sections like Overview, TechnicalPlans, etc.
+import Overview from './Overview';
+import TechnicalPlans from './TechnicalPlans';
+import ThreatDetection from './ThreatDetection'; // Import the new ThreatDetection component
 import './Dashboard.css';
 
 function Dashboard() {
     const [activeSection, setActiveSection] = useState('overview');
 
+    const renderSection = () => {
+        switch (activeSection) {
+            case 'overview':
+                return <Overview />;
+            case 'technical':
+                return <TechnicalPlans />;
+            case 'threat-detection':  // Add this case to render the Threat Detection section
+                return <ThreatDetection />;
+            // Add more cases for additional sections
+            default:
+                return <Overview />;
+        }
+    };
+
     return (
         <div className="dashboard">
             <Sidebar setActiveSection={setActiveSection} />
-            <Content activeSection={activeSection} />
+            <div className="content">
+                {renderSection()}
+            </div>
         </div>
     );
 }

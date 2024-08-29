@@ -1,5 +1,3 @@
-/* Existing styles */
-
 .login-container {
     display: flex;
     justify-content: center;
@@ -12,40 +10,43 @@
 
 .login-form {
     background: rgba(255, 255, 255, 0.9);
-    padding: 30px;
+    padding: 20px; /* Reduced padding for a more compact look */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px;
+    max-width: 350px; /* Reduced max-width */
     width: 100%;
 }
 
 .login-form h2 {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Reduced margin */
     color: #333;
-    font-size: 2rem;
+    font-size: 1.8rem; /* Reduced font size */
 }
 
 .login-input {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
+    width: calc(100% - 30px); /* Adjusted width */
+    padding: 12px; /* Reduced padding */
+    margin: 8px 0; /* Reduced margins */
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 1.2rem;
+    font-size: 1rem; /* Reduced font size */
+}
+
+.login-button, .signup-button, .back-button {
+    width: calc(100% - 30px); /* Ensuring all buttons and inputs have the same width */
+    padding: 10px; /* Reduced padding */
+    border-radius: 8px;
+    font-size: 1rem; /* Reduced font size */
+    margin: 10px 0 0 0; /* Adjusted margins for consistency */
+    transition: background-color 0.3s ease;
 }
 
 .login-button {
-    width: 100%;
-    padding: 12px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.2rem;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
@@ -53,20 +54,27 @@
 }
 
 .signup-button {
-    width: 100%;
-    padding: 12px;
     background-color: #007BFF;
     color: white;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.2rem;
     margin-top: 10px;
-    transition: background-color 0.3s ease;
 }
 
 .signup-button:hover {
     background-color: #0056b3;
+}
+
+.back-button {
+    background-color: #6c757d; /* Gray color for the back button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.back-button:hover {
+    background-color: #5a6268; /* Darker gray on hover */
 }
 
 /* New styles for the custom modal */

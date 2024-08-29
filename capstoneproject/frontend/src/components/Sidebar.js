@@ -26,7 +26,8 @@ function Sidebar({ setActiveSection }) {
             <ul>
                 <li id="overview" className="active" onClick={() => handleButtonClick('overview')}>Discover</li>
                 <li id="technical" onClick={() => handleButtonClick('technical')}>Technical Plans</li>
-                {/* Add more buttons for different sections */}
+                <li id="threat-detection" onClick={() => handleButtonClick('threat-detection')}>Threat Detection</li> {/* New button added here */}
+                {/* Add more buttons for different sections as needed */}
             </ul>
             <div className="profile">
                 <img src="https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg" alt="Profile Pic" />

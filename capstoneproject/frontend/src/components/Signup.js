@@ -22,7 +22,7 @@ function Signup() {
         } catch (error) {
             console.error('There was an error signing up!', error);
         }
-    };     
+    };
 
     return (
         <div className="login-container">
@@ -52,7 +52,14 @@ function Signup() {
                     required 
                     className="login-input"
                 />
-                <button type="submit" className="login-button">Signup</button>
+                <button type="submit" className="login-button">Sign Up</button>
+                <button 
+                    type="button" 
+                    className="back-button" 
+                    onClick={() => navigate('/login')}
+                >
+                    Already have an account? Log in
+                </button>
             </form>
         </div>
     );

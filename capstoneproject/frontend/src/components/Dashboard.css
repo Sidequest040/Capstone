@@ -197,4 +197,44 @@ p {
     background-color: #2eb82e;
 }
 
+/* Threat Detection Section */
+.threat-detection-section {
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+.chart-container {
+    margin-bottom: 30px;
+}
+
+.logs-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.logs-list {
+    list-style-type: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.logs-list li {
+    margin-bottom: 10px;
+}
+
+.filter-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
 /* Add any other specific styles required for your dashboard components */
