@@ -10,3 +10,6 @@ node_modules/
 # Ignore all files except the ones you are working on
 !src/components/Login.js
 !src/components/Login.css
+
+capstoneproject/backend/.env
+capstoneproject/backend/.env
