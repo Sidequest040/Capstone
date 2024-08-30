@@ -237,4 +237,40 @@ p {
     font-size: 1rem;
 }
 
-/* Add any other specific styles required for your dashboard components */
+/* Threat Detection Page */
+.threat-detection-page {
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+.threat-detection-page textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.threat-detection-page button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.threat-detection-page button:hover {
+    background-color: #45a049;
+}
+
+.analysis-result {
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+}

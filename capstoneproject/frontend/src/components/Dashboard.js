@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Overview from './Overview';
 import TechnicalPlans from './TechnicalPlans';
-import ThreatDetection from './ThreatDetection'; // Import the new ThreatDetection component
+import ThreatDetection from './ThreatDetection';
+import ThreatDetectionPage from './ThreatDetectionPage'; // Import the new component
 import './Dashboard.css';
 
 function Dashboard() {
@@ -14,9 +15,10 @@ function Dashboard() {
                 return <Overview />;
             case 'technical':
                 return <TechnicalPlans />;
-            case 'threat-detection':  // Add this case to render the Threat Detection section
+            case 'threat-detection':
                 return <ThreatDetection />;
-            // Add more cases for additional sections
+            case 'threat-detection-page': // Add this case to render the new Threat Detection Page
+                return <ThreatDetectionPage />;
             default:
                 return <Overview />;
         }
