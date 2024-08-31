@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const OpenAI = require('openai');
+const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
@@ -33,9 +33,9 @@ db.connect(err => {
     console.log('MySQL Connected...');
 });
 
-// Initialize OpenAI API
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+// Root route handler
+app.get('/', (req, res) => {
+    res.send('API is running...');
 });
 
 // Exponential backoff function
@@ -44,41 +44,52 @@ const exponentialBackoff = (retries) => {
     return new Promise(resolve => setTimeout(resolve, delay));
 };
 
-// Root route handler
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
-
-// Test Connection with Exponential Backoff
+// Test Connection with RapidAPI ChatGPT API
 app.post('/test-connection', async (req, res) => {
     const { logData } = req.body;
     console.log('Received log data:', logData);
 
+    const options = {
+        method: 'POST',
+        url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
+        headers: {
+            'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976',  // Use environment variable for key
+            'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        },
+        data: {
+            messages: [
+                {
+                    role: 'user',
+                    content: logData
+                }
+            ],
+            web_access: false
+        }
+    };
+
     let retries = 0;
-    const maxRetries = 5;
+    const maxRetries = 3;
 
     while (retries < maxRetries) {
         try {
-            const response = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content: logData }],
-            });
-
-            const analysis = response.choices[0].message.content;
+            const response = await axios.request(options);
+            const analysis = response.data.result; // Extract the 'result' from the response
+            console.log('Received response from RapidAPI:', response.data);
             return res.status(200).send({ message: analysis });
         } catch (error) {
-            if (error.code === 'insufficient_quota' || error.code === 'rate_limit_exceeded') {
+            if (error.code === 'ERR_BAD_RESPONSE' || error.response?.status === 504) {
                 retries += 1;
-                console.error(`Rate limit exceeded, retrying... Attempt ${retries}`);
+                console.error(`Attempt ${retries} failed:`, error.message);
                 await exponentialBackoff(retries);
             } else {
-                console.error('Error with OpenAI API:', error);
-                return res.status(500).send({ message: 'Error analyzing log data with OpenAI' });
+                console.error('Error with RapidAPI ChatGPT:', error);
+                return res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
             }
         }
     }
 
-    return res.status(429).send({ message: 'Exceeded maximum retries. Please try again later.' });
+    return res.status(500).send({ message: 'Failed to process request after multiple attempts. Please try again later.' });
 });
 
 // Register User

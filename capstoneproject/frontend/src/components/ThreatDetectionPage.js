@@ -43,7 +43,10 @@ function ThreatDetectionPage() {
             {responseMessage && (
                 <div className="response-message">
                     <h3>Response from Backend:</h3>
-                    <p>{responseMessage}</p>
+                    <div 
+                        className="formatted-response"
+                        dangerouslySetInnerHTML={{ __html: responseMessage.replace(/\n/g, '<br/>') }}
+                    />
                 </div>
             )}
         </div>
