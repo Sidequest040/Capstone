@@ -273,4 +273,29 @@ p {
     padding: 15px;
     border-radius: 8px;
     color: white;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.analysis-result p {
+    margin-bottom: 10px;
+}
+
+.analysis-result ul {
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.analysis-result ul li {
+    margin-bottom: 10px;
+}
+
+.analysis-result strong {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.analysis-result em {
+    color: #FFD700;
+    font-style: italic;
 }
