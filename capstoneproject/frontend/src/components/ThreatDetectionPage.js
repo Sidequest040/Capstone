@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ThreatContext } from './ThreatContext';
 
 function ThreatDetectionPage() {
-    // Reduced mock log data to avoid exceeding token limits
+    const { setThreatData } = useContext(ThreatContext);
     const [logData, setLogData] = useState(`[
         "[00:00] User login attempt from IP 192.168.1.1",
-        "[00:10] Potential phishing email detected from IP 192.168.1.2",
+        "[00:00] User login attempt from IP 192.168.1.1",
+        "[00:00] User login attempt from IP 192.168.1.1",
+        "[00:10] Potential phishing email detected from IP 192.168.1.1",
         "[00:20] Malware detected in file upload from IP 192.168.1.3",
+        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4", 
         "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-        "[00:40] User login attempt failed from IP 192.168.1.5"
+        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+        "[00:40] User login attempt failed from IP 192.168.1.1",
+        "[00:40] User login attempt failed from IP 192.168.1.1",
+        "[00:40] User login attempt failed from IP 192.168.1.1",
+        "[00:40] User login attempt failed from IP 192.168.1.1",
+        "[00:50] User login attempt succeeded from IP 192.168.1.1"
     ]`);
     const [responseMessage, setResponseMessage] = useState('');
 
@@ -23,6 +34,32 @@ function ThreatDetectionPage() {
 
             const result = await response.json();
             setResponseMessage(result.message);
+
+            // Process the logData into a format suitable for the graph
+            const parsedData = JSON.parse(logData);
+            const formattedData = [];
+
+            parsedData.forEach(log => {
+                const timeMatch = log.match(/\[(.*?)\]/);
+                const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
+                const ip = ipMatch ? ipMatch[1] : 'Unknown';
+                const critical = log.includes('unauthorized') || log.includes('malware'); // Detect critical threats
+                const existingEntry = formattedData.find(entry => entry.time === timeMatch[1] && entry.ip === ip);
+
+                if (existingEntry) {
+                    existingEntry.threats += 1;
+                } else {
+                    formattedData.push({
+                        time: timeMatch ? timeMatch[1] : 'Unknown',
+                        threats: 1,
+                        ip: ip,
+                        critical: critical, // Store the critical status
+                        date: new Date().toISOString().slice(0, 10),
+                    });
+                }
+            });
+
+            setThreatData(formattedData);
         } catch (error) {
             console.error('Error testing connection:', error);
             setResponseMessage('There was an error connecting to the backend.');
