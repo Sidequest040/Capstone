@@ -1,41 +1,69 @@
 /* Profile.css */
 .profile-page {
-    padding: 20px;
-    color: #e0e0e0;
-    background: none; /* Make the background transparent */
-    box-shadow: none; /* Remove any shadow effects */
-}
-
-.profile-info, .activity-logs {
-    background-color: rgba(0, 0, 0, 0.6); /* Add transparency to the containers */
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-h1, h2 {
-    color: #ffffff;
-}
-
-button {
-    background-color: #FF8C00; /* Modify button color */
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
 }
 
-button:hover {
-    background-color: #FF4500;
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-ul li {
-    margin-bottom: 10px;
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1.2rem;
     color: #c0c0c0;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.save-button {
+    background-color: #ff7300;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.save-button:hover {
+    background-color: #ff5700;
 }

@@ -53,7 +53,7 @@ app.post('/test-connection', async (req, res) => {
         method: 'POST',
         url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
         headers: {
-            'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976',  // Use environment variable for key
+            'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976',
             'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
@@ -74,7 +74,7 @@ app.post('/test-connection', async (req, res) => {
     while (retries < maxRetries) {
         try {
             const response = await axios.request(options);
-            const analysis = response.data.result; // Extract the 'result' from the response
+            const analysis = response.data.result;
             console.log('Received response from RapidAPI:', response.data);
             return res.status(200).send({ message: analysis });
         } catch (error) {
@@ -120,6 +120,32 @@ app.post('/login', (req, res) => {
         }
     });
 });
+
+// Fetch user profile by userId
+app.get('/profile/:userId', (req, res) => {
+    const userId = req.params.userId;
+    db.query('SELECT * FROM user_profiles WHERE user_id = ?', [userId], (err, result) => {
+        if (err) return res.status(500).send('Server error');
+        if (result.length) {
+            res.status(200).send(result[0]);
+        } else {
+            res.status(404).send('Profile not found');
+        }
+    });
+});
+
+// Update user profile
+app.post('/profile/update', (req, res) => {
+    const { userId, name, email, status, bio } = req.body;
+    db.query('UPDATE user_profiles SET name = ?, email = ?, status = ?, bio = ? WHERE user_id = ?', 
+        [name, email, status, bio, userId], 
+        (err, result) => {
+            if (err) return res.status(500).send('Server error');
+            res.status(200).send({ message: 'Profile updated successfully' });
+        }
+    );
+});
+
 
 // Catch-all route handler for undefined routes
 app.use((req, res, next) => {
