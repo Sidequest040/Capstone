@@ -25,6 +25,9 @@ function Sidebar({ setActiveSection }) {
                 <li id="technical" onClick={() => handleButtonClick('technical')}>Technical Plans</li>
                 <li id="threat-detection" onClick={() => handleButtonClick('threat-detection')}>Threat Detection</li>
                 <li id="threat-detection-page" onClick={() => handleButtonClick('threat-detection-page')}>Run Threat Detection</li>
+                <li id="help" onClick={() => handleButtonClick('help')}>Help</li> {/* Add Help */}
+                <li id="profile" onClick={() => handleButtonClick('profile')}>Profile</li> {/* Add Profile */}
+                <li id="app" onClick={() => handleButtonClick('app')}>Dark Mode</li> {/* Add Dark Mode toggle */}
             </ul>
             <div className="profile">
                 <img src="https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg" alt="Profile Pic" />
