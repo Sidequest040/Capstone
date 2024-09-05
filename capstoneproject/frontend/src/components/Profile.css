@@ -1,0 +1,41 @@
+/* Profile.css */
+.profile-page {
+    padding: 20px;
+    color: #e0e0e0;
+    background: none; /* Make the background transparent */
+    box-shadow: none; /* Remove any shadow effects */
+}
+
+.profile-info, .activity-logs {
+    background-color: rgba(0, 0, 0, 0.6); /* Add transparency to the containers */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    color: #ffffff;
+}
+
+button {
+    background-color: #FF8C00; /* Modify button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #FF4500;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    color: #c0c0c0;
+}
