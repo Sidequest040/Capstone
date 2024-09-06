@@ -53,7 +53,7 @@ app.post('/test-connection', async (req, res) => {
         method: 'POST',
         url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
         headers: {
-            'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976',
+            'x-rapidapi-key': '3174ee127cmsh86affbe38530963p157252jsncbd64bd9917e',
             'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
             'Content-Type': 'application/json'
         },

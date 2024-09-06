@@ -4,9 +4,9 @@ import Overview from './Overview';
 import TechnicalPlans from './TechnicalPlans';
 import ThreatDetection from './ThreatDetection';
 import ThreatDetectionPage from './ThreatDetectionPage'; 
-import Help from './Help'; // Import the Help component
-import Profile from './Profile'; // Import the Profile component
-import App from './App'; // Import App for Dark Mode functionality
+import Help from './Help'; 
+import Profile from './Profile'; 
+import DarkMode from './CyberGuardian'; // Renamed from 'App' to 'CyberGuardian'
 import './Dashboard.css';
 
 function Dashboard() {
@@ -23,11 +23,11 @@ function Dashboard() {
             case 'threat-detection-page':
                 return <ThreatDetectionPage />;
             case 'help':
-                return <Help />; // Render Help section
+                return <Help />; 
             case 'profile':
-                return <Profile />; // Render Profile section
-            case 'app':
-                return <App />; // Render the dark mode toggle app section
+                return <Profile />; 
+            case 'dark-mode':
+                return <DarkMode />; // Now CyberGuardian component
             default:
                 return <Overview />;
         }

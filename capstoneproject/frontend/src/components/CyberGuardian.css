@@ -1,0 +1,63 @@
+/* General Styling for CyberGuardian */
+.CyberGuardian {
+    text-align: center;
+    padding: 50px;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Dark Mode Styling */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode .CyberGuardian-header {
+    background-color: #1f1f1f;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .toggle-mode-button,
+.dark-mode .toggle-alert-button {
+    background-color: #333;
+    color: #ff7300;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.dark-mode .toggle-mode-button:hover,
+.dark-mode .toggle-alert-button:hover {
+    background-color: #ff5700;
+}
+
+/* Light Mode Specific Styles */
+.light-mode {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Security Alert Styling */
+.security-alert {
+    background-color: #ff4c4c;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    animation: glow 2s infinite alternate;
+}
+
+/* Glow effect for security alerts */
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(255, 76, 76, 0.7);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(255, 76, 76, 1);
+    }
+}
