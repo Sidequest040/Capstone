@@ -1,0 +1,95 @@
+/* ThreatDetectionPage.css */
+.threat-detection-page {
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .threat-detection-page h2 {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+  }
+  
+  .threat-detection-page textarea {
+    width: calc(100% - 30px); /* Ensure it fits within the card */
+    height: 200px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s;
+    resize: none;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    white-space: pre-wrap;
+  }
+  
+  /* Hide scrollbar but keep scrolling */
+  .threat-detection-page textarea::-webkit-scrollbar {
+    width: 0px; /* For Chrome, Safari, and Opera */
+  }
+  .threat-detection-page textarea {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  }
+  
+  .threat-detection-page textarea:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .threat-detection-page button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .threat-detection-page button:hover {
+    background-color: #ff5700;
+  }
+  
+  .response-message {
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    backdrop-filter: blur(5px);
+    color: white;
+  }
+  
+  .formatted-response {
+    white-space: pre-line;
+    font-size: 14px;
+    color: white;
+  }
+  
+  @media (max-width: 600px) {
+    .threat-detection-page {
+      width: 100%;
+    }
+  }
+  

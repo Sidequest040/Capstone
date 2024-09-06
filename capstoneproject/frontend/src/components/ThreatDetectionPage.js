@@ -1,8 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import './ThreatDetectionPage.css';  // Import the new CSS file
 import { ThreatContext } from './ThreatContext';
 
 function ThreatDetectionPage() {
     const { setThreatData } = useContext(ThreatContext);
+
+    // Store logData in state (to persist during navigation)
     const [logData, setLogData] = useState(`[
         "[00:00] User login attempt from IP 192.168.1.1",
         "[00:00] User login attempt from IP 192.168.1.1",
@@ -20,7 +23,14 @@ function ThreatDetectionPage() {
         "[00:40] User login attempt failed from IP 192.168.1.1",
         "[00:50] User login attempt succeeded from IP 192.168.1.1"
     ]`);
+
+    // AI response that only persists during navigation (not refresh)
     const [responseMessage, setResponseMessage] = useState('');
+
+    useEffect(() => {
+        // On page load (or refresh), clear the AI response
+        setResponseMessage('');
+    }, []);
 
     const handleSendDataClick = async () => {
         try {
@@ -66,6 +76,12 @@ function ThreatDetectionPage() {
         }
     };
 
+    const formatResponseMessage = (message) => {
+        let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        formattedMessage = formattedMessage.replace(/-\s/g, '• ');
+        return formattedMessage;
+    };
+
     return (
         <div className="threat-detection-page">
             <h2>Test Backend Connection</h2>
@@ -82,7 +98,7 @@ function ThreatDetectionPage() {
                     <h3>Response from Backend:</h3>
                     <div 
                         className="formatted-response"
-                        dangerouslySetInnerHTML={{ __html: responseMessage.replace(/\n/g, '<br/>') }}
+                        dangerouslySetInnerHTML={{ __html: formatResponseMessage(responseMessage).replace(/\n/g, '<br/>') }}
                     />
                 </div>
             )}

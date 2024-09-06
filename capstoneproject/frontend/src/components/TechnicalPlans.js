@@ -11,7 +11,7 @@ function TechnicalPlans() {
                     <li>Backend: Node.js with Express for handling API requests.</li>
                     <li>Frontend: React.js for building an interactive user interface.</li>
                     <li>Database: MySQL for storing user data and threat logs.</li>
-                    <li>Machine Learning: Python-based algorithms for real-time threat detection.</li>
+                    <li>AI Usage: Integration with AI models like ChatGPT for real-time threat detection and analysis.</li>
                     <li>Deployment: Docker and Kubernetes for containerization and orchestration.</li>
                 </ul>
             </p>

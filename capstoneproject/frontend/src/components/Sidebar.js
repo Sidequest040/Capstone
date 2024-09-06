@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ setActiveSection }) {
     const navigate = useNavigate();
-    const [profileName, setProfileName] = useState('Jimmy Donaldson'); // Default value
+    const [profileName, setProfileName] = useState('Jimmy Donaldson');
 
-    // Fetch the profile name from localStorage when the component mounts
     useEffect(() => {
         const storedName = localStorage.getItem('profileName');
         if (storedName) {
@@ -22,7 +21,7 @@ function Sidebar({ setActiveSection }) {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('authToken'); // Clear authentication token
+        localStorage.removeItem('authToken');
         navigate('/login');
     };
 
@@ -36,11 +35,11 @@ function Sidebar({ setActiveSection }) {
                 <li id="threat-detection-page" onClick={() => handleButtonClick('threat-detection-page')}>Run Threat Detection</li>
                 <li id="help" onClick={() => handleButtonClick('help')}>Help</li>
                 <li id="profile" onClick={() => handleButtonClick('profile')}>Profile</li>
-                <li id="app" onClick={() => handleButtonClick('app')}>Dark Mode</li>
+                <li id="dark-mode" onClick={() => handleButtonClick('dark-mode')}>Dark Mode</li>
             </ul>
             <div className="profile">
                 <img src="https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg" alt="Profile Pic" />
-                <h1>{profileName}</h1> {/* Dynamically display the profile name */}
+                <h1>{profileName}</h1>
             </div>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
