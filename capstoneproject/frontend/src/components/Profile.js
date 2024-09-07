@@ -10,18 +10,25 @@ function Profile() {
     });
 
     useEffect(() => {
-        // Fetch user profile data from local storage or backend when component loads
+        // Fetch user profile data for the logged-in user
         const fetchProfile = async () => {
-            const storedProfile = JSON.parse(localStorage.getItem('profile'));
-            if (storedProfile) {
-                setProfile(storedProfile);
-            } else {
-                const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/1');
-                const data = await response.json();
-                setProfile(data);
-                localStorage.setItem('profile', JSON.stringify(data)); // Save to local storage
+            const storedEmail = localStorage.getItem('email'); // Get the logged-in user's email
+
+            // If the user is new (no profile data stored), start with an empty profile
+            if (storedEmail) {
+                const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
+
+                if (storedProfile) {
+                    setProfile({ ...storedProfile, email: storedEmail });
+                } else {
+                    setProfile((prevProfile) => ({
+                        ...prevProfile,
+                        email: storedEmail, // Prefill the email
+                    }));
+                }
             }
         };
+
         fetchProfile();
     }, []);
 
@@ -31,18 +38,25 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Update the profile on the backend
-        const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(profile),
-        });
-        if (response.ok) {
-            alert('Profile updated successfully');
-            localStorage.setItem('profile', JSON.stringify(profile)); // Save updated profile to local storage
-            localStorage.setItem('profileName', profile.name); // Update the name in localStorage
-        } else {
-            alert('Failed to update profile');
+        const storedEmail = localStorage.getItem('email');
+
+        // Save the updated profile to local storage for this specific user
+        if (storedEmail) {
+            localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(profile)); // Save profile data using the user's email as a key
+
+            // Optionally, make an API request to update the profile in the backend as well
+            const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profile),
+            });
+
+            if (response.ok) {
+                alert('Profile updated successfully');
+                localStorage.setItem('profileName', profile.name); // Update the name in localStorage for other components to access
+            } else {
+                alert('Failed to update profile');
+            }
         }
     };
 
@@ -67,8 +81,7 @@ function Profile() {
                         type="email"
                         name="email"
                         value={profile.email}
-                        onChange={handleInputChange}
-                        placeholder="Enter your email"
+                        readOnly // Email is read-only, as it's tied to the account
                     />
                 </div>
 

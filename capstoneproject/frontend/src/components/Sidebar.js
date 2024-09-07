@@ -3,19 +3,24 @@ import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ setActiveSection }) {
     const navigate = useNavigate();
-    const [profileName, setProfileName] = useState('Jimmy Donaldson');
+    const [profileName, setProfileName] = useState(''); // Default is empty
 
     useEffect(() => {
-        const storedName = localStorage.getItem('profileName');
-        if (storedName) {
-            setProfileName(storedName);
+        // Fetch profile name based on the logged-in user's email
+        const storedEmail = localStorage.getItem('email');
+        if (storedEmail) {
+            const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
+            if (storedProfile && storedProfile.name) {
+                setProfileName(storedProfile.name); // Set the user's profile name
+            }
         }
 
         // Set up an event listener to update the name when it changes in localStorage
         const handleStorageChange = () => {
-            const updatedName = localStorage.getItem('profileName');
-            if (updatedName) {
-                setProfileName(updatedName);
+            const updatedEmail = localStorage.getItem('email');
+            const updatedProfile = JSON.parse(localStorage.getItem(`profile_${updatedEmail}`));
+            if (updatedProfile && updatedProfile.name) {
+                setProfileName(updatedProfile.name); // Update the sidebar when the profile name changes
             }
         };
 
@@ -37,6 +42,9 @@ function Sidebar({ setActiveSection }) {
 
     const handleLogout = () => {
         localStorage.removeItem('authToken');
+        localStorage.removeItem('profile');  // Remove profile data
+        localStorage.removeItem('email');    // Remove email
+        localStorage.removeItem('profileName'); // Clear stored name
         navigate('/login');
     };
 
@@ -54,7 +62,7 @@ function Sidebar({ setActiveSection }) {
             </ul>
             <div className="profile">
                 <img src="https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg" alt="Profile Pic" />
-                <h1>{profileName}</h1>
+                <h1>{profileName ? profileName : 'Guest'}</h1> {/* Fallback to 'Guest' if no profile name */}
             </div>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';  // Importing the CSS file
+import './Login.css';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showModal, setShowModal] = useState(false);  // State for controlling the modal visibility
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -14,17 +14,17 @@ function Login() {
         try {
             const response = await axios.post('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/login', { email, password });
             if (response.data.token) {
-                // Show the modal
                 setShowModal(true);
 
-                // Store the token in local storage or a context for later use
+                // Store the token and email in local storage
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('email', email);  // Store the email
+                console.log("Email stored in localStorage:", email);  // Check if email is stored
 
-                // Hide the modal and navigate to the dashboard after a shorter delay
                 setTimeout(() => {
                     setShowModal(false);
                     navigate('/dashboard');
-                }, 1000);  // Reduce delay to 1 second
+                }, 1000);
             } else {
                 alert(response.data.message);
             }
@@ -32,7 +32,6 @@ function Login() {
             if (error.response && error.response.status === 401) {
                 alert('Invalid credentials. Please try again.');
             } else {
-                console.error('There was an error logging in!', error);
                 alert('An error occurred while logging in. Please try again later.');
             }
         }
