@@ -8,6 +8,7 @@ function Profile() {
         status: '',
         bio: ''
     });
+    const [loading, setLoading] = useState(false); // Loader state
 
     useEffect(() => {
         // Fetch user profile data for the logged-in user
@@ -37,6 +38,7 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // Start loader
         const storedEmail = localStorage.getItem('email');
 
         // Save the updated profile to local storage for this specific user
@@ -50,12 +52,16 @@ function Profile() {
                 body: JSON.stringify(profile),
             });
 
+            setLoading(false); // Stop loader
+
             if (response.ok) {
                 alert('Profile updated successfully');
                 localStorage.setItem('profileName', profile.name); // Update the name in localStorage for other components to access
             } else {
                 alert('Failed to update profile');
             }
+        } else {
+            setLoading(false); // Stop loader in case of error
         }
     };
 
@@ -105,7 +111,9 @@ function Profile() {
                     ></textarea>
                 </div>
 
-                <button type="submit" className="save-button">Save Profile</button>
+                <button type="submit" className="save-button" disabled={loading}>
+                    {loading ? <div className="loader"></div> : "Save Profile"} {/* Show loader or button text */}
+                </button>
             </form>
         </div>
     );
