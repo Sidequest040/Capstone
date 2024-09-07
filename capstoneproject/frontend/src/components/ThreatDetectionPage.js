@@ -26,19 +26,15 @@ function ThreatDetectionPage() {
         ]`;
     });
 
-    // AI response, cleared on refresh, persists across page navigation
     const [responseMessage, setResponseMessage] = useState(() => sessionStorage.getItem('responseMessage') || '');
+    const [loading, setLoading] = useState(false); // New state to track loading
 
     useEffect(() => {
-        // Store logData in sessionStorage on change
         sessionStorage.setItem('logData', logData);
-
-        // Store the AI response only for navigation (clear it on refresh)
         sessionStorage.setItem('responseMessage', responseMessage);
 
-        // Clear sessionStorage when the page is refreshed
         const handleBeforeUnload = () => {
-            sessionStorage.removeItem('responseMessage');  // Clear AI response
+            sessionStorage.removeItem('responseMessage');
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -49,6 +45,7 @@ function ThreatDetectionPage() {
     }, [logData, responseMessage]);
 
     const handleSendDataClick = async () => {
+        setLoading(true); // Show loader
         try {
             const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/test-connection', {
                 method: 'POST',
@@ -61,7 +58,6 @@ function ThreatDetectionPage() {
             const result = await response.json();
             setResponseMessage(result.message);
 
-            // Process the logData into a format suitable for the graph
             const parsedData = JSON.parse(logData);
             const formattedData = [];
 
@@ -69,7 +65,7 @@ function ThreatDetectionPage() {
                 const timeMatch = log.match(/\[(.*?)\]/);
                 const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
                 const ip = ipMatch ? ipMatch[1] : 'Unknown';
-                const critical = log.includes('unauthorized') || log.includes('malware'); // Detect critical threats
+                const critical = log.includes('unauthorized') || log.includes('malware');
                 const existingEntry = formattedData.find(entry => entry.time === timeMatch[1] && entry.ip === ip);
 
                 if (existingEntry) {
@@ -79,7 +75,7 @@ function ThreatDetectionPage() {
                         time: timeMatch ? timeMatch[1] : 'Unknown',
                         threats: 1,
                         ip: ip,
-                        critical: critical, // Store the critical status
+                        critical: critical,
                         date: new Date().toISOString().slice(0, 10),
                     });
                 }
@@ -89,6 +85,8 @@ function ThreatDetectionPage() {
         } catch (error) {
             console.error('Error testing connection:', error);
             setResponseMessage('There was an error connecting to the backend.');
+        } finally {
+            setLoading(false); // Hide loader
         }
     };
 
@@ -108,7 +106,9 @@ function ThreatDetectionPage() {
                 rows="10" 
                 cols="50"
             />
-            <button onClick={handleSendDataClick}>Send Data to Backend</button>
+            <button onClick={handleSendDataClick} disabled={loading}>
+                {loading ? <div className="loader"></div> : "Send Data to Backend"}
+            </button>
             {responseMessage && (
                 <div className="response-message">
                     <h3>Response from Backend:</h3>
