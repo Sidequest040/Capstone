@@ -3,37 +3,34 @@ import { useNavigate } from 'react-router-dom';
 
 function Sidebar({ setActiveSection }) {
     const navigate = useNavigate();
-    const [profileName, setProfileName] = useState(''); // Default is empty
-    const [profilePic, setProfilePic] = useState('');   // For storing profile picture
+    const [profileName, setProfileName] = useState('');
+    const [profilePic, setProfilePic] = useState('');
 
     useEffect(() => {
-        // Fetch profile name and picture based on the logged-in user's email
         const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
             if (storedProfile && storedProfile.name) {
-                setProfileName(storedProfile.name); // Set the user's profile name
+                setProfileName(storedProfile.name);
             }
             if (storedProfile && storedProfile.profilePicture) {
-                setProfilePic(storedProfile.profilePicture); // Set the user's profile picture
+                setProfilePic(storedProfile.profilePicture);
             }
         }
 
-        // Set up an event listener to update the name and picture when they change in localStorage
         const handleStorageChange = () => {
             const updatedEmail = localStorage.getItem('email');
             const updatedProfile = JSON.parse(localStorage.getItem(`profile_${updatedEmail}`));
             if (updatedProfile && updatedProfile.name) {
-                setProfileName(updatedProfile.name); // Update the sidebar when the profile name changes
+                setProfileName(updatedProfile.name);
             }
             if (updatedProfile && updatedProfile.profilePicture) {
-                setProfilePic(updatedProfile.profilePicture); // Update the profile picture
+                setProfilePic(updatedProfile.profilePicture);
             }
         };
 
         window.addEventListener('storage', handleStorageChange);
 
-        // Clean up event listener when component unmounts
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
@@ -41,7 +38,6 @@ function Sidebar({ setActiveSection }) {
 
     const handleButtonClick = (section) => {
         setActiveSection(section);
-
         const buttons = document.querySelectorAll("li");
         buttons.forEach(button => button.classList.remove("active"));
         document.querySelector(`#${section}`).classList.add("active");
@@ -49,10 +45,10 @@ function Sidebar({ setActiveSection }) {
 
     const handleLogout = () => {
         localStorage.removeItem('authToken');
-        localStorage.removeItem('profile');  // Remove profile data
-        localStorage.removeItem('email');    // Remove email
-        localStorage.removeItem('profileName'); // Clear stored name
-        localStorage.removeItem('profilePicture'); // Clear stored profile picture
+        localStorage.removeItem('profile');
+        localStorage.removeItem('email');
+        localStorage.removeItem('profileName');
+        localStorage.removeItem('profilePicture');
         navigate('/login');
     };
 
@@ -61,11 +57,48 @@ function Sidebar({ setActiveSection }) {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                const storedEmail = localStorage.getItem('email');
-                const updatedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`)) || {};
-                updatedProfile.profilePicture = reader.result;
-                localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(updatedProfile));
-                setProfilePic(reader.result); // Update the profile picture in state
+                // Create an image element to resize
+                const img = new Image();
+                img.src = reader.result;
+
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    const maxSize = 200; // Max size of the image (in pixels)
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Maintain aspect ratio and resize
+                    if (width > height) {
+                        if (width > maxSize) {
+                            height *= maxSize / width;
+                            width = maxSize;
+                        }
+                    } else {
+                        if (height > maxSize) {
+                            width *= maxSize / height;
+                            height = maxSize;
+                        }
+                    }
+
+                    // Set canvas dimensions
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Draw the image to canvas
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Convert the canvas to a data URL
+                    const resizedImage = canvas.toDataURL('image/jpeg', 0.7); // Compress to 70% quality
+
+                    const storedEmail = localStorage.getItem('email');
+                    const updatedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`)) || {};
+                    updatedProfile.profilePicture = resizedImage;
+                    localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(updatedProfile));
+
+                    setProfilePic(resizedImage); // Update the profile picture in state
+                };
             };
             reader.readAsDataURL(file);
         }
@@ -98,7 +131,7 @@ function Sidebar({ setActiveSection }) {
                     accept="image/*"
                     onChange={handleProfilePicUpload}
                 />
-                <h1>{profileName ? profileName : 'Guest'}</h1> {/* Fallback to 'Guest' if no profile name */}
+                <h1>{profileName ? profileName : 'Guest'}</h1>
             </div>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>

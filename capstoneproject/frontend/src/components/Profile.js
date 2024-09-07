@@ -6,7 +6,7 @@ function Profile() {
         name: '',
         email: '',
         status: '',
-        bio: '',
+        bio: ''
     });
 
     useEffect(() => {
@@ -14,7 +14,6 @@ function Profile() {
         const fetchProfile = async () => {
             const storedEmail = localStorage.getItem('email'); // Get the logged-in user's email
 
-            // If the user is new (no profile data stored), start with an empty profile
             if (storedEmail) {
                 const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
 
