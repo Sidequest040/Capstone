@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import Toast from './Toast';  // Import the Toast component
 
 function Profile() {
     const [profile, setProfile] = useState({
@@ -8,27 +9,26 @@ function Profile() {
         status: '',
         bio: ''
     });
-    const [loading, setLoading] = useState(false); // Loader state
+
+    const [loading, setLoading] = useState(false);  // Loader state
+    const [toastVisible, setToastVisible] = useState(false);  // Toast visibility
+    const [toastMessage, setToastMessage] = useState('');  // Toast message
 
     useEffect(() => {
-        // Fetch user profile data for the logged-in user
         const fetchProfile = async () => {
-            const storedEmail = localStorage.getItem('email'); // Get the logged-in user's email
-
+            const storedEmail = localStorage.getItem('email');
             if (storedEmail) {
                 const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
-
                 if (storedProfile) {
                     setProfile({ ...storedProfile, email: storedEmail });
                 } else {
                     setProfile((prevProfile) => ({
                         ...prevProfile,
-                        email: storedEmail, // Prefill the email
+                        email: storedEmail,
                     }));
                 }
             }
         };
-
         fetchProfile();
     }, []);
 
@@ -38,31 +38,39 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loader
+        setLoading(true);
         const storedEmail = localStorage.getItem('email');
 
-        // Save the updated profile to local storage for this specific user
         if (storedEmail) {
-            localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(profile)); // Save profile data using the user's email as a key
+            localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(profile));
 
-            // Optionally, make an API request to update the profile in the backend as well
-            const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profile),
-            });
+            try {
+                const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profile),
+                });
 
-            setLoading(false); // Stop loader
+                setLoading(false);
 
-            if (response.ok) {
-                alert('Profile updated successfully');
-                localStorage.setItem('profileName', profile.name); // Update the name in localStorage for other components to access
-            } else {
-                alert('Failed to update profile');
+                if (response.ok) {
+                    setToastMessage('Profile updated successfully');  // Set success message
+                    setToastVisible(true);  // Show toast
+                    localStorage.setItem('profileName', profile.name);
+                } else {
+                    setToastMessage('Failed to update profile');  // Set error message
+                    setToastVisible(true);  // Show toast
+                }
+            } catch (error) {
+                setLoading(false);
+                setToastMessage('Error occurred. Please try again');  // Set error message
+                setToastVisible(true);  // Show toast
             }
-        } else {
-            setLoading(false); // Stop loader in case of error
         }
+    };
+
+    const handleCloseToast = () => {
+        setToastVisible(false);
     };
 
     return (
@@ -86,7 +94,7 @@ function Profile() {
                         type="email"
                         name="email"
                         value={profile.email}
-                        readOnly // Email is read-only, as it's tied to the account
+                        readOnly
                     />
                 </div>
 
@@ -112,9 +120,12 @@ function Profile() {
                 </div>
 
                 <button type="submit" className="save-button" disabled={loading}>
-                    {loading ? <div className="loader"></div> : "Save Profile"} {/* Show loader or button text */}
+                    {loading ? <div className="loader"></div> : "Save Profile"}
                 </button>
             </form>
+
+            {/* Toast Notification */}
+            <Toast message={toastMessage} isVisible={toastVisible} onClose={handleCloseToast} />
         </div>
     );
 }
