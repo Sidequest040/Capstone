@@ -31,7 +31,7 @@ function Profile() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Update the profile
+        // Update the profile on the backend
         const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -39,11 +39,12 @@ function Profile() {
         });
         if (response.ok) {
             alert('Profile updated successfully');
-            localStorage.setItem('profileName', profile.name); // Save updated name to localStorage
+            localStorage.setItem('profile', JSON.stringify(profile)); // Save updated profile to local storage
+            localStorage.setItem('profileName', profile.name); // Update the name in localStorage
         } else {
             alert('Failed to update profile');
         }
-    };    
+    };
 
     return (
         <div className="profile-page">

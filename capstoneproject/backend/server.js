@@ -121,6 +121,31 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Fetch user profile by email
+app.get('/profile/:email', (req, res) => {
+    const email = req.params.email;
+    db.query('SELECT * FROM user_profiles WHERE email = ?', [email], (err, result) => {
+        if (err) return res.status(500).send('Server error');
+        if (result.length) {
+            res.status(200).send(result[0]);
+        } else {
+            res.status(404).send('Profile not found');
+        }
+    });
+});
+
+// Update user profile
+app.post('/profile/update', (req, res) => {
+    const { email, name, status, bio } = req.body;
+    db.query('UPDATE user_profiles SET name = ?, status = ?, bio = ? WHERE email = ?', 
+        [name, status, bio, email], 
+        (err, result) => {
+            if (err) return res.status(500).send('Server error');
+            res.status(200).send({ message: 'Profile updated successfully' });
+        }
+    );
+});
+
 // Fetch user profile by userId
 app.get('/profile/:userId', (req, res) => {
     const userId = req.params.userId;
@@ -134,8 +159,8 @@ app.get('/profile/:userId', (req, res) => {
     });
 });
 
-// Update user profile
-app.post('/profile/update', (req, res) => {
+// Update user profile by userId
+app.post('/profile/update-by-id', (req, res) => {
     const { userId, name, email, status, bio } = req.body;
     db.query('UPDATE user_profiles SET name = ?, email = ?, status = ?, bio = ? WHERE user_id = ?', 
         [name, email, status, bio, userId], 
@@ -145,7 +170,6 @@ app.post('/profile/update', (req, res) => {
         }
     );
 });
-
 
 // Catch-all route handler for undefined routes
 app.use((req, res, next) => {
