@@ -18,7 +18,10 @@ const corsOptions = {
     optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
+
+// Increase the payload size limit to handle larger requests, such as images
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -136,9 +139,9 @@ app.get('/profile/:email', (req, res) => {
 
 // Update user profile
 app.post('/profile/update', (req, res) => {
-    const { email, name, status, bio } = req.body;
-    db.query('UPDATE user_profiles SET name = ?, status = ?, bio = ? WHERE email = ?', 
-        [name, status, bio, email], 
+    const { email, name, status, bio, profilePicture } = req.body;
+    db.query('UPDATE user_profiles SET name = ?, status = ?, bio = ?, profile_picture = ? WHERE email = ?', 
+        [name, status, bio, profilePicture, email], 
         (err, result) => {
             if (err) return res.status(500).send('Server error');
             res.status(200).send({ message: 'Profile updated successfully' });
@@ -157,18 +160,6 @@ app.get('/profile/:userId', (req, res) => {
             res.status(404).send('Profile not found');
         }
     });
-});
-
-// Update user profile by userId
-app.post('/profile/update-by-id', (req, res) => {
-    const { userId, name, email, status, bio } = req.body;
-    db.query('UPDATE user_profiles SET name = ?, email = ?, status = ?, bio = ? WHERE user_id = ?', 
-        [name, email, status, bio, userId], 
-        (err, result) => {
-            if (err) return res.status(500).send('Server error');
-            res.status(200).send({ message: 'Profile updated successfully' });
-        }
-    );
 });
 
 // Catch-all route handler for undefined routes
