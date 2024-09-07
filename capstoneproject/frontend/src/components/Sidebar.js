@@ -10,6 +10,21 @@ function Sidebar({ setActiveSection }) {
         if (storedName) {
             setProfileName(storedName);
         }
+
+        // Set up an event listener to update the name when it changes in localStorage
+        const handleStorageChange = () => {
+            const updatedName = localStorage.getItem('profileName');
+            if (updatedName) {
+                setProfileName(updatedName);
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Clean up event listener when component unmounts
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     const handleButtonClick = (section) => {
