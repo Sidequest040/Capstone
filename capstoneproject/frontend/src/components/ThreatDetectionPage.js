@@ -5,32 +5,48 @@ import { ThreatContext } from './ThreatContext';
 function ThreatDetectionPage() {
     const { setThreatData } = useContext(ThreatContext);
 
-    // Store logData in state (to persist during navigation)
-    const [logData, setLogData] = useState(`[
-        "[00:00] User login attempt from IP 192.168.1.1",
-        "[00:00] User login attempt from IP 192.168.1.1",
-        "[00:00] User login attempt from IP 192.168.1.1",
-        "[00:10] Potential phishing email detected from IP 192.168.1.1",
-        "[00:20] Malware detected in file upload from IP 192.168.1.3",
-        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4", 
-        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-        "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-        "[00:40] User login attempt failed from IP 192.168.1.1",
-        "[00:40] User login attempt failed from IP 192.168.1.1",
-        "[00:40] User login attempt failed from IP 192.168.1.1",
-        "[00:40] User login attempt failed from IP 192.168.1.1",
-        "[00:50] User login attempt succeeded from IP 192.168.1.1"
-    ]`);
+    // Store logData in sessionStorage, and use it to restore state if available
+    const [logData, setLogData] = useState(() => {
+        return sessionStorage.getItem('logData') || `[
+            "[00:00] User login attempt from IP 192.168.1.1",
+            "[00:00] User login attempt from IP 192.168.1.1",
+            "[00:00] User login attempt from IP 192.168.1.1",
+            "[00:10] Potential phishing email detected from IP 192.168.1.1",
+            "[00:20] Malware detected in file upload from IP 192.168.1.3",
+            "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4", 
+            "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+            "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+            "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+            "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+            "[00:40] User login attempt failed from IP 192.168.1.1",
+            "[00:40] User login attempt failed from IP 192.168.1.1",
+            "[00:40] User login attempt failed from IP 192.168.1.1",
+            "[00:40] User login attempt failed from IP 192.168.1.1",
+            "[00:50] User login attempt succeeded from IP 192.168.1.1"
+        ]`;
+    });
 
-    // AI response that only persists during navigation (not refresh)
-    const [responseMessage, setResponseMessage] = useState('');
+    // AI response, cleared on refresh, persists across page navigation
+    const [responseMessage, setResponseMessage] = useState(() => sessionStorage.getItem('responseMessage') || '');
 
     useEffect(() => {
-        // On page load (or refresh), clear the AI response
-        setResponseMessage('');
-    }, []);
+        // Store logData in sessionStorage on change
+        sessionStorage.setItem('logData', logData);
+
+        // Store the AI response only for navigation (clear it on refresh)
+        sessionStorage.setItem('responseMessage', responseMessage);
+
+        // Clear sessionStorage when the page is refreshed
+        const handleBeforeUnload = () => {
+            sessionStorage.removeItem('responseMessage');  // Clear AI response
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [logData, responseMessage]);
 
     const handleSendDataClick = async () => {
         try {
