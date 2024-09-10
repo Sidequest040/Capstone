@@ -114,7 +114,7 @@ function Sidebar({ setActiveSection }) {
                 <li id="threat-detection-page" onClick={() => handleButtonClick('threat-detection-page')}>Run Threat Detection</li>
                 <li id="help" onClick={() => handleButtonClick('help')}>Help</li>
                 <li id="profile" onClick={() => handleButtonClick('profile')}>Profile</li>
-                <li id="dark-mode" onClick={() => handleButtonClick('dark-mode')}>Dark Mode</li>
+                <li id="dark-mode" onClick={() => handleButtonClick('dark-mode')}>Cyber Guardian</li>
             </ul>
             <div className="profile">
                 <label htmlFor="profilePicUpload">
