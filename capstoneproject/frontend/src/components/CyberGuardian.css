@@ -5,40 +5,70 @@
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Dark Mode Styling */
-.dark-mode {
-    background-color: #121212;
+.CyberGuardian-header {
+    background-color: #2e2e2e;
+    padding: 40px;
+    border-radius: 15px;
     color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-.dark-mode .CyberGuardian-header {
-    background-color: #1f1f1f;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.dark-mode .toggle-mode-button,
-.dark-mode .toggle-alert-button {
-    background-color: #333;
-    color: #ff7300;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.CyberGuardian-header h1 {
+    font-size: 2.5rem;
     font-weight: bold;
 }
 
-.dark-mode .toggle-mode-button:hover,
-.dark-mode .toggle-alert-button:hover {
-    background-color: #ff5700;
+.CyberGuardian-header p {
+    font-size: 1.2rem;
+    margin: 20px 0;
 }
 
-/* Light Mode Specific Styles */
-.light-mode {
-    background-color: #f0f0f0;
-    color: #333;
+.network-scan-button {
+    background-color: #ff7300;
+    color: #ffffff;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.network-scan-button:hover {
+    background-color: #ff5000;
+}
+
+/* Cool button design for Show Security Alert */
+.cool-alert-button {
+    background: linear-gradient(90deg, #ff7300, #ff5700);
+    color: #fff;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cool-alert-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(255, 115, 0, 0.7);
+}
+
+.threat-status {
+    font-size: 1.2rem;
+    color: #ffcd00;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.no-threats {
+    font-size: 1.2rem;
+    color: #00ff6b;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 /* Security Alert Styling */
@@ -60,4 +90,11 @@
     to {
         box-shadow: 0 0 20px rgba(255, 76, 76, 1);
     }
+}
+
+/* Scan status styling */
+.scan-status {
+    font-size: 1.1rem;
+    color: #00d1ff;
+    margin-bottom: 20px;
 }
