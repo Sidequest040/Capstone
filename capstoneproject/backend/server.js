@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const axios = require('axios');
+const axios = require('axios');  // Import axios for API requests
 require('dotenv').config();
 
 const app = express();
@@ -46,6 +46,25 @@ const exponentialBackoff = (retries) => {
     const delay = Math.pow(2, retries) * 100 + Math.random() * 100;
     return new Promise(resolve => setTimeout(resolve, delay));
 };
+
+// RapidAPI Network Scan Route
+app.get('/network-scan', async (req, res) => {
+    try {
+        // Make a GET request to the RapidAPI network scan endpoint
+        const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
+            headers: {
+                'x-rapidapi-host': 'netdetective.p.rapidapi.com',
+                'x-rapidapi-key': '3174ee127cmsh86affbe38530963p157252jsncbd64bd9917e'  // Your API key
+            }
+        });
+
+        // Return the network scan results to the client
+        res.status(200).send(response.data);
+    } catch (error) {
+        console.error('Error scanning the network:', error.message);
+        res.status(500).send({ message: 'Network scan failed' });
+    }
+});
 
 // Test Connection with RapidAPI ChatGPT API
 app.post('/test-connection', async (req, res) => {
@@ -149,19 +168,6 @@ app.post('/profile/update', (req, res) => {
     );
 });
 
-// Fetch user profile by userId
-app.get('/profile/:userId', (req, res) => {
-    const userId = req.params.userId;
-    db.query('SELECT * FROM user_profiles WHERE user_id = ?', [userId], (err, result) => {
-        if (err) return res.status(500).send('Server error');
-        if (result.length) {
-            res.status(200).send(result[0]);
-        } else {
-            res.status(404).send('Profile not found');
-        }
-    });
-});
-
 // Catch-all route handler for undefined routes
 app.use((req, res, next) => {
     console.log('Request:', req.method, req.url);
@@ -169,6 +175,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// Start server on port 3001
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
