@@ -23,7 +23,8 @@
     margin: 20px 0;
 }
 
-.network-scan-button {
+/* Button Styles */
+.network-scan-button, .cool-alert-button {
     background-color: #ff7300;
     color: #ffffff;
     padding: 15px 30px;
@@ -31,32 +32,27 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-bottom: 20px;
 }
 
-.network-scan-button:hover {
+.network-scan-button:hover, .cool-alert-button:hover {
     background-color: #ff5000;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
 }
 
-/* Cool button design for Show Security Alert */
 .cool-alert-button {
     background: linear-gradient(90deg, #ff7300, #ff5700);
-    color: #fff;
-    font-weight: bold;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
     box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cool-alert-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(255, 115, 0, 0.7);
 }
 
+/* Threat Status */
 .threat-status {
     font-size: 1.2rem;
     color: #ffcd00;
@@ -98,3 +94,46 @@
     color: #00d1ff;
     margin-bottom: 20px;
 }
+
+/* Table styling for scan results */
+.scan-results {
+    margin-top: 20px;
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.scan-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.scan-results th, .scan-results td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.scan-results th {
+    background-color: #444;
+    color: white;
+}
+
+.scan-results td {
+    background-color: #2e2e2e;
+    color: #fff;
+}
+
+/* Adjust hover effects for the table rows */
+.scan-results tr:hover {
+    background-color: #333;
+}
+
+/* Header and footer text for the scan results */
+.scan-results h2 {
+    color: #ff7300;
+    margin-bottom: 15px;
+}
+
