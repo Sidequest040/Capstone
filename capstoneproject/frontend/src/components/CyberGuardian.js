@@ -31,10 +31,9 @@ function CyberGuardian() {
         }
     };
 
-    // Helper function to map scan result keys to user-friendly descriptions
     const renderScanResultsTable = (scanData) => {
         if (!scanData || !scanData.result) return null;
-
+    
         const resultDescriptions = {
             ipAddress: "IP Address",
             isVpn: "VPN Detected",
@@ -47,31 +46,30 @@ function CyberGuardian() {
             isBot: "Bot Activity",
             isDynamic: "Dynamic IP",
         };
-
+    
         return (
-            <table className="scan-results-table">
-                <thead>
-                    <tr>
-                        <th>Attribute</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div className="scan-results-card">
+                <h2>Scan Results</h2>
+                <ul className="card__list">
                     {Object.keys(resultDescriptions).map((key) => (
-                        <tr key={key}>
-                            <td>
-                                {resultDescriptions[key]} 
+                        <li key={key} className="card__list_item">
+                            <span className="list_text">
+                                {resultDescriptions[key]}
                                 <span className="tooltip" data-tooltip={`Info about ${resultDescriptions[key]}`}>ℹ️</span>
-                            </td>
-                            <td className={scanData.result[key] ? 'value-yes' : 'value-no'}>
+                            </span>
+                            <span className={scanData.result[key] ? 'value-yes' : 'value-no'}>
                                 {scanData.result[key] ? "✔" : "❌"}
-                            </td>
-                        </tr>
+                            </span>
+                        </li>
                     ))}
-                </tbody>
-            </table>
+                </ul>
+                <button className="collapse-button" onClick={() => setCollapseResults(false)}>
+                    Hide Scan Results
+                </button>
+            </div>
         );
     };
+    
 
     // Clear local storage on refresh
     useEffect(() => {
