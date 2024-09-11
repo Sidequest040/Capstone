@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CyberGuardian.css';
-import axios from 'axios';  // Import axios for making API requests
+import axios from 'axios';
 
 function CyberGuardian() {
     const [scanning, setScanning] = useState(false);
     const [threatsDetected, setThreatsDetected] = useState(0);
-    const [scanResults, setScanResults] = useState(null);  // Store the scan results
-    const [ipAddress, setIpAddress] = useState('');  // Store the IP address
+    const [scanResults, setScanResults] = useState(JSON.parse(localStorage.getItem('scanResults'))); // Load from local storage if available
+    const [ipAddress, setIpAddress] = useState(localStorage.getItem('ipAddress') || '');  // Load from local storage if available
+    const [collapseResults, setCollapseResults] = useState(false);
 
     // Function to initiate the network scan
     const initiateScan = async () => {
@@ -14,9 +15,15 @@ function CyberGuardian() {
         try {
             // Make a request to the backend API to start the scan
             const response = await axios.get('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/network-scan');
-            setScanResults(response.data);  // Store the scan results
-            setThreatsDetected(response.data.threat_count || 0);  // Update detected threats count
-            setIpAddress(response.data.result.ipAddress || '');  // Extract and store the IP address
+            const data = response.data;
+
+            setScanResults(data);  // Store the scan results
+            setThreatsDetected(data.threat_count || 0);  // Update detected threats count
+            setIpAddress(data.result.ipAddress || '');  // Extract and store the IP address
+
+            // Store the scan results and IP address in local storage
+            localStorage.setItem('scanResults', JSON.stringify(data));
+            localStorage.setItem('ipAddress', data.result.ipAddress || '');
         } catch (error) {
             console.error('Error during scan:', error);
         } finally {
@@ -39,7 +46,6 @@ function CyberGuardian() {
             isCompromised: "Compromised System",
             isBot: "Bot Activity",
             isDynamic: "Dynamic IP",
-            // Add more descriptions as needed
         };
 
         return (
@@ -53,14 +59,32 @@ function CyberGuardian() {
                 <tbody>
                     {Object.keys(resultDescriptions).map((key) => (
                         <tr key={key}>
-                            <td>{resultDescriptions[key]}</td>
-                            <td>{scanData.result[key] ? "Yes" : "No"}</td>
+                            <td>
+                                {resultDescriptions[key]} 
+                                <span className="tooltip" data-tooltip={`Info about ${resultDescriptions[key]}`}>ℹ️</span>
+                            </td>
+                            <td className={scanData.result[key] ? 'value-yes' : 'value-no'}>
+                                {scanData.result[key] ? "✔" : "❌"}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         );
     };
+
+    // Clear local storage on refresh
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.removeItem('scanResults');
+            localStorage.removeItem('ipAddress');
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <div className="CyberGuardian">
@@ -88,14 +112,20 @@ function CyberGuardian() {
                     </p>
                 )}
 
-                {/* Display Scan Results in a Table */}
-                {scanResults && (
+                {/* Collapsible Scan Results */}
+                <button 
+                    className="collapse-button" 
+                    onClick={() => setCollapseResults(!collapseResults)}
+                >
+                    {collapseResults ? "Hide Scan Results" : "Show Scan Results"}
+                </button>
+
+                {collapseResults && scanResults && (
                     <div className="scan-results">
                         <h2>Scan Results:</h2>
                         {renderScanResultsTable(scanResults)}
                     </div>
                 )}
-
             </header>
         </div>
     );

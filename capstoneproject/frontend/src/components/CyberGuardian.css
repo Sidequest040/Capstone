@@ -1,20 +1,29 @@
 /* General Styling for CyberGuardian */
 .CyberGuardian {
     text-align: center;
-    padding: 50px;
+    padding: 20px; /* Reduced padding */
     transition: background-color 0.5s ease, color 0.5s ease;
+    width: 80%;
+    max-width: 1000px; /* Similar width as Threat Detection */
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Make it card-like */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .CyberGuardian-header {
-    background-color: #2e2e2e;
-    padding: 40px;
-    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px; /* Reduced padding */
+    border-radius: 10px;
     color: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .CyberGuardian-header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem; /* Slightly reduced font size */
     font-weight: bold;
 }
 
@@ -24,11 +33,11 @@
 }
 
 /* Button Styles */
-.network-scan-button, .cool-alert-button {
+.network-scan-button, .collapse-button {
     background-color: #ff7300;
     color: #ffffff;
-    padding: 15px 30px;
-    font-size: 1.1rem;
+    padding: 12px 24px; /* Slightly reduced padding */
+    font-size: 1rem;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -36,20 +45,10 @@
     margin-bottom: 20px;
 }
 
-.network-scan-button:hover, .cool-alert-button:hover {
+.network-scan-button:hover, .collapse-button:hover {
     background-color: #ff5000;
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
-}
-
-.cool-alert-button {
-    background: linear-gradient(90deg, #ff7300, #ff5700);
-    box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
-}
-
-.cool-alert-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(255, 115, 0, 0.7);
 }
 
 /* Threat Status */
@@ -67,27 +66,6 @@
     margin-bottom: 20px;
 }
 
-/* Security Alert Styling */
-.security-alert {
-    background-color: #ff4c4c;
-    color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-weight: bold;
-    animation: glow 2s infinite alternate;
-}
-
-/* Glow effect for security alerts */
-@keyframes glow {
-    from {
-        box-shadow: 0 0 10px rgba(255, 76, 76, 0.7);
-    }
-    to {
-        box-shadow: 0 0 20px rgba(255, 76, 76, 1);
-    }
-}
-
 /* Scan status styling */
 .scan-status {
     font-size: 1.1rem;
@@ -99,7 +77,7 @@
 .scan-results {
     margin-top: 20px;
     text-align: left;
-    width: 80%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -126,14 +104,30 @@
     color: #fff;
 }
 
-/* Adjust hover effects for the table rows */
-.scan-results tr:hover {
-    background-color: #333;
+.scan-results td.value-yes {
+    color: #28a745; /* Green for Yes */
 }
 
-/* Header and footer text for the scan results */
-.scan-results h2 {
+.scan-results td.value-no {
+    color: #dc3545; /* Red for No */
+}
+
+/* Tooltip styling for additional context */
+.tooltip {
+    font-size: 0.8rem;
+    margin-left: 10px;
     color: #ff7300;
-    margin-bottom: 15px;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    background: #444;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    white-space: nowrap;
+    font-size: 0.8rem;
+}
