@@ -3,15 +3,10 @@ import './CyberGuardian.css';
 import axios from 'axios';  // Import axios for making API requests
 
 function CyberGuardian() {
-    const [showAlert, setShowAlert] = useState(false);
     const [scanning, setScanning] = useState(false);
     const [threatsDetected, setThreatsDetected] = useState(0);
     const [scanResults, setScanResults] = useState(null);  // Store the scan results
     const [ipAddress, setIpAddress] = useState('');  // Store the IP address
-
-    const toggleAlert = () => {
-        setShowAlert(!showAlert);
-    };
 
     // Function to initiate the network scan
     const initiateScan = async () => {
