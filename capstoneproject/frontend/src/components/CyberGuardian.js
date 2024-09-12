@@ -8,6 +8,7 @@ function CyberGuardian() {
     const [scanResults, setScanResults] = useState(JSON.parse(localStorage.getItem('scanResults'))); // Load from local storage if available
     const [ipAddress, setIpAddress] = useState(localStorage.getItem('ipAddress') || '');  // Load from local storage if available
     const [collapseResults, setCollapseResults] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(null);  // Track which tooltip is visible
 
     // Function to initiate the network scan
     const initiateScan = async () => {
@@ -47,19 +48,44 @@ function CyberGuardian() {
             isDynamic: "Dynamic IP",
         };
     
+        // Tooltip content for each key
+        const resultTooltipInfo = {
+            ipAddress: "Information about IP Address.",
+            isVpn: "Indicates if the detected IP is from a VPN service.",
+            isDataCenter: "Shows if the IP belongs to a known data center.",
+            isBruteForce: "Detection of potential brute force attacks.",
+            isSpam: "Whether the IP is associated with spamming activity.",
+            isProxy: "Indicates if a proxy is being used.",
+            isMalware: "Shows if malware was detected in network activity.",
+            isCompromised: "Indicates if the system has been compromised.",
+            isBot: "Detection of bot activity.",
+            isDynamic: "Shows if the IP address is dynamically assigned.",
+        };
+    
         return (
             <div className="scan-results-card">
-                <h2>Scan Results</h2>
                 <ul className="card__list">
                     {Object.keys(resultDescriptions).map((key) => (
                         <li key={key} className="card__list_item">
                             <span className="list_text">
                                 {resultDescriptions[key]}
-                                <span className="tooltip" data-tooltip={`Info about ${resultDescriptions[key]}`}>ℹ️</span>
+                                <span 
+                                    className="tooltip" 
+                                    onClick={() => setShowTooltip(showTooltip === key ? null : key)}
+                                >
+                                    ℹ️
+                                </span>
                             </span>
                             <span className={scanData.result[key] ? 'value-yes' : 'value-no'}>
                                 {scanData.result[key] ? "✔" : "❌"}
                             </span>
+    
+                            {/* Conditionally render tooltip content */}
+                            {showTooltip === key && (
+                                <div className="tooltip-box">
+                                    {resultTooltipInfo[key]}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>

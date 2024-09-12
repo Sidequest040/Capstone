@@ -148,14 +148,32 @@
     margin-left: 5px;
 }
 
-.scan-results-card .tooltip {
+/* Tooltip for info */
+.tooltip {
     font-size: 0.8rem;
     margin-left: 10px;
     color: #ff7300;
     text-decoration: underline;
     cursor: pointer;
+    position: relative;
 }
 
+.tooltip-box {
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 100;
+    width: 200px;
+    top: 20px;
+    left: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    white-space: normal;
+}
+
+/* Tooltip hover */
 .scan-results-card .tooltip:hover::after {
     content: attr(data-tooltip);
     background: #444;
