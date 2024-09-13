@@ -13,6 +13,7 @@
 
 
 /* Seamless moving pattern from login page */
+/* autoprefixer: off */
 .dashboard::before {
     content: "";
     position: absolute;
@@ -34,7 +35,8 @@
                 repeating-conic-gradient(var(--c2) 0 50%, var(--c1) 0 100%) calc(0.5 * var(--s)) 0 / calc(2 * var(--s)) var(--s);
     z-index: -1; /* Ensure the background stays behind the form */
     animation: movePattern 8s linear infinite; /* Movement animation */
-}
+  }
+  
 
 /* Keyframes for background movement */
 @keyframes movePattern {

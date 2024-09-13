@@ -13,7 +13,7 @@
     font-family: "Poppins", sans-serif;
 }
 
-/* Updated background with seamless pattern */
+/* autoprefixer: off */
 .login-container::before {
     content: "";
     position: absolute;
@@ -36,6 +36,7 @@
     z-index: -1; /* Ensure the background stays behind the form */
     animation: movePattern 8s linear infinite; /* Movement animation */
 }
+
 
 /* Keyframes for background movement */
 @keyframes movePattern {
