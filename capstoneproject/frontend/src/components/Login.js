@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
@@ -8,42 +8,6 @@ function Login() {
     const [password, setPassword] = useState('');
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Load the Spline viewer script
-        const script = document.createElement('script');
-        script.src = "https://unpkg.com/@splinetool/viewer@1.9.26/build/spline-viewer.js";
-        script.type = "module";
-        document.body.appendChild(script);
-
-        // Once the Spline viewer script is loaded, start observing the shadow DOM
-        script.onload = () => {
-            const observer = new MutationObserver(() => {
-                const splineViewer = document.querySelector('spline-viewer');
-                if (splineViewer && splineViewer.shadowRoot) {
-                    const logo = splineViewer.shadowRoot.querySelector('#logo');
-                    if (logo) {
-                        // Hide the watermark
-                        logo.style.display = 'none'; 
-                    }
-                }
-            });
-
-            // Observe the Spline viewer for changes
-            observer.observe(document.body, { childList: true, subtree: true });
-        };
-
-        // Fallback in case the MutationObserver fails
-        setTimeout(() => {
-            const splineViewer = document.querySelector('spline-viewer');
-            if (splineViewer && splineViewer.shadowRoot) {
-                const logo = splineViewer.shadowRoot.querySelector('#logo');
-                if (logo) {
-                    logo.style.display = 'none';
-                }
-            }
-        }, 100); // Wait for 2 seconds before trying to remove watermark manually
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,9 +38,6 @@ function Login() {
 
     return (
         <div className="login-container">
-            {/* Spline Viewer */}
-            <spline-viewer url="https://prod.spline.design/BNNmZnDI0vpUHDOQ/scene.splinecode"></spline-viewer>
-
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="login-form">
                 <h2>Login</h2>
