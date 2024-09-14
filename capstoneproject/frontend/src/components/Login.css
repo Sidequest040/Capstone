@@ -13,42 +13,21 @@
     font-family: "Poppins", sans-serif;
 }
 
-/* autoprefixer: off */
-.login-container::before {
-    content: "";
+/* Spline Viewer Styling */
+spline-viewer {
     position: absolute;
-    top: 1000;
-    left: 1000;
-    width: 200%; /* Increased width to avoid white gaps */
-    height: 200%; /* Increased height to ensure full coverage */
-    --s: 60px;
-    --c1: hsla(25, 55%, 15%, 1); /* Dark orange background */
-    --c2: hsl(25, 99%, 36%); /* Lighter orange for contrast */
-    --_g: radial-gradient(
-        25% 25% at 25% 25%,
-        var(--c1) 99%,
-        rgba(0, 0, 0, 0) 101%
-    );
-    background: var(--_g) var(--s) var(--s) / calc(2 * var(--s)) calc(2 * var(--s)),
-                var(--_g) 0 0 / calc(2 * var(--s)) calc(2 * var(--s)),
-                radial-gradient(50% 50%, var(--c2) 98%, rgba(0, 0, 0, 0)) 0 0 / var(--s) var(--s),
-                repeating-conic-gradient(var(--c2) 0 50%, var(--c1) 0 100%) calc(0.5 * var(--s)) 0 / calc(2 * var(--s)) var(--s);
-    z-index: -1; /* Ensure the background stays behind the form */
-    animation: movePattern 8s linear infinite; /* Movement animation */
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
 }
 
-
-/* Keyframes for background movement */
-@keyframes movePattern {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(120px, 120px); /* Adjusted to move further to cover the white space */
-    }
+/* Hide the Built with Spline watermark */
+spline-viewer::shadow-root #logo {
+    display: none !important;
 }
 
-/* Form styling remains the same */
+/* Form styling */
 .login-container .login-form {
     background: rgba(255, 255, 255, 0.9);
     padding: 20px;
@@ -122,7 +101,7 @@
     background-color: #5a6268;
 }
 
-/* Modal styling scoped to the login container */
+/* Modal styling */
 .login-container .custom-modal {
     position: fixed;
     top: 50%;
