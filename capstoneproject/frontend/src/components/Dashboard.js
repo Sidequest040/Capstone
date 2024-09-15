@@ -7,6 +7,7 @@ import ThreatDetectionPage from './ThreatDetectionPage';
 import Help from './Help'; 
 import Profile from './Profile'; 
 import DarkMode from './CyberGuardian'; // Renamed from 'App' to 'CyberGuardian'
+import SplineViewer from './SplineViewer'; // Import the Spline Viewer
 import './Dashboard.css';
 
 function Dashboard() {
@@ -34,10 +35,20 @@ function Dashboard() {
     };
 
     return (
-        <div className="dashboard">
-            <Sidebar setActiveSection={setActiveSection} />
-            <div className="content">
-                {renderSection()}
+        <div className="dashboard-container">
+            {/* Spline Viewer for 3D Background */}
+            <div className="spline-container">
+                <SplineViewer url="https://prod.spline.design/Epf-r-eipmqLFoMY/scene.splinecode" />
+                {/* Optional Overlay */}
+                <div className="spline-overlay"></div>
+            </div>
+
+            {/* Dashboard Content */}
+            <div className="dashboard-content">
+                <Sidebar setActiveSection={setActiveSection} />
+                <div className="content">
+                    {renderSection()}
+                </div>
             </div>
         </div>
     );
