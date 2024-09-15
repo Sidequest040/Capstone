@@ -1,51 +1,45 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Dashboard container */
-.dashboard {
+.dashboard-container {
     display: flex;
     height: 100vh; /* Full viewport height */
     width: 100vw;  /* Full viewport width */
     position: relative;
     color: white;
-    overflow: hidden;
     font-family: "Poppins", sans-serif;
+    overflow: hidden;
 }
 
-
-/* Seamless moving pattern from login page */
-/* autoprefixer: off */
-.dashboard::before {
-    content: "";
+/* Spline container for 3D background */
+.spline-container {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    --s: 60px;
-    --c1: hsla(25, 55%, 15%, 1); /* Dark orange background */
-    --c2: hsl(25, 99%, 36%); /* Lighter orange for contrast */
-    --_g: radial-gradient(
-        25% 25% at 25% 25%,
-        var(--c1) 99%,
-        rgba(0, 0, 0, 0) 101%
-    );
-    background: var(--_g) var(--s) var(--s) / calc(2 * var(--s)) calc(2 * var(--s)),
-                var(--_g) 0 0 / calc(2 * var(--s)) calc(2 * var(--s)),
-                radial-gradient(50% 50%, var(--c2) 98%, rgba(0, 0, 0, 0)) 0 0 / var(--s) var(--s),
-                repeating-conic-gradient(var(--c2) 0 50%, var(--c1) 0 100%) calc(0.5 * var(--s)) 0 / calc(2 * var(--s)) var(--s);
-    z-index: -1; /* Ensure the background stays behind the form */
-    animation: movePattern 8s linear infinite; /* Movement animation */
-  }
-  
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Keep the background behind the content */
+}
 
-/* Keyframes for background movement */
-@keyframes movePattern {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(120px, 120px); /* Adjusted to move further to cover the white space */
-    }
+.spline-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
+}
+
+/* Dashboard content styling */
+.dashboard-content {
+    display: flex;
+    flex-grow: 1;
+    z-index: 1; /* Ensure the content stays above the background */
 }
 
 /* Sidebar styles */
