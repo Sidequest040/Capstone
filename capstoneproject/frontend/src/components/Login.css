@@ -1,84 +1,66 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
-/* Scoped styles for the login container to avoid affecting other pages */
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Login container */
 .login-container {
+    display: flex;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+}
+
+/* Spline container */
+.spline-container {
+    flex: 1;
+    position: relative;
+    background-color: #000; /* Optional: Placeholder background color */
+}
+
+.spline-container spline-viewer {
     width: 100%;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative; /* Needed for background effect */
-    overflow: hidden;
-    color: white;
-    font-family: "Poppins", sans-serif;
+    display: block;
 }
 
-/* Updated background with seamless pattern */
-.login-container::before {
-    content: "";
+/* Optional: Overlay to improve form readability */
+.spline-overlay {
     position: absolute;
-    top: 1000;
-    left: 1000;
-    width: 200%;
-    height: 200%;
-    --s: 60px;
-    --c1: hsla(25, 55%, 15%, 1);
-    --c2: hsl(25, 99%, 36%);
-
-    --_g: radial-gradient(
-        ellipse 25% 25% at 25% 25%,
-        var(--c1) 99%,
-        transparent 101%
-    );
-
-    background:
-        var(--_g) var(--s) var(--s) / calc(2 * var(--s)) calc(2 * var(--s)),
-        var(--_g) 0 0 / calc(2 * var(--s)) calc(2 * var(--s)),
-        radial-gradient(
-            ellipse 50% 50% at 50% 50%,
-            var(--c2) 98%,
-            transparent 101%
-        ) 0 0 / var(--s) var(--s),
-        repeating-conic-gradient(
-            var(--c2) 0 50%,
-            var(--c1) 0 100%
-        ) calc(0.5 * var(--s)) 0 / calc(2 * var(--s)) var(--s);
-
-    z-index: -1;
-    animation: movePattern 8s linear infinite;
-}
-/* Keyframes for background movement */
-@keyframes movePattern {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(120px, 120px); /* Adjusted to move further to cover the white space */
-    }
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
 }
 
-
-/* Form styling remains the same */
-.login-container .login-form {
+/* Login form */
+.login-form {
+    width: 400px;
+    padding: 40px;
     background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    left: 50%; /* Center horizontally */
+    top: 50%;  /* Center vertically */
+    transform: translate(-50%, -50%); /* Offset by 50% of its own size */
+    z-index: 1;
     text-align: center;
-    max-width: 350px;
-    width: 100%;
-    position: relative;
-    z-index: 1;  /* Ensure form is above the background */
 }
 
-.login-container .login-form h2 {
+.login-form h2 {
     margin-bottom: 15px;
     color: #333;
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
-.login-container .login-input {
-    width: calc(100% - 30px);
+.login-input {
+    width: 100%;
     padding: 12px;
     margin: 8px 0;
     border: 1px solid #ccc;
@@ -86,88 +68,108 @@
     font-size: 1rem;
 }
 
-.login-container .login-button, 
-.login-container .signup-button, 
-.login-container .back-button {
-    width: calc(100% - 30px);
-    padding: 10px;
+.login-button,
+.signup-button,
+.back-button {
+    width: 100%;
+    padding: 12px;
     border-radius: 8px;
     font-size: 1rem;
-    margin: 10px 0 0 0;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.login-container .login-button {
+/* Login button */
+.login-button {
     background-color: #4CAF50;
     color: white;
-    border: none;
-    cursor: pointer;
 }
 
-.login-container .login-button:hover {
+.login-button:hover {
     background-color: #45a049;
 }
 
-.login-container .signup-button {
+/* Signup button */
+.signup-button {
     background-color: #007BFF;
     color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
-.login-container .signup-button:hover {
+.signup-button:hover {
     background-color: #0056b3;
 }
 
-.login-container .back-button {
-    background-color: #6c757d;
+/* Back button */
+.back-button {
+    background-color: #6c757d;  /* Adjust the color as needed */
     color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
 }
 
-.login-container .back-button:hover {
-    background-color: #5a6268;
+.back-button:hover {
+    background-color: #5a6268;  /* Adjust the hover color as needed */
 }
 
-/* Modal styling scoped to the login container */
-.login-container .custom-modal {
+/* Modal styling */
+.custom-modal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
-    width: 300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
     text-align: center;
     animation: fadeIn 0.3s ease-out;
 }
 
-.login-container .modal-content h3 {
+.modal-content h3 {
     margin-bottom: 10px;
     font-size: 1.8rem;
     color: #4CAF50;
 }
 
-.login-container .modal-content p {
+.modal-content p {
     font-size: 1.2rem;
-    color: #c0c0c0;
+    color: #333;
 }
 
-/* Fade-in animation for the modal */
+/* Fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translate(-50%, -60%);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%);
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-form {
+        position: static;
+        transform: none;
+        margin: 20px;
+    }
+
+    .spline-container {
+        display: none;
+    }
+
+    .login-container {
+        justify-content: center;
+        align-items: center;
     }
 }

@@ -1,3 +1,5 @@
+// /workspaces/Capstone/capstoneproject/frontend/src/components/Login.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -12,13 +14,14 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Use your actual backend URL here
             const response = await axios.post('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/login', { email, password });
             if (response.data.token) {
                 setShowModal(true);
 
                 // Store the token and email in local storage
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('email', email);  // Store the email
+                localStorage.setItem('email', email);
 
                 setTimeout(() => {
                     setShowModal(false);
@@ -37,30 +40,30 @@ function Login() {
     };
 
     return (
-        <div className="login-container">
+        <>
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="login-form">
                 <h2>Login</h2>
-                <input 
-                    type="email" 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                     className="login-input"
                 />
-                <input 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                     className="login-input"
                 />
                 <button type="submit" className="login-button">Login</button>
-                <button 
-                    type="button" 
-                    className="signup-button" 
+                <button
+                    type="button"
+                    className="signup-button"
                     onClick={() => navigate('/signup')}
                 >
                     Sign Up
@@ -75,7 +78,7 @@ function Login() {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 }
 
