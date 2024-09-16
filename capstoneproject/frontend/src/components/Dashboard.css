@@ -45,7 +45,7 @@
 /* Sidebar styles */
 .sidebar {
     width: 250px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.3); /* Make the sidebar background semi-transparent */
     color: #fff;
     padding: 20px;
     display: flex;
@@ -80,7 +80,7 @@
     cursor: pointer;
     padding: 0.7rem 4rem;
     font-size: 1.5rem;
-    background: none;
+    background: rgba(0, 0, 0, 0.4); /* Make the list items transparent */
     border-radius: 10px;
     border: 0;
     transition: background 0.2s ease, transform 0.2s ease;
@@ -122,7 +122,7 @@
 .logout-button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #ff4c4c; /* Red color for logout */
+    background-color: rgba(255, 76, 76, 0.6); /* Red color for logout with transparency */
     color: white;
     border: none;
     border-radius: 10px;
@@ -133,7 +133,7 @@
 }
 
 .logout-button:hover {
-    background-color: #ff1a1a; /* Darker red on hover */
+    background-color: rgba(255, 26, 26, 0.8); /* Darker red on hover */
 }
 
 /* Content styles */
@@ -141,7 +141,7 @@
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4); /* Make content background semi-transparent */
     border-radius: 10px;
     backdrop-filter: blur(20px);
     margin: 20px;

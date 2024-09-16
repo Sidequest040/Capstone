@@ -1,5 +1,4 @@
-// /workspaces/Capstone/capstoneproject/frontend/src/components/Signup.js
-
+// Signup.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,14 +13,13 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Use your actual backend URL here
             const response = await axios.post('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/signup', {
                 username,
                 email,
                 password,
             });
             alert(response.data.message);
-            navigate('/login');  // Redirect to login after successful signup
+            navigate('/login');
         } catch (error) {
             console.error('There was an error signing up!', error);
             alert('An error occurred while signing up. Please try again later.');
@@ -57,10 +55,10 @@ function Signup() {
                     required
                     className="login-input"
                 />
-                <button type="submit" className="login-button">Sign Up</button>
+                <button type="submit" className="button">Sign Up</button>
                 <button
                     type="button"
-                    className="back-button"
+                    className="button"
                     onClick={() => navigate('/login')}
                 >
                     Already have an account? Log in

@@ -3,8 +3,8 @@
   width: 80%;
   max-width: 1000px;
   margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.7); /* Darker background for contrast */
-  border: 1px solid rgba(255, 165, 0, 0.5); /* Orange border */
+  background-color: hsla(240, 15%, 9%, 0.8); /* Dark background */
+  border: 1px solid hsla(193, 100%, 50%, 0.5); /* Neon Blue border */
   border-radius: 10px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
@@ -15,7 +15,7 @@
   position: relative; /* Needed for card border */
 }
 
-/* Dynamic Border Effect from Uiverse */
+/* Dynamic Border Effect */
 .threat-detection-page .card__border {
   overflow: hidden;
   pointer-events: none;
@@ -42,8 +42,9 @@
   width: 200%;
   height: 10rem;
   background-image: linear-gradient(
-    0deg, hsla(0, 0%, 100%, 0) 0%, hsl(277, 95%, 60%) 40%, 
-    hsl(277, 95%, 60%) 60%, hsla(0, 0%, 40%, 0) 100%
+    0deg, hsla(0, 0%, 100%, 0) 0%, hsl(193, 100%, 50%) 40%, /* Neon Blue */
+    hsl(283, 39%, 46%) 60%, /* Purple */
+    hsla(0, 0%, 40%, 0) 100%
   );
   animation: rotate 8s linear infinite;
 }
@@ -57,8 +58,8 @@
 
 /* Header Styling */
 .threat-detection-page h2 {
-  background-color: rgba(255, 165, 0, 0.8); /* Orange background for the header */
-  color: #fff;
+  background-color: hsla(193, 100%, 50%, 0.8); /* Neon Blue background for header */
+  color: white;
   padding: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -77,7 +78,7 @@
   border: none;
   font-size: 14px;
   color: white;
-  background-color: rgba(255, 165, 0, 0.1); /* Light orange background for textarea */
+  background-color: hsla(193, 100%, 50%, 0.1); /* Light blue background for textarea */
   transition: background-color 0.3s;
   resize: none;
   overflow-y: scroll;
@@ -88,7 +89,7 @@
 .threat-detection-page button {
   width: 100%;
   padding: 12px 20px;
-  background-image: linear-gradient(0deg, #ff7300, #ff9800); /* Gradient for orange button */
+  background-image: linear-gradient(0deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for button */
   color: white;
   border: none;
   border-radius: 8px;
@@ -102,29 +103,29 @@
 }
 
 .threat-detection-page button:hover {
-  background-color: #ff5700; /* Darker orange hover */
+  background-color: hsl(193, 100%, 40%); /* Darker blue hover */
 }
 
-/* Response Box Styling - matching the style for CyberGuardian */
+/* Response Box Styling */
 .response-message {
     --white: hsl(0, 0%, 100%);
     --black: hsl(240, 15%, 9%);
     --paragraph: hsl(0, 0%, 83%);
     --line: hsl(240, 9%, 17%);
-    --primary: hsl(189, 92%, 58%);
+    --primary: hsl(193, 100%, 50%);
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem; /* Increased padding for better spacing */
-    width: 100%; /* Make the card full width */
-    max-width: 900px; /* Match the size of the card above */
-    background-color: hsla(25, 55%, 15%, 1); /* Dark orange background */
-    background-image: radial-gradient(at 88% 40%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-                      radial-gradient(at 49% 30%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-                      radial-gradient(at 14% 26%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-                      radial-gradient(at 0% 64%, hsl(25, 99%, 36%) 0px, transparent 85%),
-                      radial-gradient(at 41% 94%, hsl(25, 97%, 46%) 0px, transparent 85%);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    background-color: hsla(240, 15%, 9%, 1); /* Dark background */
+    background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 46%, 1) 0px, transparent 85%),
+                      radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%),
+                      radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%),
+                      radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 1) 0px, transparent 85%),
+                      radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%);
     border-radius: 1rem;
     box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
     margin: 20px auto;
@@ -150,62 +151,6 @@
     background-color: var(--line);
     border: none;
     margin: 10px 0;
-}
-
-/* Loader Styles */
-.loader {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  transform-origin: 50% 125%;
-  animation: mov-y 1s infinite linear;
-}
-
-.loader:before,
-.loader:after {
-  content: "";
-  flex: 1;
-  background: #fff;
-  transform-origin: 0% 100%;
-  animation: rtr-x 1s infinite linear;
-}
-
-.loader:before {
-  transform-origin: 100% 100%;
-  animation-name: rtr-rx;
-}
-
-@keyframes mov-y {
-  0%, 25% {
-      transform: translateY(0) scaleY(1);
-  }
-  49% {
-      transform: translateY(-75%) scaleY(1);
-  }
-  50% {
-      transform: translateY(-75%) scaleY(-1);
-  }
-  75%, 100% {
-      transform: translateY(-150%) scaleY(-1);
-  }
-}
-
-@keyframes rtr-x {
-  25%, 75% {
-      transform: rotate(0deg);
-  }
-  50% {
-      transform: rotate(90deg);
-  }
-}
-
-@keyframes rtr-rx {
-  25%, 75% {
-      transform: rotate(0deg);
-  }
-  50% {
-      transform: rotate(-90deg);
-  }
 }
 
 /* Mobile Responsiveness */

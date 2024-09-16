@@ -1,25 +1,34 @@
 /* Profile.css */
 .profile-page {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: hsla(240, 15%, 9%, 0.8); /* Dark background for profile */
     padding: 40px;
     border-radius: 10px;
     max-width: 600px;
     margin: 0 auto;
     color: white;
     font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
+/* Heading Styling */
 h1 {
     text-align: center;
     margin-bottom: 30px;
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for heading */
+    -webkit-background-clip: text;
+    color: transparent; /* Makes the heading text use the gradient color */
 }
 
+/* Profile Form Styling */
 .profile-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+/* Form Group Styling */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -35,7 +44,7 @@ h1 {
     padding: 15px;
     border-radius: 8px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: hsla(193, 100%, 50%, 0.1); /* Light blue background for inputs */
     color: white;
     font-size: 1rem;
     outline: none;
@@ -43,7 +52,7 @@ h1 {
 }
 
 .form-group input:focus, .form-group textarea:focus {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: hsla(193, 100%, 50%, 0.2); /* Darker focus color */
 }
 
 .form-group textarea {
@@ -51,10 +60,11 @@ h1 {
     resize: none;
 }
 
+/* Save Button Styling */
 .save-button {
     width: 100%;
     padding: 12px 20px;
-    background-color: #ff7300;
+    background-image: linear-gradient(0deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for button */
     color: white;
     border: none;
     border-radius: 8px;
@@ -68,7 +78,7 @@ h1 {
 }
 
 .save-button:hover {
-    background-color: #ff5700;
+    background-color: hsl(193, 100%, 40%); /* Darker blue hover */
 }
 
 /* Loader CSS (matching the ThreatDetectionPage.css) */
