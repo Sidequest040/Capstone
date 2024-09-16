@@ -3,8 +3,8 @@
     --white: hsl(0, 0%, 100%);
     --black: hsl(240, 15%, 9%);
     --paragraph: hsl(0, 0%, 83%);
-    --line: hsl(25, 99%, 36%);
-    --primary: hsl(25, 97%, 46%);
+    --line: hsl(193, 100%, 50%); /* Neon Blue for line */
+    --primary: hsl(283, 39%, 46%); /* Purple for primary */
   
     position: relative;
     display: flex;
@@ -12,13 +12,13 @@
     gap: 1.5rem;
     padding: 2rem;
     width: 80%;
-    max-width: 1000px;  /* Updated to match wider card look */
-    background-color: hsla(240, 15%, 9%, 1);
-    background-image: radial-gradient(at 88% 40%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-    radial-gradient(at 49% 30%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-    radial-gradient(at 14% 26%, hsla(25, 55%, 15%, 1) 0px, transparent 85%),
-    radial-gradient(at 0% 64%, hsl(25, 99%, 36%) 0px, transparent 85%),
-    radial-gradient(at 41% 94%, hsl(25, 97%, 46%) 0px, transparent 85%);
+    max-width: 1000px;
+    background-color: hsla(240, 15%, 9%, 1); /* Dark background */
+    background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 46%, 1) 0px, transparent 85%), /* Purple */
+                      radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%), /* Blue */
+                      radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%), /* Teal/Green */
+                      radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 1) 0px, transparent 85%), /* White */
+                      radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%); /* Optional red for accents */
     border-radius: 1.2rem;
     box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
     margin: 20px auto;
@@ -50,7 +50,7 @@
     transform-origin: left;
     width: 200%;
     height: 10rem;
-    background-image: linear-gradient(0deg, hsla(0, 0%, 100%, 0) 0%, hsl(30, 95%, 60%) 40%, hsl(28, 82%, 47%) 60%, hsla(0, 0%, 40%, 0) 100%);
+    background-image: linear-gradient(0deg, hsla(0, 0%, 100%, 0) 0%, hsl(193, 100%, 50%) 40%, hsl(283, 39%, 46%) 60%, hsla(0, 0%, 40%, 0) 100%);
     animation: rotate 8s linear infinite;
 }
 
@@ -78,7 +78,7 @@
 .line {
     width: 100%;
     height: 0.1rem;
-    background-color: var(--line);
+    background-color: var(--line); /* Neon Blue Line */
     border: none;
     margin: 10px 0;
 }
@@ -101,7 +101,7 @@
 }
 
 .card__list_item:hover {
-    background-color: rgba(255, 165, 0, 0.3);
+    background-color: rgba(193, 163, 98, 0.3); /* Hover color for list items */
     transform: scale(1.05);
 }
 
@@ -111,7 +111,7 @@
     align-items: center;
     width: 1.8rem;
     height: 1.8rem;
-    background-color: var(--primary);
+    background-color: var(--primary); /* Purple check background */
     border-radius: 50%;
 }
 
@@ -124,6 +124,6 @@
 .list_text {
     font-size: 1.3rem;
     color: var(--white);
-    flex: 1; /* Ensures that the text stretches across the available space */
+    flex: 1;
     text-align: left;
 }

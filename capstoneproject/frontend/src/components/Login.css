@@ -38,77 +38,87 @@
     background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
 }
 
-/* Login form */
+/* Login form with glassmorphism */
 .login-form {
     width: 400px;
     padding: 40px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.15); /* Transparent glass effect */
+    border-radius: 16px;
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
     position: absolute;
     left: 50%; /* Center horizontally */
     top: 50%;  /* Center vertically */
     transform: translate(-50%, -50%); /* Offset by 50% of its own size */
     z-index: 1;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* Header styling */
 .login-form h2 {
     margin-bottom: 15px;
-    color: #333;
+    color: #f8f8f8;
     font-size: 2rem;
+    font-weight: 600;
 }
 
+/* Input fields */
 .login-input {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-
-.login-button,
-.signup-button,
-.back-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-    margin-top: 10px;
     border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.25); /* Light transparent input background */
+    color: white;
+    outline: none;
+}
+
+/* Buttons with the Uiverse button effect */
+.button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 18px;
+    color: #f8f8f8;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 34px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    overflow: hidden;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    z-index: 1;
 }
 
-/* Login button */
-.login-button {
-    background-color: #4CAF50;
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: inherit;
+    transform: scale(0);
+    background: linear-gradient(90deg, rgba(72, 189, 134, 1) 0%, rgba(0, 123, 255, 1) 100%);
+    z-index: -1;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.button:hover::before {
+    transform: scale(3);
+}
+
+.button:hover {
     color: white;
+    box-shadow: 0 0px 20px rgba(72, 189, 134, 0.4);
 }
 
-.login-button:hover {
-    background-color: #45a049;
-}
-
-/* Signup button */
-.signup-button {
-    background-color: #007BFF;
-    color: white;
-}
-
-.signup-button:hover {
-    background-color: #0056b3;
-}
-
-/* Back button */
-.back-button {
-    background-color: #6c757d;  /* Adjust the color as needed */
-    color: white;
-}
-
-.back-button:hover {
-    background-color: #5a6268;  /* Adjust the hover color as needed */
+.button:active {
+    transform: scale(0.98);
 }
 
 /* Modal styling */

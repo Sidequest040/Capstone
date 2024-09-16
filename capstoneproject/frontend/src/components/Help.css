@@ -1,18 +1,29 @@
+/* Help Page Styling */
 .help-page {
     padding: 20px;
-    color: #fff;
+    color: hsl(0, 0%, 100%); /* White text */
     text-align: left;
+    background-color: hsla(240, 15%, 9%, 0.8); /* Dark background */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
 }
 
+/* Header Styles */
 h1, h2 {
-    color: #ffffff;
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for headers */
+    -webkit-background-clip: text;
+    color: transparent; /* Makes the text use the gradient color */
 }
 
+/* Video Container */
 .video-container {
     max-width: 100%;
     margin-bottom: 20px;
 }
 
+/* FAQ Container */
 .faq-container {
     width: 100%;
     display: flex;
@@ -20,6 +31,7 @@ h1, h2 {
     gap: 10px;
 }
 
+/* FAQ Item Styling */
 .faq-item {
     width: 100%;
     display: flex;
@@ -27,8 +39,9 @@ h1, h2 {
     align-items: flex-start;
 }
 
+/* FAQ Item Button */
 .faq-item button {
-    background-color: #ff7300;
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for FAQ buttons */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -37,16 +50,22 @@ h1, h2 {
     width: fit-content;
     transition: background-color 0.3s ease-in-out;
     font-size: 1rem;
+    font-weight: bold;
 }
 
 .faq-item button:hover {
-    background-color: #ff5000;
+    background-color: hsl(193, 100%, 40%); /* Darker blue on hover */
 }
 
+/* FAQ Item Text */
 .faq-item p {
     margin-top: 10px;
-    color: #e0e0e0;
+    color: hsl(0, 0%, 83%); /* Light paragraph color */
     font-size: 0.9rem;
     line-height: 1.5;
     width: 100%;
+    background-color: hsla(193, 100%, 50%, 0.1); /* Light background for FAQ answers */
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }
