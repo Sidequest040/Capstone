@@ -1,78 +1,32 @@
-/* global chrome */
-import React, { useState } from 'react';
+import React from 'react';
 import './ClearingCacheTool.css';  // Import the specific CSS file
 
 function ClearingCacheTool() {
-    const [timeRange, setTimeRange] = useState('1hour');
-    const [signOut, setSignOut] = useState(false);
-
-    const handleClearCache = () => {
-        // Determine the time range in milliseconds
-        let sinceTime = (new Date()).getTime();  // Current time
-        if (timeRange === '1hour') {
-            sinceTime = sinceTime - (60 * 60 * 1000);  // Last 1 hour
-        } else if (timeRange === '1day') {
-            sinceTime = sinceTime - (24 * 60 * 60 * 1000);  // Last 24 hours
-        } else if (timeRange === 'alltime') {
-            sinceTime = 0;  // All time
-        }
-
-        // Log the message to be sent to the extension
-        console.log("Attempting to send message to extension:", {
-            type: 'CLEAR_CACHE',
-            since: sinceTime,
-            signOut: signOut,
-        });
-
-        // Send a message to the Chrome extension to clear the cache
-        if (typeof chrome !== 'undefined' && chrome.runtime) {
-            chrome.runtime.sendMessage({
-                type: 'CLEAR_CACHE',
-                since: sinceTime,
-                signOut: signOut,
-            }, (response) => {
-                if (response && response.success) {
-                    alert('Cache, cookies, and history have been successfully cleared!');
-                } else {
-                    alert('Something went wrong. Please make sure the extension is running and try again.');
-                }
-            });
-        } else {
-            alert('This feature works only in Chrome with the extension installed.');
-        }
-    };
-
     return (
         <div className="clearing-cache-tool">
-            <h2>Clearing Cache Tool</h2>
-            <p>This tool helps clear cache data to improve performance and protect from adware scams.</p>
-
-            <div className="time-range">
-                <label htmlFor="timeRange">Select time range to clear cache:</label>
-                <select
-                    id="timeRange"
-                    value={timeRange}
-                    onChange={(e) => setTimeRange(e.target.value)}
-                >
-                    <option value="1hour">Last 1 Hour</option>
-                    <option value="1day">Last 24 Hours</option>
-                    <option value="alltime">All Time</option>
-                </select>
-            </div>
-
-            <div className="sign-out-option">
-                <label htmlFor="signOut">Sign out of websites:</label>
-                <input
-                    type="checkbox"
-                    id="signOut"
-                    checked={signOut}
-                    onChange={() => setSignOut(!signOut)}
-                />
-            </div>
-
-            <button onClick={handleClearCache} className="clear-button">
-                Clear Cache and History
-            </button>
+            <h2>Adware Cache Clearer</h2>
+            <p>
+                The <strong>Adware Cache Clearer</strong> extension helps you protect your privacy and security by automatically
+                clearing cached data, cookies, and browsing history that may be associated with unwanted tracking or adware scams, 
+                such as the <em>Microsoft Trojan Horse Scam</em>.
+            </p>
+            <p>
+                With this tool, you can select the time range for which you want to clear your browser data. Options include:
+            </p>
+            <ul>
+                <li><strong>Last 1 Hour</strong> – Quickly remove recent cache and cookies.</li>
+                <li><strong>Last 24 Hours</strong> – Clear browsing data from the last day.</li>
+                <li><strong>All Time</strong> – Remove all cached data, cookies, and browsing history.</li>
+            </ul>
+            <p>
+                In addition to clearing cache and cookies, the extension <strong>automatically signs you out of websites </strong> 
+                when the data is cleared. This ensures that you’re fully logged out of potentially compromised sessions that 
+                could be affected by adware or phishing scams.
+            </p>
+            <p>
+                This extension is particularly useful if you’ve encountered suspicious ads, fake scam warnings, or phishing attempts. 
+                It helps prevent further tracking by clearing all relevant data and ensuring your browser is secure.
+            </p>
         </div>
     );
 }

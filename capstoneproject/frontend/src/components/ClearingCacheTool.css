@@ -3,23 +3,34 @@
     background-color: rgba(0, 0, 0, 0.4); 
     border-radius: 10px;
     color: white;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .clearing-cache-tool h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #00AFFF; /* Example color */
+    color: #00AFFF; /* Light blue heading color */
+    text-align: center;
 }
 
 .clearing-cache-tool p {
     font-size: 1.2rem;
-    line-height: 1.5;
-    color: #c0c0c0;
+    line-height: 1.6;
+    color: #c0c0c0; /* Light grey for paragraphs */
+    margin-bottom: 15px;
 }
 
-.time-range,
-.sign-out-option {
+.clearing-cache-tool ul {
+    font-size: 1.2rem;
+    line-height: 1.6;
     margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.clearing-cache-tool ul li {
+    margin-bottom: 10px;
 }
 
 .clear-button {
@@ -30,6 +41,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 1rem;
 }
 
 .clear-button:hover {
