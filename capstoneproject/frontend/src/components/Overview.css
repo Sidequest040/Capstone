@@ -15,10 +15,10 @@
     max-width: 1000px;
     background-color: hsla(240, 15%, 9%, 1); /* Dark background */
     background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 46%, 1) 0px, transparent 85%), /* Purple */
-                      radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%), /* Blue */
-                      radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%), /* Teal/Green */
+                      radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%), /* Neon Blue */
+                      radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%), /* Teal */
                       radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 1) 0px, transparent 85%), /* White */
-                      radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%); /* Optional red for accents */
+                      radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%); /* Red accent */
     border-radius: 1.2rem;
     box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
     margin: 20px auto;
@@ -50,13 +50,19 @@
     transform-origin: left;
     width: 200%;
     height: 10rem;
-    background-image: linear-gradient(0deg, hsla(0, 0%, 100%, 0) 0%, hsl(193, 100%, 50%) 40%, hsl(283, 39%, 46%) 60%, hsla(0, 0%, 40%, 0) 100%);
+    background-image: linear-gradient(
+        0deg,
+        hsla(0, 0%, 100%, 0) 0%,
+        hsl(193, 100%, 50%) 40%, /* Neon Blue */
+        hsl(283, 39%, 46%) 60%, /* Purple */
+        hsla(0, 0%, 40%, 0) 100%
+    );
     animation: rotate 8s linear infinite;
 }
 
 @keyframes rotate {
     to {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 
@@ -101,24 +107,12 @@
 }
 
 .card__list_item:hover {
-    background-color: rgba(193, 163, 98, 0.3); /* Hover color for list items */
+    background-color: rgba(193, 163, 98, 0.3); /* Subtle hover effect */
     transform: scale(1.05);
 }
 
 .check {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.8rem;
-    height: 1.8rem;
-    background-color: var(--primary); /* Purple check background */
-    border-radius: 50%;
-}
-
-.check_svg {
-    width: 1.2rem;
-    height: 1.2rem;
-    fill: var(--black);
+    display: none; /* Hides the check marks */
 }
 
 .list_text {
