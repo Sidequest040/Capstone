@@ -260,6 +260,25 @@ p {
     margin-bottom: 10px;
 }
 
+/* Clearing Cache Tool Section */
+.clearing-cache-tool {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); 
+    border-radius: 10px;
+    color: white;
+}
+
+.clearing-cache-tool h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.clearing-cache-tool p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+
 .filter-container {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 15px;
