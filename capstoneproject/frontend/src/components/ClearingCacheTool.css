@@ -1,0 +1,37 @@
+.clearing-cache-tool {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); 
+    border-radius: 10px;
+    color: white;
+}
+
+.clearing-cache-tool h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #00AFFF; /* Example color */
+}
+
+.clearing-cache-tool p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #c0c0c0;
+}
+
+.time-range,
+.sign-out-option {
+    margin-bottom: 20px;
+}
+
+.clear-button {
+    padding: 10px 20px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-button:hover {
+    background-color: #1c86ee;
+}

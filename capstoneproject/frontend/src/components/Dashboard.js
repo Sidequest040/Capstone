@@ -8,6 +8,8 @@ import Help from './Help';
 import Profile from './Profile'; 
 import DarkMode from './CyberGuardian'; // Renamed from 'App' to 'CyberGuardian'
 import SplineViewer from './SplineViewer'; // Import the Spline Viewer
+import ClearingCacheTool from './ClearingCacheTool'; // Import the renamed component
+
 import './Dashboard.css';
 
 function Dashboard() {
@@ -29,6 +31,8 @@ function Dashboard() {
                 return <Profile />; 
             case 'dark-mode':
                 return <DarkMode />; // Now CyberGuardian component
+            case 'clearing-cache': // Update case for clearing cache tool
+                return <ClearingCacheTool />; // Correct spelling here
             default:
                 return <Overview />;
         }

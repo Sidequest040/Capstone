@@ -38,9 +38,18 @@ function Sidebar({ setActiveSection }) {
 
     const handleButtonClick = (section) => {
         setActiveSection(section);
+        
+        // Remove "active" class from all buttons
         const buttons = document.querySelectorAll("li");
         buttons.forEach(button => button.classList.remove("active"));
-        document.querySelector(`#${section}`).classList.add("active");
+        
+        // Find the specific section button and add "active" class
+        const activeButton = document.querySelector(`#${section}`);
+        if (activeButton) {
+            activeButton.classList.add("active");
+        } else {
+            console.warn(`No button found with id "${section}"`);
+        }
     };
 
     const handleLogout = () => {
@@ -57,7 +66,6 @@ function Sidebar({ setActiveSection }) {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                // Create an image element to resize
                 const img = new Image();
                 img.src = reader.result;
 
@@ -65,11 +73,10 @@ function Sidebar({ setActiveSection }) {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
 
-                    const maxSize = 200; // Max size of the image (in pixels)
+                    const maxSize = 200;
                     let width = img.width;
                     let height = img.height;
 
-                    // Maintain aspect ratio and resize
                     if (width > height) {
                         if (width > maxSize) {
                             height *= maxSize / width;
@@ -82,22 +89,18 @@ function Sidebar({ setActiveSection }) {
                         }
                     }
 
-                    // Set canvas dimensions
                     canvas.width = width;
                     canvas.height = height;
-
-                    // Draw the image to canvas
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // Convert the canvas to a data URL
-                    const resizedImage = canvas.toDataURL('image/jpeg', 0.7); // Compress to 70% quality
+                    const resizedImage = canvas.toDataURL('image/jpeg', 0.7);
 
                     const storedEmail = localStorage.getItem('email');
                     const updatedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`)) || {};
                     updatedProfile.profilePicture = resizedImage;
                     localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(updatedProfile));
 
-                    setProfilePic(resizedImage); // Update the profile picture in state
+                    setProfilePic(resizedImage);
                 };
             };
             reader.readAsDataURL(file);
@@ -115,6 +118,8 @@ function Sidebar({ setActiveSection }) {
                 <li id="help" onClick={() => handleButtonClick('help')}>Help</li>
                 <li id="profile" onClick={() => handleButtonClick('profile')}>Profile</li>
                 <li id="dark-mode" onClick={() => handleButtonClick('dark-mode')}>Cyber Guardian</li>
+                {/* Add New Section */}
+                <li id="clearing-cache" onClick={() => handleButtonClick('clearing-cache')}>Clearing Tool</li>
             </ul>
             <div className="profile">
                 <label htmlFor="profilePicUpload">
