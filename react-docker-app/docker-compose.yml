@@ -1,0 +1,49 @@
+version: '3'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"  # Ensure this port is open for the React app
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-5000.app.github.dev  # Backend URL for the frontend to connect to
+    volumes:
+      - ./frontend:/app  # Mount the frontend folder for live reload
+      - /app/node_modules  # Avoid overwriting node_modules
+    command: ["npm", "start"]  # Use React's dev server with hot-reloading
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"  # Ensure this port is open for backend access
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=your_new_password
+      - DATABASE_NAME=my_new_database
+      - REACT_APP_DB_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3306.app.github.dev  # MySQL URL
+    volumes:
+      - ./backend:/app  # Mount the backend folder for live reload
+      - /app/node_modules  # Avoid overwriting node_modules
+    command: ["npm", "run", "dev"]  # Use nodemon for hot-reloading
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: your_new_password  # Use the correct MySQL root password
+      MYSQL_DATABASE: my_new_database         # Create this new database
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -pyour_new_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  db_data:
