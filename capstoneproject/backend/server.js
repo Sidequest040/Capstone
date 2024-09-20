@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // MySQL connection
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'db',
     user: 'root',
     password: 'your_new_password',
     database: 'user_dashboard'
