@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeappdeployment
+  labels:
+    type: backend
+    app: nodeapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        type: backend
+        app: nodeapp
+    spec:
+      containers:
+        - name: nodeappcontainer
+          image: us.gcr.io/cohesive-memory-436303-b1/nodeapp:v1
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: gcr-json-key
