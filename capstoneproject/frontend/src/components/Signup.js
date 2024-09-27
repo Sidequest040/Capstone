@@ -13,7 +13,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/signup', {
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/signup`, {
                 username,
                 email,
                 password,

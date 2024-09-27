@@ -13,7 +13,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/login', { email, password });
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password });
             if (response.data.token) {
                 setShowModal(true);
                 localStorage.setItem('token', response.data.token);
