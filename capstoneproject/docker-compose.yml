@@ -8,9 +8,9 @@ services:
     depends_on:
       - backend  # Ensure backend starts first
     environment:
-      - REACT_APP_BACKEND_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/  # Point frontend to the backend service
-      - REACT_APP_API_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3000.app.github.dev/  # Point to API
-      - REACT_APP_DB_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3306.app.github.dev/  # Point to MySQL
+      - REACT_APP_BACKEND_URL=${BACKEND_URL}  # Use environment variables for better flexibility
+      - REACT_APP_API_URL=${API_URL}          # Use environment variables for API
+      - REACT_APP_DB_URL=${DB_URL}            # Use environment variables for MySQL
     volumes:
       - ./frontend:/app  # Mount frontend folder for live reload
       - /app/node_modules  # Avoid overwriting node_modules
@@ -21,33 +21,36 @@ services:
     ports:
       - "3001:3001"  # Backend service port
     depends_on:
-      - db  # Ensure MySQL starts first
+      db:
+        condition: service_healthy  # Wait for MySQL service to be healthy
     environment:
       - DATABASE_HOST=db  # Refer to MySQL service as 'db'
-      - DATABASE_USER=root
-      - DATABASE_PASSWORD=your_new_password
-      - DATABASE_NAME=user_dashboard
-      - BACKEND_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/  # Backend URL
-      - DB_URL=https://curly-space-umbrella-wrvpgg974x9j25x4r-3306.app.github.dev/  # MySQL URL
+      - DATABASE_USER=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASSWORD}
+      - DATABASE_NAME=${DB_NAME}
+      - BACKEND_URL=${BACKEND_URL}   # Backend URL from .env
+      - DB_URL=${DB_URL}             # DB URL from .env
     volumes:
       - ./backend:/app  # Mount backend folder for live reload
       - /app/node_modules  # Avoid overwriting node_modules
     command: ["npm", "run", "dev"]  # Use nodemon or equivalent for backend dev server
+    restart: unless-stopped
 
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: your_new_password
-      MYSQL_DATABASE: user_dashboard  # Initialize with your database
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}  # Initialize with your database
     ports:
       - "3306:3306"  # MySQL default port
     volumes:
       - db_data:/var/lib/mysql  # Persist database data
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -pyour_new_password"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p${DB_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 3
+    restart: unless-stopped
 
 volumes:
   db_data:

@@ -4,14 +4,14 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const axios = require('axios');  // Import axios for API requests
-require('dotenv').config();
+const axios = require('axios');
+require('dotenv').config();  // Load environment variables from .env file
 
 const app = express();
 
 // CORS configuration
 const corsOptions = {
-    origin: '*',
+    origin: process.env.FRONTEND_URL,  // Use FRONTEND_URL from .env
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -25,10 +25,10 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // MySQL connection
 const db = mysql.createConnection({
-    host: 'db',
-    user: 'root',
-    password: 'your_new_password',
-    database: 'user_dashboard'
+    host: process.env.DB_HOST || 'db',  // Use DB_HOST from .env or fallback to 'db'
+    user: process.env.DB_USER,          // Use DB_USER from .env
+    password: process.env.DB_PASSWORD,  // Use DB_PASSWORD from .env
+    database: process.env.DB_NAME       // Use DB_NAME from .env
 });
 
 db.connect(err => {
@@ -50,11 +50,11 @@ const exponentialBackoff = (retries) => {
 // RapidAPI Network Scan Route
 app.get('/network-scan', async (req, res) => {
     try {
-        // Make a GET request to the RapidAPI network scan endpoint
+        // Make a GET request to the RapidAPI network scan endpoint using the key from .env
         const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
             headers: {
                 'x-rapidapi-host': 'netdetective.p.rapidapi.com',
-                'x-rapidapi-key': '3174ee127cmsh86affbe38530963p157252jsncbd64bd9917e'  // Your API key
+                'x-rapidapi-key': process.env.RAPIDAPI_KEY_1  // Use RAPIDAPI_KEY_1 from .env
             }
         });
 
@@ -75,7 +75,7 @@ app.post('/test-connection', async (req, res) => {
         method: 'POST',
         url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
         headers: {
-            'x-rapidapi-key': '5c8a458cfbmsh367421aaf8b5a04p1c1da5jsn2c9bd37d05b0',
+            'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,  // Use RAPIDAPI_KEY_2 from .env
             'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
             'Content-Type': 'application/json'
         },
@@ -135,7 +135,7 @@ app.post('/login', (req, res) => {
     db.query('SELECT * FROM users WHERE email = ?', [email], (err, result) => {
         if (err) throw err;
         if (result.length && bcrypt.compareSync(password, result[0].password)) {
-            const token = jwt.sign({ id: result[0].id }, 'your_jwt_secret', { expiresIn: '1h' });
+            const token = jwt.sign({ id: result[0].id }, process.env.JWT_SECRET, { expiresIn: '1h' });  // Use JWT_SECRET from .env
             res.status(200).send({ message: 'Login successful', token });
         } else {
             res.status(401).send({ message: 'Invalid credentials' });
@@ -175,7 +175,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Start server on port 3001
-app.listen(3001, () => {
-    console.log('Server running on port 3001');
+// Start server on the port from .env
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
 });

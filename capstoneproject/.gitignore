@@ -13,3 +13,6 @@ node_modules/
 
 capstoneproject/backend/.env
 capstoneproject/backend/.env
+
+# Environment variables
+.env
