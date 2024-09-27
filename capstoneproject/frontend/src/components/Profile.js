@@ -45,7 +45,7 @@ function Profile() {
             localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(profile));
 
             try {
-                const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/profile/update', {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/profile/update`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(profile),

@@ -15,7 +15,7 @@ function CyberGuardian() {
         setScanning(true);
         try {
             // Make a request to the backend API to start the scan
-            const response = await axios.get('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/network-scan');
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/network-scan`);
             const data = response.data;
 
             setScanResults(data);  // Store the scan results
@@ -80,7 +80,7 @@ function CyberGuardian() {
                                 {scanData.result[key] ? "✔" : "❌"}
                             </span>
     
-                            {/* Conditionally render tooltip content */}
+                            {/* Conditionally render tooltip content */} 
                             {showTooltip === key && (
                                 <div className="tooltip-box">
                                     {resultTooltipInfo[key]}

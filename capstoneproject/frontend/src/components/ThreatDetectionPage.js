@@ -7,7 +7,7 @@ function ThreatDetectionPage() {
 
     // Store logData in sessionStorage, and use it to restore state if available
     const [logData, setLogData] = useState(() => {
-        return sessionStorage.getItem('logData') || `[
+        return sessionStorage.getItem('logData') || `[ 
             "[00:00] User login attempt from IP 192.168.1.1",
             "[00:00] User login attempt from IP 192.168.1.1",
             "[00:00] User login attempt from IP 192.168.1.1",
@@ -47,7 +47,7 @@ function ThreatDetectionPage() {
     const handleSendDataClick = async () => {
         setLoading(true); // Show loader
         try {
-            const response = await fetch('https://curly-space-umbrella-wrvpgg974x9j25x4r-3001.app.github.dev/test-connection', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/test-connection`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
