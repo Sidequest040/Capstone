@@ -8,7 +8,7 @@ function AuthLayout() {
         <div className="login-container">
             {/* Spline Viewer */}
             <div className="spline-container">
-                <SplineViewer url="https://prod.spline.design/Epf-r-eipmqLFoMY/scene.splinecode" />
+                <SplineViewer url={process.env.REACT_APP_SPLINE_VIEWER_URL} />
                 {/* Optional Overlay */}
                 <div className="spline-overlay"></div>
             </div>
