@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'  # Use a more recent version
+
 services:
   frontend:
     build:
@@ -12,9 +13,11 @@ services:
       - REACT_APP_API_URL=${API_URL}          # Use environment variables for API
       - REACT_APP_DB_URL=${DB_URL}            # Use environment variables for MySQL
     volumes:
-      - ./frontend:/app  # Mount frontend folder for live reload
-      - /app/node_modules  # Avoid overwriting node_modules
+      - ./frontend:/usr/src/app  # Mount frontend folder for live reload
+      - /usr/src/app/node_modules  # Avoid overwriting node_modules
+      - /usr/src/app/node_modules/.cache  # Ensure the .cache directory can be used
     command: ["npm", "start"]  # React dev server with hot-reloading
+    restart: unless-stopped  # Ensure service restarts on failure
 
   backend:
     build: ./backend
@@ -31,10 +34,10 @@ services:
       - BACKEND_URL=${BACKEND_URL}   # Backend URL from .env
       - DB_URL=${DB_URL}             # DB URL from .env
     volumes:
-      - ./backend:/app  # Mount backend folder for live reload
-      - /app/node_modules  # Avoid overwriting node_modules
+      - ./backend:/usr/src/app  # Mount backend folder for live reload
+      - /usr/src/app/node_modules  # Avoid overwriting node_modules
     command: ["npm", "run", "dev"]  # Use nodemon or equivalent for backend dev server
-    restart: unless-stopped
+    restart: unless-stopped  # Restart the backend if it crashes
 
   db:
     image: mysql:5.7
@@ -50,7 +53,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-    restart: unless-stopped
+    restart: unless-stopped  # Restart MySQL if it crashes
 
 volumes:
   db_data:

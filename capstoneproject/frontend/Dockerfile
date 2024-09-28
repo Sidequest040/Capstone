@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Ensure correct permissions for the node_modules/.cache folder
+RUN mkdir -p /usr/src/app/node_modules/.cache && chmod -R 777 /usr/src/app/node_modules/.cache
+
 # Copy the rest of the application code
 COPY . .
 
