@@ -47,27 +47,28 @@ function ThreatDetectionPage() {
     const handleSendDataClick = async () => {
         setLoading(true); // Show loader
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/test-connection`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/test-connection`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY_2, // Use the API key here
                 },
                 body: JSON.stringify({ logData }),
             });
-
+    
             const result = await response.json();
             setResponseMessage(result.message);
-
+    
             const parsedData = JSON.parse(logData);
             const formattedData = [];
-
+    
             parsedData.forEach(log => {
                 const timeMatch = log.match(/\[(.*?)\]/);
                 const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
                 const ip = ipMatch ? ipMatch[1] : 'Unknown';
                 const critical = log.includes('unauthorized') || log.includes('malware');
                 const existingEntry = formattedData.find(entry => entry.time === timeMatch[1] && entry.ip === ip);
-
+    
                 if (existingEntry) {
                     existingEntry.threats += 1;
                 } else {
@@ -80,7 +81,7 @@ function ThreatDetectionPage() {
                     });
                 }
             });
-
+    
             setThreatData(formattedData);
         } catch (error) {
             console.error('Error testing connection:', error);
@@ -90,9 +91,10 @@ function ThreatDetectionPage() {
         }
     };
 
+    // Function to format response message
     const formatResponseMessage = (message) => {
-        let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        formattedMessage = formattedMessage.replace(/-\s/g, '• ');
+        let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Convert **text** to bold
+        formattedMessage = formattedMessage.replace(/-\s/g, '• '); // Convert list markers to bullets
         return formattedMessage;
     };
 

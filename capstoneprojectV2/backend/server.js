@@ -6,11 +6,12 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const { Sequelize, DataTypes } = require('sequelize');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const axios = require('axios');
+require('dotenv').config(); // Load environment variables from .env file
 
 // Initialize Express app
 const app = express();
-const PORT = 3001; // Changed the port to 3001
+const PORT = process.env.PORT || 3001; // Use the PORT from .env
 
 // Middleware
 app.use(cors());
@@ -161,6 +162,58 @@ function authenticateToken(req, res, next) {
     res.status(400).json({ error: 'Invalid token' });
   }
 }
+
+// API integration with RapidAPI
+app.get('/api/network-scan', async (req, res) => {
+  try {
+    // Make a GET request to the RapidAPI network scan endpoint using the key from .env
+    const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
+      headers: {
+        'x-rapidapi-host': 'netdetective.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY_1  // Use RAPIDAPI_KEY_1 from .env
+      }
+    });
+
+    // Return the network scan results to the client
+    res.status(200).send(response.data);
+  } catch (error) {
+    console.error('Error scanning the network:', error.message);
+    res.status(500).send({ message: 'Network scan failed' });
+  }
+});
+
+// Test Connection with RapidAPI ChatGPT API
+app.post('/api/test-connection', async (req, res) => {
+  const { logData } = req.body;
+
+  const options = {
+    method: 'POST',
+    url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
+    headers: {
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,  // Use RAPIDAPI_KEY_2 from .env
+      'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+      'Content-Type': 'application/json'
+    },
+    data: {
+      messages: [
+        {
+          role: 'user',
+          content: logData
+        }
+      ],
+      web_access: false
+    }
+  };
+
+  try {
+    const response = await axios.request(options);
+    const analysis = response.data.result;
+    res.status(200).send({ message: analysis });
+  } catch (error) {
+    console.error('Error with RapidAPI ChatGPT:', error);
+    res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
