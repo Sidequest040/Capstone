@@ -1,3 +1,4 @@
+/* Existing styles */
 .App {
   text-align: center;
 }
@@ -35,4 +36,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Add the new styles here */
+
+/* General App Container */
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Spline container for 3D background */
+.spline-viewer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Always behind the content */
+}
+
+/* Ensure all other pages have z-index greater than -1 so they stay above the background */
+.login-form, .signup-form, .dashboard-content {
+  position: relative;
+  z-index: 1; /* Stay above the 3D background */
 }

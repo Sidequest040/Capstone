@@ -1,14 +1,15 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import Toast from './Toast'; // Import the Toast component
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Hook for redirecting
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,43 +20,57 @@ const Login = () => {
         password,
       });
 
-      localStorage.setItem('token', res.data.token); // Store the JWT token
+      localStorage.setItem('token', res.data.token);
       setMessage('Login successful');
-      navigate('/dashboard'); // Redirect to the dashboard after successful login
+      setIsToastVisible(true);
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } catch (error) {
-      setMessage(error.response.data.error);
+      setMessage(error.response.data.error || 'An error occurred. Please try again later.');
+      setIsToastVisible(true);
     }
   };
 
-  // Function to navigate back to Sign Up
+  const handleCloseToast = () => {
+    setIsToastVisible(false);
+  };
+
   const goToSignUp = () => {
-    navigate('/');  // Redirect to the sign-up page
+    navigate('/signup');
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="login-container">
+      <div className="login-form">
+        <h2>Welcome Back</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            className="login-input"
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className="login-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button className="button" type="submit">Sign In</button>
+        </form>
 
-      {/* Add a button to go to the Sign-Up page */}
-      <button onClick={goToSignUp} style={{ marginTop: '10px' }}>Go to Sign Up</button>
+        <div className="login-footer">
+          <span>Don't have an account?</span>
+          <button className="sign-up-link" onClick={goToSignUp}>Sign up</button>
+        </div>
+      </div>
+
+      <Toast message={message} isVisible={isToastVisible} onClose={handleCloseToast} />
     </div>
   );
 };

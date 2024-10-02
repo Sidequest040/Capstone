@@ -16,11 +16,16 @@
     color: white;
     font-family: "Poppins", sans-serif;
     overflow: hidden;
+    z-index: 1; /* Ensure the content stays above the background */
 }
+
+
 
 /* Spline container for 3D background */
 .spline-container {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     z-index: -1; /* Keep the background behind the content */
@@ -145,6 +150,7 @@
     border-radius: 10px;
     backdrop-filter: blur(20px);
     margin: 20px;
+    z-index: 1;
 }
 
 h2 {
