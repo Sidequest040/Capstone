@@ -10,32 +10,36 @@
 /* Login container */
 .login-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    width: 100vw; /* Ensure full width */
     font-family: "Poppins", sans-serif;
     position: relative;
+    overflow: hidden; /* Ensure no overflow of content */
 }
 
-/* Spline container */
+
+
+/* Spline container for 3D background */
 .spline-container {
-    flex: 1;
-    position: relative;
-    background-color: #000; /* Optional: Placeholder background color */
-}
-
-.spline-container spline-viewer {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    display: block;
+    z-index: -1; /* Ensure the background is behind the form */
+    overflow: hidden; /* Prevent any overflow */
 }
 
-/* Optional: Overlay to improve form readability */
 .spline-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
+    background: rgba(0, 0, 0, 0.3); /* Optional overlay */
+    z-index: -1; /* Behind everything */
 }
 
 /* Login form with glassmorphism */
@@ -46,11 +50,7 @@
     border-radius: 16px;
     backdrop-filter: blur(10px); /* Frosted glass effect */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    position: absolute;
-    left: 50%; /* Center horizontally */
-    top: 50%;  /* Center vertically */
-    transform: translate(-50%, -50%); /* Offset by 50% of its own size */
-    z-index: 1;
+    z-index: 1; /* Ensure the form is above the background */
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
@@ -77,7 +77,8 @@
     outline: none;
 }
 
-/* Buttons with the Uiverse button effect */
+
+/* Button */
 .button {
     position: relative;
     display: inline-block;
@@ -119,6 +120,21 @@
 
 .button:active {
     transform: scale(0.98);
+}
+
+/* Make the button look like a link */
+.sign-up-link {
+    background: none;
+    border: none;
+    color: #5b9bd5;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.sign-up-link:hover {
+    color: #3f7dbd;
 }
 
 /* Modal styling */

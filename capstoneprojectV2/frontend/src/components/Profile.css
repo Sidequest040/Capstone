@@ -1,0 +1,143 @@
+/* Profile.css */
+.profile-page {
+    background-color: hsla(240, 15%, 9%, 0.8); /* Dark background for profile */
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Heading Styling */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for heading */
+    -webkit-background-clip: text;
+    color: transparent; /* Makes the heading text use the gradient color */
+}
+
+/* Profile Form Styling */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form Group Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1.2rem;
+    color: #c0c0c0;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: hsla(193, 100%, 50%, 0.1); /* Light blue background for inputs */
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    background-color: hsla(193, 100%, 50%, 0.2); /* Darker focus color */
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Save Button Styling */
+.save-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-image: linear-gradient(0deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-button:hover {
+    background-color: hsl(193, 100%, 40%); /* Darker blue hover */
+}
+
+/* Loader CSS (matching the ThreatDetectionPage.css) */
+.loader {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  transform-origin: 50% 125%;
+  animation: mov-y 1s infinite linear;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  flex: 1;
+  background: #fff;
+  transform-origin: 0% 100%;
+  animation: rtr-x 1s infinite linear;
+}
+
+.loader:before {
+  transform-origin: 100% 100%;
+  animation-name: rtr-rx;
+}
+
+@keyframes mov-y {
+  0%, 25% {
+      transform: translateY(0) scaleY(1);
+  }
+
+  49% {
+      transform: translateY(-75%) scaleY(1);
+  }
+
+  50% {
+      transform: translateY(-75%) scaleY(-1);
+  }
+
+  75%, 100% {
+      transform: translateY(-150%) scaleY(-1);
+  }
+}
+
+@keyframes rtr-x {
+  25%, 75% {
+      transform: rotate(0deg);
+  }
+
+  50% {
+      transform: rotate(90deg);
+  }
+}
+
+@keyframes rtr-rx {
+  25%, 75% {
+      transform: rotate(0deg);
+  }
+
+  50% {
+      transform: rotate(-90deg);
+  }
+}

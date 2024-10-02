@@ -145,7 +145,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Protected route example
 app.get('/api/dashboard', authenticateToken, (req, res) => {
-  res.json({ message: 'Welcome to the protected dashboard!', user: req.user });
+  res.json({ user: req.user }); // No message sent
 });
 
 // Authentication middleware

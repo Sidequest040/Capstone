@@ -1,0 +1,162 @@
+/* General Card-like Styling */
+.threat-detection-page {
+    width: 80%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: hsla(240, 15%, 9%, 0.8); /* Dark background */
+    border: 1px solid hsla(193, 100%, 50%, 0.5); /* Neon Blue border */
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    position: relative; /* Needed for card border */
+  }
+  
+  /* Dynamic Border Effect */
+  .threat-detection-page .card__border {
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: -10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    background-image: linear-gradient(0deg, hsl(0, 0%, 100%) -50%, hsl(0, 0%, 40%) 100%);
+    border-radius: 10px;
+  }
+  
+  .threat-detection-page .card__border::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    z-index: 200;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: left;
+    width: 200%;
+    height: 10rem;
+    background-image: linear-gradient(
+      0deg, hsla(0, 0%, 100%, 0) 0%, hsl(193, 100%, 50%) 40%, /* Neon Blue */
+      hsl(283, 39%, 46%) 60%, /* Purple */
+      hsla(0, 0%, 40%, 0) 100%
+    );
+    animation: rotate 8s linear infinite;
+  }
+  
+  /* Animation for Border Rotation */
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Header Styling */
+  .threat-detection-page h2 {
+    background-color: hsla(193, 100%, 50%, 0.8); /* Neon Blue background for header */
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+  }
+  
+  /* Textarea for Logs */
+  .threat-detection-page textarea {
+    width: calc(100% - 30px);
+    height: 200px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    color: white;
+    background-color: hsla(193, 100%, 50%, 0.1); /* Light blue background for textarea */
+    transition: background-color 0.3s;
+    resize: none;
+    overflow-y: scroll;
+    white-space: pre-wrap;
+  }
+  
+  /* Button Styling */
+  .threat-detection-page button {
+    width: 100%;
+    padding: 12px 20px;
+    background-image: linear-gradient(0deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .threat-detection-page button:hover {
+    background-color: hsl(193, 100%, 40%); /* Darker blue hover */
+  }
+  
+  /* Response Box Styling */
+  .response-message {
+      --white: hsl(0, 0%, 100%);
+      --black: hsl(240, 15%, 9%);
+      --paragraph: hsl(0, 0%, 83%);
+      --line: hsl(240, 9%, 17%);
+      --primary: hsl(193, 100%, 50%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 900px;
+      background-color: hsla(240, 15%, 9%, 1); /* Dark background */
+      background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 46%, 1) 0px, transparent 85%),
+                        radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%),
+                        radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%),
+                        radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 1) 0px, transparent 85%),
+                        radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%);
+      border-radius: 1rem;
+      box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
+      margin: 20px auto;
+      color: var(--white);
+  }
+  
+  .formatted-response {
+      white-space: pre-line;
+      font-size: 14px;
+      color: var(--white);
+  }
+  
+  /* Additional styling for text formatting and alignment */
+  .response-message h3 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--white);
+  }
+  
+  .response-message .line {
+      width: 100%;
+      height: 0.1rem;
+      background-color: var(--line);
+      border: none;
+      margin: 10px 0;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .threat-detection-page {
+        width: 100%;
+    }
+  }
+  
