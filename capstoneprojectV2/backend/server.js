@@ -26,12 +26,6 @@ const sequelize = new Sequelize(
   }
 );
 
-// Test the database connection
-sequelize
-  .authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch((err) => console.log('Error: ' + err));
-
 // Define User model
 const User = sequelize.define('User', {
   id: {
@@ -58,12 +52,31 @@ const User = sequelize.define('User', {
   },
 });
 
-// Sync the model with the database
-sequelize.sync().then(() => {
-  console.log('Database synced');
-});
+// Function to start the server after successful DB connection
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Database connected...');
+    await sequelize.sync();
+    console.log('Database synced');
 
-// **Root route to handle GET requests to '/'**
+    // Start the server
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('Error connecting to the database:', err);
+    console.log('Retrying in 5 seconds...');
+    setTimeout(startServer, 5000); // Retry after 5 seconds
+  }
+};
+
+// Start the server
+startServer();
+
+// Rest of your routes and middleware...
+
+// Root route to handle GET requests to '/'
 app.get('/', (req, res) => {
   res.send('Backend server is running on port 3001!');
 });
@@ -163,28 +176,27 @@ function authenticateToken(req, res, next) {
 // API integration with RapidAPI (Network Scan)
 app.get('/api/network-scan', async (req, res) => {
   try {
-      const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
-          headers: {
-              'x-rapidapi-host': 'netdetective.p.rapidapi.com',
-              'x-rapidapi-key': process.env.RAPIDAPI_KEY_1,  // Use key from .env
-          }
-      });
+    const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
+      headers: {
+        'x-rapidapi-host': 'netdetective.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPIDAPI_KEY_1, // Use key from .env
+      },
+    });
 
-      const ipAddress = response.data.ipAddress || '';  // Ensure empty string if not found
-      const result = response.data.result || {};
+    const ipAddress = response.data.ipAddress || ''; // Ensure empty string if not found
+    const result = response.data.result || {};
 
-      // Send structured data, including IP address
-      res.status(200).json({
-          ipAddress,
-          threat_count: response.data.threat_count || 0,
-          result
-      });
+    // Send structured data, including IP address
+    res.status(200).json({
+      ipAddress,
+      threat_count: response.data.threat_count || 0,
+      result,
+    });
   } catch (error) {
-      console.error('Error scanning the network:', error.message);
-      res.status(500).json({ message: 'Network scan failed' });
+    console.error('Error scanning the network:', error.message);
+    res.status(500).json({ message: 'Network scan failed' });
   }
 });
-
 
 // Test Connection with RapidAPI ChatGPT API
 app.post('/api/test-connection', async (req, res) => {
@@ -194,7 +206,7 @@ app.post('/api/test-connection', async (req, res) => {
     method: 'POST',
     url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
     headers: {
-      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,  // Using key from .env
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2, // Using key from .env
       'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
       'Content-Type': 'application/json',
     },
@@ -217,9 +229,4 @@ app.post('/api/test-connection', async (req, res) => {
     console.error('Error with RapidAPI ChatGPT:', error);
     res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
   }
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });

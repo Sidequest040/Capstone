@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: your_new_password  # Correct root password usage
+      MYSQL_DATABASE: user_dashboard
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Backend - Node.js/Express
+  backend:
+    build: ./backend
+    container_name: node_backend
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=your_new_password
+      - DB_NAME=user_dashboard
+      - SECRET_KEY=your_secret_key
+      - RAPIDAPI_KEY_1=${RAPIDAPI_KEY_1}
+      - RAPIDAPI_KEY_2=${RAPIDAPI_KEY_2}
+      - JWT_SECRET=your_jwt_secret
+    ports:
+      - '3001:3001'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend_network
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+  # Frontend - React
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    environment:
+      - REACT_APP_API_URL=https://obscure-trout-jjrvqq45g96pf5q47-3001.app.github.dev
+      - REACT_APP_SPLINE_VIEWER_URL=https://prod.spline.design/TcCas10mj0HgeXCV/scene.splinecode
+      - REACT_APP_RAPIDAPI_KEY_1=${RAPIDAPI_KEY_1}
+      - REACT_APP_RAPIDAPI_KEY_2=${RAPIDAPI_KEY_2}
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - backend_network
+    volumes:
+      - ./frontend:/app
+    restart: unless-stopped
+
+networks:
+  backend_network:
+
+volumes:
+  db_data:
