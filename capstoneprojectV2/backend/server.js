@@ -1,5 +1,3 @@
-// server.js
-
 // Import required modules
 const express = require('express');
 const cors = require('cors');
@@ -14,8 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 3001; // Use the PORT from .env
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // You may add your CORS options if necessary for the frontend
+app.use(express.json()); // For handling JSON requests
 
 // Database connection using Sequelize
 const sequelize = new Sequelize(
@@ -36,7 +34,6 @@ sequelize
 
 // Define User model
 const User = sequelize.define('User', {
-  // Model attributes
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -144,43 +141,50 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Protected route example
+// Protected route example (Dashboard access)
 app.get('/api/dashboard', authenticateToken, (req, res) => {
-  res.json({ user: req.user }); // No message sent
+  res.json({ user: req.user });
 });
 
-// Authentication middleware
+// Middleware for authenticating the token
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization'];
   if (!token) return res.status(401).json({ error: 'Access denied' });
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = decoded; // Add user info to request object
+    req.user = decoded; // Attach user information to request
     next();
   } catch (error) {
     res.status(400).json({ error: 'Invalid token' });
   }
 }
 
-// API integration with RapidAPI
+// API integration with RapidAPI (Network Scan)
 app.get('/api/network-scan', async (req, res) => {
   try {
-    // Make a GET request to the RapidAPI network scan endpoint using the key from .env
-    const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
-      headers: {
-        'x-rapidapi-host': 'netdetective.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPIDAPI_KEY_1  // Use RAPIDAPI_KEY_1 from .env
-      }
-    });
+      const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
+          headers: {
+              'x-rapidapi-host': 'netdetective.p.rapidapi.com',
+              'x-rapidapi-key': process.env.RAPIDAPI_KEY_1,  // Use key from .env
+          }
+      });
 
-    // Return the network scan results to the client
-    res.status(200).send(response.data);
+      const ipAddress = response.data.ipAddress || '';  // Ensure empty string if not found
+      const result = response.data.result || {};
+
+      // Send structured data, including IP address
+      res.status(200).json({
+          ipAddress,
+          threat_count: response.data.threat_count || 0,
+          result
+      });
   } catch (error) {
-    console.error('Error scanning the network:', error.message);
-    res.status(500).send({ message: 'Network scan failed' });
+      console.error('Error scanning the network:', error.message);
+      res.status(500).json({ message: 'Network scan failed' });
   }
 });
+
 
 // Test Connection with RapidAPI ChatGPT API
 app.post('/api/test-connection', async (req, res) => {
@@ -190,19 +194,19 @@ app.post('/api/test-connection', async (req, res) => {
     method: 'POST',
     url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
     headers: {
-      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,  // Use RAPIDAPI_KEY_2 from .env
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,  // Using key from .env
       'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     data: {
       messages: [
         {
           role: 'user',
-          content: logData
-        }
+          content: logData,
+        },
       ],
-      web_access: false
-    }
+      web_access: false,
+    },
   };
 
   try {

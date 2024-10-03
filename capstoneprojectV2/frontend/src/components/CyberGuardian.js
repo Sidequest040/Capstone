@@ -5,7 +5,7 @@ import axios from 'axios';
 function CyberGuardian() {
     const [scanning, setScanning] = useState(false);
     const [threatsDetected, setThreatsDetected] = useState(0);
-    const [scanResults, setScanResults] = useState(JSON.parse(localStorage.getItem('scanResults'))); // Load from local storage if available
+    const [scanResults, setScanResults] = useState(JSON.parse(localStorage.getItem('scanResults')) || {}); // Load from local storage if available
     const [ipAddress, setIpAddress] = useState(localStorage.getItem('ipAddress') || '');  // Load from local storage if available
     const [collapseResults, setCollapseResults] = useState(false);
     const [showTooltip, setShowTooltip] = useState(null);  // Track which tooltip is visible
@@ -15,16 +15,19 @@ function CyberGuardian() {
         setScanning(true);
         try {
             // Make a request to the backend API to start the scan
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/network-scan`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/network-scan`);
             const data = response.data;
+
+            // Ensure the ipAddress is extracted from the result object
+            const extractedIpAddress = data.result?.ipAddress || '';
 
             setScanResults(data);  // Store the scan results
             setThreatsDetected(data.threat_count || 0);  // Update detected threats count
-            setIpAddress(data.result.ipAddress || '');  // Extract and store the IP address
+            setIpAddress(extractedIpAddress);  // Extract and store the IP address
 
             // Store the scan results and IP address in local storage
             localStorage.setItem('scanResults', JSON.stringify(data));
-            localStorage.setItem('ipAddress', data.result.ipAddress || '');
+            localStorage.setItem('ipAddress', extractedIpAddress);
         } catch (error) {
             console.error('Error during scan:', error);
         } finally {
@@ -34,7 +37,7 @@ function CyberGuardian() {
 
     const renderScanResultsTable = (scanData) => {
         if (!scanData || !scanData.result) return null;
-    
+
         const resultDescriptions = {
             ipAddress: "IP Address",
             isVpn: "VPN Detected",
@@ -47,7 +50,7 @@ function CyberGuardian() {
             isBot: "Bot Activity",
             isDynamic: "Dynamic IP",
         };
-    
+
         // Tooltip content for each key
         const resultTooltipInfo = {
             ipAddress: "Information about IP Address.",
@@ -61,7 +64,7 @@ function CyberGuardian() {
             isBot: "Detection of bot activity.",
             isDynamic: "Shows if the IP address is dynamically assigned.",
         };
-    
+
         return (
             <div className="scan-results-card">
                 <ul className="card__list">
@@ -79,7 +82,7 @@ function CyberGuardian() {
                             <span className={scanData.result[key] ? 'value-yes' : 'value-no'}>
                                 {scanData.result[key] ? "✔" : "❌"}
                             </span>
-    
+
                             {/* Conditionally render tooltip content */} 
                             {showTooltip === key && (
                                 <div className="tooltip-box">
@@ -95,7 +98,7 @@ function CyberGuardian() {
             </div>
         );
     };
-    
+
 
     // Clear local storage on refresh
     useEffect(() => {
