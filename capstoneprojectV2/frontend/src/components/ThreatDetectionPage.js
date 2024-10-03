@@ -47,14 +47,18 @@ function ThreatDetectionPage() {
     const handleSendDataClick = async () => {
         setLoading(true); // Show loader
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/test-connection`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/test-connection`, { // Correct endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY_2, // Use the API key here
+                    // Removed 'x-rapidapi-key' from headers
                 },
                 body: JSON.stringify({ logData }),
             });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
     
             const result = await response.json();
             setResponseMessage(result.message);
@@ -66,7 +70,7 @@ function ThreatDetectionPage() {
                 const timeMatch = log.match(/\[(.*?)\]/);
                 const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
                 const ip = ipMatch ? ipMatch[1] : 'Unknown';
-                const critical = log.includes('unauthorized') || log.includes('malware');
+                const critical = log.toLowerCase().includes('unauthorized') || log.toLowerCase().includes('malware');
                 const existingEntry = formattedData.find(entry => entry.time === timeMatch[1] && entry.ip === ip);
     
                 if (existingEntry) {
@@ -100,7 +104,7 @@ function ThreatDetectionPage() {
 
     return (
         <div className="threat-detection-page">
-            <h2>Test Backend Connection</h2>
+            <h2>Threat Detection</h2>
             <textarea 
                 value={logData} 
                 onChange={(e) => setLogData(e.target.value)} 
@@ -109,11 +113,11 @@ function ThreatDetectionPage() {
                 cols="50"
             />
             <button onClick={handleSendDataClick} disabled={loading}>
-                {loading ? <div className="loader"></div> : "Send Data to Backend"}
+                {loading ? <div className="loader"></div> : "Analyze Logs"}
             </button>
             {responseMessage && (
                 <div className="response-message">
-                    <h3>Response from Backend:</h3>
+                    <h3>Analysis Result:</h3>
                     <div 
                         className="formatted-response"
                         dangerouslySetInnerHTML={{ __html: formatResponseMessage(responseMessage).replace(/\n/g, '<br/>') }}
