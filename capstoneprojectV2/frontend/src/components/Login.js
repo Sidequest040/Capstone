@@ -20,7 +20,10 @@ const Login = () => {
         password,
       });
 
+      // Save token and email to localStorage
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('email', email);  // Save email
+
       setMessage('Login successful');
       setIsToastVisible(true);
       setTimeout(() => {
