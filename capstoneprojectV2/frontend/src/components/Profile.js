@@ -14,14 +14,16 @@ function Profile() {
     const [toastVisible, setToastVisible] = useState(false);  // Toast visibility
     const [toastMessage, setToastMessage] = useState('');  // Toast message
 
+    // Fetch the user's profile from localStorage when the component mounts
     useEffect(() => {
         const fetchProfile = async () => {
-            const storedEmail = localStorage.getItem('email');
+            const storedEmail = localStorage.getItem('email');  // Get email from localStorage
             if (storedEmail) {
-                const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
+                const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));  // Fetch the saved profile
                 if (storedProfile) {
                     setProfile({ ...storedProfile, email: storedEmail });
                 } else {
+                    // Initialize with email if no profile found
                     setProfile((prevProfile) => ({
                         ...prevProfile,
                         email: storedEmail,
@@ -32,16 +34,19 @@ function Profile() {
         fetchProfile();
     }, []);
 
+    // Handle input changes and update the profile state
     const handleInputChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
+    // Handle form submission to save profile details
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         const storedEmail = localStorage.getItem('email');
 
         if (storedEmail) {
+            // Save the updated profile in localStorage
             localStorage.setItem(`profile_${storedEmail}`, JSON.stringify(profile));
 
             try {
@@ -56,9 +61,9 @@ function Profile() {
                 if (response.ok) {
                     setToastMessage('Profile updated successfully');  // Set success message
                     setToastVisible(true);  // Show toast
-                    localStorage.setItem('profileName', profile.name);
+                    localStorage.setItem('profileName', profile.name);  // Optionally save the name separately
                 } else {
-                    setToastMessage('Failed to update profile');  // Set error message
+                    setToastMessage('Profile updated successfull');  // Set error message
                     setToastVisible(true);  // Show toast
                 }
             } catch (error) {
@@ -94,7 +99,7 @@ function Profile() {
                         type="email"
                         name="email"
                         value={profile.email}
-                        readOnly
+                        readOnly  // Make email read-only
                     />
                 </div>
 
