@@ -37,6 +37,52 @@
     color: hsl(0, 0%, 83%); /* Lighter paragraph text */
 }
 
+/* IP Information Styling */
+.ip-info {
+    margin-top: 20px;
+    text-align: center;
+    color: hsl(0, 0%, 83%);
+}
+
+.ip-info h2 {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.ip-info p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+/* Map Card Styling */
+.map-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Threat Analysis Styling */
+.threat-analysis {
+    margin-top: 20px;
+    text-align: center;
+    color: hsl(0, 0%, 83%);
+}
+
+.threat-analysis h2 {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.threat-analysis p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
 /* Button Styles */
 .network-scan-button, .collapse-button {
     background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient button */
