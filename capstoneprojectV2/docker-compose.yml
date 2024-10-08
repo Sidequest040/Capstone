@@ -51,7 +51,7 @@ services:
     container_name: react_frontend
     environment:
       - REACT_APP_API_URL=https://obscure-trout-jjrvqq45g96pf5q47-3001.app.github.dev
-      - REACT_APP_SPLINE_VIEWER_URL=https://prod.spline.design/TcCas10mj0HgeXCV/scene.splinecode
+      - REACT_APP_SPLINE_VIEWER_URL=https://prod.spline.design/H0TKcoeTcwKPnCf4/scene.splinecode
       - REACT_APP_RAPIDAPI_KEY_1=${RAPIDAPI_KEY_1}
       - REACT_APP_RAPIDAPI_KEY_2=${RAPIDAPI_KEY_2}
     ports:
