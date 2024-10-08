@@ -24,7 +24,7 @@ function Help() {
                     <iframe 
                         width="100%" 
                         height="315" 
-                        src="https://www.youtube.com/embed/22ENqTHVSS4?si=C04YPIo_yerdu-U6" 
+                        src="https://www.youtube.com/embed/1oyrTwvv7K4?si=zS9xbPoEsTrsFH6V" 
                         title="YouTube video player" 
                         frameBorder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
