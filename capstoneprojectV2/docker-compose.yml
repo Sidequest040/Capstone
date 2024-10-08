@@ -33,6 +33,7 @@ services:
       - SECRET_KEY=your_secret_key
       - RAPIDAPI_KEY_1=${RAPIDAPI_KEY_1}
       - RAPIDAPI_KEY_2=${RAPIDAPI_KEY_2}
+      - IPQUALITYSCORE_API_KEY=${IPQUALITYSCORE_API_KEY}
       - JWT_SECRET=your_jwt_secret
     ports:
       - '3001:3001'
@@ -54,6 +55,7 @@ services:
       - REACT_APP_SPLINE_VIEWER_URL=https://prod.spline.design/H0TKcoeTcwKPnCf4/scene.splinecode
       - REACT_APP_RAPIDAPI_KEY_1=${RAPIDAPI_KEY_1}
       - REACT_APP_RAPIDAPI_KEY_2=${RAPIDAPI_KEY_2}
+      - IPQUALITYSCORE_API_KEY=${IPQUALITYSCORE_API_KEY}
     ports:
       - '3000:3000'
     depends_on:
