@@ -1,3 +1,5 @@
+// server.js
+
 // Import required modules
 const express = require('express');
 const cors = require('cors');
@@ -73,8 +75,6 @@ const startServer = async () => {
 
 // Start the server
 startServer();
-
-// Rest of your routes and middleware...
 
 // Root route to handle GET requests to '/'
 app.get('/', (req, res) => {
@@ -154,11 +154,6 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Protected route example (Dashboard access)
-app.get('/api/dashboard', authenticateToken, (req, res) => {
-  res.json({ user: req.user });
-});
-
 // Middleware for authenticating the token
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization'];
@@ -173,23 +168,40 @@ function authenticateToken(req, res, next) {
   }
 }
 
+// Protected route example (Dashboard access)
+app.get('/api/dashboard', authenticateToken, (req, res) => {
+  res.json({ user: req.user });
+});
+
 // API integration with RapidAPI (Network Scan)
-app.get('/api/network-scan', async (req, res) => {
+// API integration for Network Scan
+app.post('/api/network-scan', async (req, res) => {
   try {
-    const response = await axios.get('https://netdetective.p.rapidapi.com/query', {
-      headers: {
-        'x-rapidapi-host': 'netdetective.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPIDAPI_KEY_1, // Use key from .env
-      },
-    });
+    const { ipv4, ipv6 } = req.body;
 
-    const ipAddress = response.data.ipAddress || ''; // Ensure empty string if not found
-    const result = response.data.result || {};
+    // Choose which IP to use for analysis (prefer IPv4)
+    const clientIp = ipv4 || ipv6;
 
-    // Send structured data, including IP address
+    if (!clientIp) {
+      return res.status(400).json({ error: 'No IP address provided' });
+    }
+
+    // Use IPQualityScore for threat analysis
+    const API_KEY = process.env.IPQUALITYSCORE_API_KEY;
+    if (!API_KEY) {
+      throw new Error('IPQualityScore API key is not set.');
+    }
+
+    const threatResponse = await axios.get(
+      `https://ipqualityscore.com/api/json/ip/${API_KEY}/${clientIp}`
+    );
+
+    const result = threatResponse.data;
+
+    // Send structured data
     res.status(200).json({
-      ipAddress,
-      threat_count: response.data.threat_count || 0,
+      ipAddress: clientIp,
+      threat_count: result.fraud_score || 0,
       result,
     });
   } catch (error) {
@@ -228,5 +240,51 @@ app.post('/api/test-connection', async (req, res) => {
   } catch (error) {
     console.error('Error with RapidAPI ChatGPT:', error);
     res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
+  }
+});
+
+// New Route: Get IP Information
+app.post('/api/ip-info', async (req, res) => {
+  try {
+    const { ipv4, ipv6 } = req.body;
+
+    // Choose which IP to use for analysis (prefer IPv4)
+    const clientIp = ipv4 || ipv6;
+
+    if (!clientIp) {
+      return res.status(400).json({ error: 'No IP address provided' });
+    }
+
+    // Use a geolocation API to get location data
+    const geoResponse = await axios.get(`https://ipapi.co/${clientIp}/json/`);
+    const { city, region, country_code: country, latitude, longitude } = geoResponse.data;
+
+    // Use IPQualityScore for threat analysis
+    const API_KEY = process.env.IPQUALITYSCORE_API_KEY;
+    if (!API_KEY) {
+      throw new Error('IPQualityScore API key is not set.');
+    }
+
+    const threatResponse = await axios.get(
+      `https://ipqualityscore.com/api/json/ip/${API_KEY}/${clientIp}`
+    );
+
+    // Combine the data
+    const data = {
+      ipInfo: {
+        ip: clientIp,
+        city,
+        region,
+        country,
+        latitude,
+        longitude,
+      },
+      threatInfo: threatResponse.data,
+    };
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching IP information:', error.message);
+    res.status(500).json({ error: 'Error fetching IP information' });
   }
 });
