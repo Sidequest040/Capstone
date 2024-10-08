@@ -1,0 +1,73 @@
+/* App.css */
+
+.container {
+  text-align: center;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.button {
+  padding: 8px 16px;
+  font-size: 0.9em;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+h2 {
+  margin-top: 15px;
+  font-size: 1.2em;
+}
+
+h3 {
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.info-section {
+  width: 100%;
+  max-width: 600px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.info {
+  font-size: 1em;
+  color: #555;
+  margin: 5px 0;
+}
+
+.map-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.map-container {
+  width: 100%;
+}
