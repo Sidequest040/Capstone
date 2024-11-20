@@ -1,0 +1,361 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dashboard container */
+.dashboard-container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    position: relative;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
+    z-index: 1; /* Ensure the content stays above the background */
+}
+
+
+
+/* Spline container for 3D background */
+.spline-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Keep the background behind the content */
+}
+
+.spline-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
+}
+
+/* Dashboard content styling */
+.dashboard-content {
+    display: flex;
+    flex-grow: 1;
+    z-index: 1; /* Ensure the content stays above the background */
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.3); /* Make the sidebar background semi-transparent */
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.sidebar input[type="text"] {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1.5rem;
+    outline: none;
+    text-align: center;
+    transition: 0.3s ease;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 7px 0;
+    cursor: pointer;
+    padding: 0.7rem 4rem;
+    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.4); /* Make the list items transparent */
+    border-radius: 10px;
+    border: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+    color: white;
+    text-align: center;
+}
+
+.sidebar ul li:hover {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(20px);
+    transform: translateX(5px);
+}
+
+.sidebar ul li.active {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(20px);
+    font-weight: bold;
+    transform: translateX(5px);
+}
+
+.sidebar ul li:not(.active):hover {
+    transform: translateX(5px);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+}
+
+.profile img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+/* Logout button styling */
+.logout-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgba(255, 76, 76, 0.6); /* Red color for logout with transparency */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 26, 26, 0.8); /* Darker red on hover */
+}
+
+/* Content styles */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Make content background semi-transparent */
+    border-radius: 10px;
+    backdrop-filter: blur(20px);
+    margin: 20px;
+    z-index: 1;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #e0e0e0;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #c0c0c0;
+}
+
+.updates, .trending {
+    margin-top: 20px;
+}
+
+.update {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.update img {
+    width: 40px;
+    height: 40px;
+}
+
+.update h1 {
+    font-size: 1.6rem;
+    color: white;
+    margin-left: 10px;
+}
+
+.update button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1e90ff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update button:hover {
+    background-color: #1c86ee;
+}
+
+.trending .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.grid__app {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grid__app h1 {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.grid__app button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #32cd32;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.grid__app button:hover {
+    background-color: #2eb82e;
+}
+
+/* Threat Detection Section */
+.threat-detection-section {
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+.chart-container {
+    margin-bottom: 30px;
+}
+
+.logs-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.logs-list {
+    list-style-type: none;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.logs-list li {
+    margin-bottom: 10px;
+}
+
+/* Clearing Cache Tool Section */
+.clearing-cache-tool {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); 
+    border-radius: 10px;
+    color: white;
+}
+
+.clearing-cache-tool h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.clearing-cache-tool p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+
+.filter-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+/* Threat Detection Page */
+.threat-detection-page {
+    padding: 20px;
+    color: #e0e0e0;
+}
+
+.threat-detection-page textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.threat-detection-page button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.threat-detection-page button:hover {
+    background-color: #45a049;
+}
+
+.analysis-result {
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.analysis-result p {
+    margin-bottom: 10px;
+}
+
+.analysis-result ul {
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.analysis-result ul li {
+    margin-bottom: 10px;
+}
+
+.analysis-result strong {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.analysis-result em {
+    color: #FFD700;
+    font-style: italic;
+}
