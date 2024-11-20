@@ -1,0 +1,170 @@
+/* General Styling for Cards and Technical Plans */
+.technical-plans-page .card,
+.technical-plans-page .technical-card {
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(240, 15%, 9%);
+    --paragraph: hsl(0, 0%, 83%);
+    --line: hsl(193, 100%, 60%); /* Brighter Neon Blue */
+    --primary: hsl(283, 39%, 50%); /* Softer Purple */
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    width: 80%;
+    max-width: 1000px;
+    background-color: hsla(240, 15%, 9%, 0.95); /* Darker background with transparency */
+    background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 50%, 1) 0px, transparent 85%), /* Softer Purple */
+                      radial-gradient(at 49% 30%, hsla(193, 100%, 60%, 1) 0px, transparent 85%), /* Brighter Neon Blue */
+                      radial-gradient(at 14% 26%, hsla(168, 76%, 45%, 1) 0px, transparent 85%), /* Teal */
+                      radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 0.2) 0px, transparent 85%), /* Subtle White */
+                      radial-gradient(at 41% 94%, hsl(0, 100%, 45%) 0px, transparent 85%); /* Red accent */
+    border-radius: 1.5rem;
+    box-shadow: 0px -16px 24px rgba(255, 255, 255, 0.2) inset, 0 16px 40px rgba(0, 0, 0, 0.4); /* Softer shadow and inset */
+    margin: 20px auto;
+    color: var(--white);
+}
+
+.technical-plans-page .card__border,
+.technical-plans-page .technical-card__border {
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: -10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    background-image: linear-gradient(0deg, hsl(0, 0%, 100%) -50%, hsl(0, 0%, 40%) 100%);
+    border-radius: 1.5rem;
+}
+
+.technical-plans-page .card__border::before,
+.technical-plans-page .technical-card__border::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    z-index: 200;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: left;
+    width: 200%;
+    height: 10rem;
+    background-image: linear-gradient(
+        0deg,
+        hsla(0, 0%, 100%, 0) 0%,
+        hsl(193, 100%, 60%) 40%, /* Neon Blue */
+        hsl(283, 39%, 50%) 60%, /* Softer Purple */
+        hsla(0, 0%, 40%, 0) 100%
+    );
+    animation: rotate 12s linear infinite; /* Slower rotation */
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.technical-plans-page .card_title__container .card_title,
+.technical-plans-page .technical-card_title__container .card_title {
+    font-size: 2.2rem;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 24px;
+    letter-spacing: 0.05rem; /* Adds a modern spacing effect */
+}
+
+.technical-plans-page .card_paragraph,
+.technical-plans-page .technical-card_paragraph {
+    font-size: 1.25rem;
+    color: var(--paragraph);
+    text-align: justify;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.technical-plans-page .line {
+    width: 100%;
+    height: 0.1rem;
+    background-color: var(--line); /* Neon Blue line */
+    border: none;
+    margin: 10px 0;
+}
+
+.technical-plans-page .card__list,
+.technical-plans-page .technical-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 15px; /* Adjusted padding for a wider card */
+}
+
+.technical-plans-page .card__list_item,
+.technical-plans-page .technical-card__list_item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 18px 20px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Adds depth */
+}
+
+.technical-plans-page .card__list_item:hover,
+.technical-plans-page .technical-card__list_item:hover {
+    background-color: rgba(193, 163, 98, 0.3); /* Subtle glow hover effect */
+    transform: scale(1.05);
+}
+
+/* Modified .check class to display check marks */
+.technical-plans-page .check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--primary); /* Softer Purple background */
+    border-radius: 50%;
+}
+
+/* Styles for the SVG check mark */
+.technical-plans-page .check_svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--black); /* Darker fill color for the check mark */
+}
+
+.technical-plans-page .list_text {
+    font-size: 1.4rem;
+    color: var(--white);
+    flex: 1;
+    text-align: left;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .technical-plans-page .card,
+    .technical-plans-page .technical-card {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .technical-plans-page .card_title__container .card_title,
+    .technical-plans-page .technical-card_title__container .card_title {
+        font-size: 1.8rem;
+    }
+
+    .technical-plans-page .card_paragraph,
+    .technical-plans-page .technical-card_paragraph {
+        font-size: 1.1rem;
+    }
+
+    .technical-plans-page .list_text {
+        font-size: 1.2rem;
+    }
+}

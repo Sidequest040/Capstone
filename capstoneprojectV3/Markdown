@@ -1,0 +1,255 @@
+🌐 Cybersecurity Threat Detection and Response Tool
+This project is an AI-powered tool for real-time cybersecurity threat detection and response. It integrates advanced machine learning models, APIs, and a robust web interface built with React.js, Node.js, and MySQL.
+
+📋 Table of Contents
+Getting Started
+Project Structure
+Docker Setup
+API Documentation
+Frontend
+Backend
+Running the Application
+Environment Variables
+Troubleshooting
+Contribution
+License
+🚀 Getting Started
+Before getting started, ensure you have the following installed:
+
+Docker
+Node.js (v16 or higher)
+MySQL (Docker will handle this, but you can install it locally for development)
+Cloning the Repository
+bash
+Copy code
+git clone https://github.com/your-repository-url.git
+cd your-project-directory
+🛠️ Project Structure
+The project is structured as follows:
+
+lua
+Copy code
+|-- backend/
+|   |-- models/            # Sequelize models
+|   |-- routes/            # Express routes
+|   |-- index.js           # Main server file
+|   |-- Dockerfile         # Dockerfile for the backend
+|   |-- .env               # Environment variables for backend
+|
+|-- frontend/
+|   |-- public/
+|   |-- src/
+|   |-- Dockerfile         # Dockerfile for the frontend
+|   |-- .env               # Environment variables for frontend
+|
+|-- docker-compose.yml     # Docker Compose configuration
+|-- README.md              # Project documentation
+🐋 Docker Setup
+This project is containerized using Docker and Docker Compose. Here's how to set it up:
+
+docker-compose.yml Overview
+This file defines three services:
+
+db: MySQL database service
+backend: Node.js Express server for API handling
+frontend: React.js web interface for user interaction
+Running Docker Compose
+To build and start the services:
+
+bash
+Copy code
+docker-compose up --build
+To stop the services:
+
+bash
+Copy code
+docker-compose down
+Docker Compose File Breakdown
+yaml
+Copy code
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: your_new_password
+      MYSQL_DATABASE: user_dashboard
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: your_new_password
+      DB_NAME: user_dashboard
+      JWT_SECRET: your_jwt_secret
+    ports:
+      - '3001:3001'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend_network
+
+  frontend:
+    build: ./frontend
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+
+volumes:
+  db_data:
+🔑 API Documentation
+Authentication
+Register
+POST /api/auth/register
+Registers a new user.
+Body Example:
+
+json
+Copy code
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "securepassword"
+}
+Login
+POST /api/auth/login
+Authenticates a user and returns a JWT token.
+Body Example:
+
+json
+Copy code
+{
+  "email": "test@example.com",
+  "password": "securepassword"
+}
+Protected Routes
+Dashboard
+GET /api/dashboard
+Requires a valid JWT token for access.
+Network Scan
+GET /api/network-scan
+Integrates with RapidAPI to perform a network threat scan and return results.
+⚛️ Frontend
+Main Components
+AuthLayout: Displays the login/signup pages.
+Dashboard: Displays the main dashboard for logged-in users.
+ThreatDetection: Displays real-time threat logs and data visualization (e.g., pie charts and line charts).
+Key Frontend Technologies
+React.js
+Axios (for API requests)
+Spline 3D Viewer (used for interactive 3D background)
+Frontend Directory Structure
+lua
+Copy code
+frontend/
+|-- public/
+|-- src/
+    |-- components/
+    |-- hooks/
+    |-- App.js
+    |-- index.js
+|-- Dockerfile
+Running Frontend Locally
+To run the frontend locally without Docker:
+
+bash
+Copy code
+cd frontend
+npm install
+npm start
+The frontend will be available at http://localhost:3000.
+
+⚙️ Backend
+Main Backend Technologies
+Node.js (Express.js)
+Sequelize (MySQL ORM)
+JSON Web Tokens (JWT) for authentication
+Axios (for external API requests)
+Backend Directory Structure
+lua
+Copy code
+backend/
+|-- models/
+    |-- User.js  # Sequelize model for users
+|-- routes/
+    |-- auth.js  # Authentication routes
+|-- index.js     # Main server file
+|-- Dockerfile
+Running Backend Locally
+To run the backend locally without Docker:
+
+bash
+Copy code
+cd backend
+npm install
+npm start
+The backend will be available at http://localhost:3001.
+
+🏃 Running the Application
+To build and run the services using Docker:
+
+bash
+Copy code
+docker-compose up --build
+Access the frontend at http://localhost:3000 and the backend API at http://localhost:3001.
+
+To stop the services:
+
+bash
+Copy code
+docker-compose down
+🔐 Environment Variables
+Make sure to set up a .env file in both the frontend and backend directories.
+
+Frontend .env:
+env
+Copy code
+REACT_APP_API_URL=http://localhost:3001
+REACT_APP_SPLINE_VIEWER_URL=https://prod.spline.design/TcCas10mj0HgeXCV/scene.splinecode
+Backend .env:
+env
+Copy code
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=your_new_password
+DB_NAME=user_dashboard
+JWT_SECRET=your_jwt_secret
+RAPIDAPI_KEY_1=your_rapidapi_key_1
+RAPIDAPI_KEY_2=your_rapidapi_key_2
+🛠️ Troubleshooting
+MySQL Connection Issues:
+Ensure that the MySQL container is healthy before starting the backend.
+Check your .env file for correct database credentials.
+API Errors:
+Confirm that your RAPIDAPI_KEY_1 and RAPIDAPI_KEY_2 are correctly set in the .env files.
+Docker Build Fails:
+Ensure that you have the correct versions of Node.js, Docker, and Docker Compose installed.
+💻 Contribution
+Feel free to submit issues or pull requests. We welcome contributions from the community!
+
+📜 License
+This project is licensed under the MIT License.
+
