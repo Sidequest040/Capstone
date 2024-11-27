@@ -19,14 +19,15 @@ L.Icon.Default.mergeOptions({
 function CyberGuardian() {
   const [scanning, setScanning] = useState(false);
   const [threatsDetected, setThreatsDetected] = useState(0);
-  const [ipAddress, setIpAddress] = useState(localStorage.getItem('ipAddress') || '');
+  // **Removed ipAddress state**
+  // const [ipAddress, setIpAddress] = useState(localStorage.getItem('ipAddress') || '');
   const [collapseResults, setCollapseResults] = useState(false);
+  const [hasScanned, setHasScanned] = useState(false); // **New state variable**
 
   // State variables for IP info
   const [ipInfo, setIpInfo] = useState(JSON.parse(localStorage.getItem('ipInfo')) || null);
   const [threatInfo, setThreatInfo] = useState(JSON.parse(localStorage.getItem('threatInfo')) || null);
 
-  // **Add these state declarations**
   // State variables for client's IP addresses
   const [ipv4Address, setIpv4Address] = useState('');
   const [ipv6Address, setIpv6Address] = useState('');
@@ -38,9 +39,21 @@ function CyberGuardian() {
       const ipv4Response = await axios.get('https://api.ipify.org?format=json');
       const ipv4 = ipv4Response.data.ip;
 
-      // Fetch IPv6 address
-      const ipv6Response = await axios.get('https://api64.ipify.org?format=json');
-      const ipv6 = ipv6Response.data.ip;
+      let ipv6 = 'Not Available'; // **Default value if IPv6 isn't available**
+
+      try {
+        // Fetch IPv6 address
+        const ipv6Response = await axios.get('https://api64.ipify.org?format=json');
+        const fetchedIpv6 = ipv6Response.data.ip;
+
+        // Check if IPv6 address is different from IPv4 address
+        if (fetchedIpv6 && fetchedIpv6 !== ipv4) {
+          ipv6 = fetchedIpv6;
+        }
+      } catch (ipv6Error) {
+        console.error('Error fetching IPv6 address:', ipv6Error);
+        // ipv6 remains 'Not Available'
+      }
 
       // Update state
       setIpv4Address(ipv4);
@@ -57,7 +70,8 @@ function CyberGuardian() {
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.removeItem('scanResults');
-      localStorage.removeItem('ipAddress');
+      // **Removed ipAddress removal**
+      // localStorage.removeItem('ipAddress');
       localStorage.removeItem('ipInfo');
       localStorage.removeItem('threatInfo');
     };
@@ -102,10 +116,10 @@ function CyberGuardian() {
       // Fetch the IP info using the fetched IPs
       const data = await fetchIpInfo(ipv4, ipv6);
 
-      // Use data.ipInfo and data.threatInfo directly
-      const extractedIpAddress = (data.ipInfo && data.ipInfo.ip) || ipv4 || ipv6 || '';
-      setIpAddress(extractedIpAddress);
-      localStorage.setItem('ipAddress', extractedIpAddress);
+      // **Removed ipAddress logic**
+      // const extractedIpAddress = (data.ipInfo && data.ipInfo.ip) || ipv4 || ipv6 || '';
+      // setIpAddress(extractedIpAddress);
+      // localStorage.setItem('ipAddress', extractedIpAddress);
 
       // Determine threats detected based on data.threatInfo
       let detected = 0;
@@ -122,6 +136,9 @@ function CyberGuardian() {
 
       // Expand the scan results to show them
       setCollapseResults(true);
+
+      // **Set hasScanned to true after successful scan**
+      setHasScanned(true);
     } catch (error) {
       console.error('Error during scan:', error);
       alert('An error occurred during the scan. Please try again.');
@@ -150,9 +167,20 @@ function CyberGuardian() {
         {ipInfo && (
           <div className="ip-info">
             <h3>Your IP Information:</h3>
+            
+            {/* Display IPv4 and IPv6 Addresses at the Top */}
             <p>
-              <strong>IP:</strong> {ipInfo.ip}
+              <strong>IPv4 Address:</strong> {ipv4Address || 'Not Available'}
             </p>
+            <p>
+              <strong>IPv6 Address:</strong> {ipv6Address || 'Not Available'}
+            </p>
+
+            {/* Removed the General IP Address */}
+            {/* <p>
+              <strong>IP:</strong> {ipInfo.ip}
+            </p> */}
+
             <p>
               <strong>Country:</strong> {ipInfo.country}
             </p>
@@ -240,8 +268,15 @@ function CyberGuardian() {
           </div>
         )}
 
-        {threatsDetected === 0 && !scanning && (
-          <p className="no-threats">✅ No threats detected. Your IP Address: {ipAddress}</p>
+        {/* Display "No Threats Detected" with IP Addresses only after scan */}
+        {threatsDetected === 0 && !scanning && hasScanned && (
+          <p className="no-threats">
+            ✅ No threats detected.
+            <br />
+            <strong>IPv4 Address:</strong> {ipv4Address || 'Not Available'}
+            <br />
+            <strong>IPv6 Address:</strong> {ipv6Address || 'Not Available'}
+          </p>
         )}
 
         {/* Collapsible Scan Results */}
