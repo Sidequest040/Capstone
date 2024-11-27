@@ -211,6 +211,45 @@ app.post('/api/network-scan', async (req, res) => {
 });
 
 // Test Connection with RapidAPI ChatGPT API
+app.post('/api/test-connection', async (req, res) => {
+  const { logData } = req.body;
+
+  // Basic validation
+  if (!logData) {
+    return res.status(400).json({ error: 'No log data provided' });
+  }
+
+  const options = {
+    method: 'POST',
+    url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
+    headers: {
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2, // Using RAPIDAPI_KEY_2
+      'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+      'Content-Type': 'application/json',
+    },
+    data: {
+      messages: [
+        {
+          role: 'user',
+          content: logData,
+        },
+      ],
+      web_access: false,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    const analysis = response.data.result;
+    res.status(200).send({ message: analysis });
+  } catch (error) {
+    console.error('ChatGPT Integration Error:', error.response ? error.response.data : error.message);
+    res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
+  }
+});
+
+
+// Get IP Information Route
 app.post('/api/ip-info', async (req, res) => {
   try {
     const { ipv4, ipv6 } = req.body;
