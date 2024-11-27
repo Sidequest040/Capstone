@@ -51,7 +51,7 @@ function TechnicalPlans() {
                                 <path d="M13.485 1.929l-7.778 7.778-3.536-3.535-1.414 1.414 4.95 4.95 9.192-9.192z"/>
                             </svg>
                         </div>
-                        <span className="list_text"><strong>Deployment</strong>: Docker and Kubernetes for containerization and orchestration.</span>
+                        <span className="list_text"><strong>Deployment</strong>: Docker for containerization and orchestration.</span>
                     </li>
                 </ul>
                 <p className="technical-card_paragraph">
