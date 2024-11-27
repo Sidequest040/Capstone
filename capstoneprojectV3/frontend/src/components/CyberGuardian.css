@@ -83,7 +83,19 @@
     margin: 5px 0;
 }
 
-/* Threat List Styling */
+/* Threat Analysis Styling */
+.threat-analysis {
+    margin-top: 20px;
+    text-align: center;
+    color: hsl(0, 0%, 83%);
+}
+
+.threat-analysis h3 {
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
 .threat-list {
     list-style: none;
     padding: 0;
@@ -109,8 +121,12 @@
 }
 
 .threat-list li .threat-status {
-    font-size: 1.5rem;
-    margin-left: 10px;
+    font-size: 1.2rem;
+    color: hsl(48, 100%, 67%); /* Bright yellow for threat status */
+    font-weight: bold;
+    /* Removed margin-bottom to fix alignment */
+    /* margin-bottom: 20px; */
+    align-self: center; /* Ensures vertical centering */
 }
 
 .threat-list li .threat-status.ok {
@@ -142,18 +158,14 @@
 
 /* Threat Status Styling */
 .threat-status {
-    font-size: 1.2rem;
-    color: hsl(48, 100%, 67%); /* Bright yellow for threat status */
+    /* This class is already defined above for threat-status */
+    /* font-size: 1.2rem;
+    color: hsl(48, 100%, 67%);
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 20px; */
 }
 
-.no-threats {
-    font-size: 1.2rem;
-    color: hsl(146, 82%, 55%); /* Bright green for no threats */
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+/* Other CSS remains unchanged */
 
 /* Scan Results Card */
 .scan-results-card {
