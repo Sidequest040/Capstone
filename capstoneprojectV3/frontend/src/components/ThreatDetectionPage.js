@@ -47,61 +47,88 @@ function ThreatDetectionPage() {
     const handleSendDataClick = async () => {
         setLoading(true); // Show loader
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/test-connection`, { // Correct endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Removed 'x-rapidapi-key' from headers
-                },
-                body: JSON.stringify({ logData }),
-            });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/test-connection`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ logData }),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+      
+          const result = await response.json();
+      
+          if (typeof result.message !== 'string') {
+            throw new Error('Backend response message is not a string');
+          }
+      
+          setResponseMessage(result.message);
+      
+          const parsedData = JSON.parse(logData);
+          const formattedData = [];
+      
+          parsedData.forEach((log) => {
+            const timeMatch = log.match(/\[(.*?)\]/);
+            const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
+            const ip = ipMatch ? ipMatch[1] : 'Unknown';
+            const critical = log.toLowerCase().includes('unauthorized') || log.toLowerCase().includes('malware');
+            const existingEntry = formattedData.find((entry) => entry.time === timeMatch[1] && entry.ip === ip);
+      
+            if (existingEntry) {
+              existingEntry.threats += 1;
+            } else {
+              formattedData.push({
+                time: timeMatch ? timeMatch[1] : 'Unknown',
+                threats: 1,
+                ip: ip,
+                critical: critical,
+                date: new Date().toISOString().slice(0, 10),
+              });
             }
-    
-            const result = await response.json();
-            setResponseMessage(result.message);
-    
-            const parsedData = JSON.parse(logData);
-            const formattedData = [];
-    
-            parsedData.forEach(log => {
-                const timeMatch = log.match(/\[(.*?)\]/);
-                const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
-                const ip = ipMatch ? ipMatch[1] : 'Unknown';
-                const critical = log.toLowerCase().includes('unauthorized') || log.toLowerCase().includes('malware');
-                const existingEntry = formattedData.find(entry => entry.time === timeMatch[1] && entry.ip === ip);
-    
-                if (existingEntry) {
-                    existingEntry.threats += 1;
-                } else {
-                    formattedData.push({
-                        time: timeMatch ? timeMatch[1] : 'Unknown',
-                        threats: 1,
-                        ip: ip,
-                        critical: critical,
-                        date: new Date().toISOString().slice(0, 10),
-                    });
-                }
-            });
-    
-            setThreatData(formattedData);
+          });
+      
+          setThreatData(formattedData);
         } catch (error) {
-            console.error('Error testing connection:', error);
-            setResponseMessage('There was an error connecting to the backend.');
+          console.error('Error testing connection:', error);
+          setResponseMessage('There was an error connecting to the backend.');
         } finally {
-            setLoading(false); // Hide loader
+          setLoading(false); // Hide loader
         }
-    };
+      };
+      
 
     // Function to format response message
     const formatResponseMessage = (message) => {
-        let formattedMessage = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Convert **text** to bold
-        formattedMessage = formattedMessage.replace(/-\s/g, '• '); // Convert list markers to bullets
+        if (typeof message !== 'string') {
+          console.warn('Response message is not a string:', message);
+          return 'Unexpected response format.';
+        }
+      
+        // Remove all instances of `--•` completely
+        let formattedMessage = message.replace(/--•\s*/g, ''); // Removes `--•` and any trailing whitespace
+      
+        // Remove table-like lines (dotted lines or similar table dividers)
+        formattedMessage = formattedMessage.replace(/^\|[-\s|]+\|$/gm, '');
+      
+        // Remove any orphaned `###` if still present (just in case)
+        formattedMessage = formattedMessage.replace(/###/g, '');
+      
+        // Italicize section titles (e.g., "Conclusion:" or anything ending with ":")
+        formattedMessage = formattedMessage.replace(/(\b[A-Z][a-zA-Z\s]*:)/g, '<em>$1</em>');
+      
+        // Bold for `**text**`
+        formattedMessage = formattedMessage.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      
+        // Replace `- ` with bullet points
+        formattedMessage = formattedMessage.replace(/-\s/g, '• ');
+      
         return formattedMessage;
-    };
-
+      };
+      
+      
     return (
         <div className="threat-detection-page">
             <h2>Threat Detection</h2>

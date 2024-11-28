@@ -5,6 +5,18 @@ function Sidebar({ setActiveSection }) {
     const navigate = useNavigate();
     const [profileName, setProfileName] = useState('');
     const [profilePic, setProfilePic] = useState('');
+    const [searchQuery, setSearchQuery] = useState(''); // New state for the search bar
+
+    const sidebarItems = [
+        { id: 'overview', label: 'Discover' },
+        { id: 'technical', label: 'Technical Plans' },
+        { id: 'threat-detection', label: 'Threat Detection' },
+        { id: 'threat-detection-page', label: 'Run Threat Detection' },
+        { id: 'help', label: 'Help' },
+        { id: 'profile', label: 'Profile' },
+        { id: 'dark-mode', label: 'Cyber Guardian' },
+        { id: 'clearing-cache', label: 'Clearing Tool' },
+    ];
 
     useEffect(() => {
         const storedEmail = localStorage.getItem('email');
@@ -38,11 +50,11 @@ function Sidebar({ setActiveSection }) {
 
     const handleButtonClick = (section) => {
         setActiveSection(section);
-        
+
         // Remove "active" class from all buttons
         const buttons = document.querySelectorAll("li");
         buttons.forEach(button => button.classList.remove("active"));
-        
+
         // Find the specific section button and add "active" class
         const activeButton = document.querySelector(`#${section}`);
         if (activeButton) {
@@ -107,19 +119,29 @@ function Sidebar({ setActiveSection }) {
         }
     };
 
+    const filteredItems = sidebarItems.filter((item) =>
+        item.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className="sidebar">
-            <input type="text" placeholder="Search" />
+            <input
+                type="text"
+                placeholder="Search"
+                value={searchQuery} // Bind input to state
+                onChange={(e) => setSearchQuery(e.target.value)} // Update state on input change
+            />
             <ul>
-                <li id="overview" className="active" onClick={() => handleButtonClick('overview')}>Discover</li>
-                <li id="technical" onClick={() => handleButtonClick('technical')}>Technical Plans</li>
-                <li id="threat-detection" onClick={() => handleButtonClick('threat-detection')}>Threat Detection</li>
-                <li id="threat-detection-page" onClick={() => handleButtonClick('threat-detection-page')}>Run Threat Detection</li>
-                <li id="help" onClick={() => handleButtonClick('help')}>Help</li>
-                <li id="profile" onClick={() => handleButtonClick('profile')}>Profile</li>
-                <li id="dark-mode" onClick={() => handleButtonClick('dark-mode')}>Cyber Guardian</li>
-                {/* Add New Section */}
-                <li id="clearing-cache" onClick={() => handleButtonClick('clearing-cache')}>Clearing Tool</li>
+                {filteredItems.map((item) => (
+                    <li
+                        key={item.id}
+                        id={item.id}
+                        className={item.id === 'overview' ? 'active' : ''}
+                        onClick={() => handleButtonClick(item.id)}
+                    >
+                        {item.label}
+                    </li>
+                ))}
             </ul>
             <div className="profile">
                 <label htmlFor="profilePicUpload">

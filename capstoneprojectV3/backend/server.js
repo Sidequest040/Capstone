@@ -210,7 +210,7 @@ app.post('/api/network-scan', async (req, res) => {
   }
 });
 
-// Test Connection with RapidAPI ChatGPT API
+// Test Connection with RapidAPI o1-preview API
 app.post('/api/test-connection', async (req, res) => {
   const { logData } = req.body;
 
@@ -221,30 +221,35 @@ app.post('/api/test-connection', async (req, res) => {
 
   const options = {
     method: 'POST',
-    url: 'https://chatgpt-42.p.rapidapi.com/gpt4',
+    url: 'https://openai-o1-mini.p.rapidapi.com/',
     headers: {
-      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2, // Using RAPIDAPI_KEY_2
-      'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+      'x-rapidapi-key': process.env.RAPIDAPI_KEY_2,
+      'x-rapidapi-host': 'openai-o1-mini.p.rapidapi.com',
       'Content-Type': 'application/json',
     },
     data: {
+      model: 'o1-mini',
       messages: [
         {
           role: 'user',
           content: logData,
         },
       ],
-      web_access: false,
     },
   };
 
   try {
     const response = await axios.request(options);
-    const analysis = response.data.result;
-    res.status(200).send({ message: analysis });
+    const analysis = response.data.choices[0]?.message?.content; // Safely access content
+
+    if (typeof analysis !== 'string') {
+      throw new Error('Response content is not a string');
+    }
+
+    res.status(200).send({ message: analysis }); // Ensure message is a string
   } catch (error) {
-    console.error('ChatGPT Integration Error:', error.response ? error.response.data : error.message);
-    res.status(500).send({ message: 'Error analyzing log data with RapidAPI ChatGPT' });
+    console.error('o1-preview Integration Error:', error.response?.data || error.message);
+    res.status(500).send({ message: 'Error analyzing log data with RapidAPI o1-preview' });
   }
 });
 
