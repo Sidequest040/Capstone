@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  # Use variable from .env
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Backend - Node.js/Express
+  backend:
+    build: ./backend
+    container_name: node_backend
+    env_file:
+      - .env
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      SECRET_KEY: ${SECRET_KEY}
+      RAPIDAPI_KEY_1: ${RAPIDAPI_KEY_1}
+      RAPIDAPI_KEY_2: ${RAPIDAPI_KEY_2}
+      RAPIDAPI_KEY_3: ${RAPIDAPI_KEY_3}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - '3001:3001'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend_network
+    volumes:
+      - ./backend:/app
+      - node_modules_backend:/app/node_modules
+    restart: unless-stopped
+
+  # Frontend - React
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    env_file:
+      - .env
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL}
+      REACT_APP_SPLINE_VIEWER_URL: ${REACT_APP_SPLINE_VIEWER_URL}
+      REACT_APP_RAPIDAPI_KEY_1: ${RAPIDAPI_KEY_1}
+      REACT_APP_RAPIDAPI_KEY_2: ${RAPIDAPI_KEY_2}
+      REACT_APP_RAPIDAPI_KEY_3: ${RAPIDAPI_KEY_3}
+    ports:
+      - '3000:3000'
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - backend_network
+    volumes:
+      - ./frontend:/app
+      - node_modules_frontend:/app/node_modules
+    command: sh -c "npm install && npm start"
+    user: node
+    restart: unless-stopped
+
+networks:
+  backend_network:
+
+volumes:
+  db_data:
+  node_modules_backend:
+  node_modules_frontend:

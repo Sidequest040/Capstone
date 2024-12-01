@@ -1,0 +1,256 @@
+/* Profile Page Styling */
+.profile-page {
+  background-color: hsla(240, 15%, 9%, 0.95); /* Dark background for profile */
+  padding: 40px;
+  border-radius: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 50%, 0.2) 0px, transparent 85%),
+                    radial-gradient(at 49% 30%, hsla(193, 100%, 60%, 0.2) 0px, transparent 85%),
+                    radial-gradient(at 14% 26%, hsla(168, 76%, 45%, 0.2) 0px, transparent 85%);
+}
+
+/* Heading Styling */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  background-image: linear-gradient(90deg, hsl(193, 100%, 60%), hsl(283, 39%, 50%)); /* Gradient for heading */
+  -webkit-background-clip: text;
+  color: transparent; /* Makes the heading text use the gradient color */
+  font-size: 2rem;
+  letter-spacing: 0.05rem;
+}
+
+/* Profile Form Styling */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Group Styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 1.2rem;
+  color: #c0c0c0;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: hsla(193, 100%, 60%, 0.1); /* Light blue background for inputs */
+  color: white;
+  font-size: 1.1rem;
+  outline: none;
+  transition: background-color 0.3s, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  background-color: hsla(193, 100%, 60%, 0.2); /* Darker focus color */
+  box-shadow: 0 0 10px hsl(193, 100%, 60%), 0 0 40px hsl(283, 39%, 50%);
+}
+
+.form-group textarea {
+  height: 100px;
+  resize: none;
+}
+
+/* Save Button Styling */
+.save-button {
+  width: 100%;
+  padding: 12px 20px;
+  background-image: linear-gradient(0deg, hsl(193, 100%, 60%), hsl(283, 39%, 50%)); /* Gradient for button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.save-button:hover {
+  background-color: hsl(193, 100%, 50%); /* Darker blue hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Loader Animation */
+.loader {
+width: 30px;
+height: 30px;
+display: flex;
+transform-origin: 50% 125%;
+animation: mov-y 1s infinite linear;
+}
+
+.loader:before,
+.loader:after {
+content: "";
+flex: 1;
+background: #fff;
+transform-origin: 0% 100%;
+animation: rtr-x 1s infinite linear;
+}
+
+.loader:before {
+transform-origin: 100% 100%;
+animation-name: rtr-rx;
+}
+
+@keyframes mov-y {
+0%, 25% {
+    transform: translateY(0) scaleY(1);
+}
+
+49% {
+    transform: translateY(-75%) scaleY(1);
+}
+
+50% {
+    transform: translateY(-75%) scaleY(-1);
+}
+
+75%, 100% {
+    transform: translateY(-150%) scaleY(-1);
+}
+}
+
+@keyframes rtr-x {
+25%, 75% {
+    transform: rotate(0deg);
+}
+
+50% {
+    transform: rotate(90deg);
+}
+}
+
+@keyframes rtr-rx {
+25%, 75% {
+    transform: rotate(0deg);
+}
+
+50% {
+    transform: rotate(-90deg);
+}
+}
+
+/* Profile-Specific Toast Notification Styling */
+.profile-page .toast {
+position: fixed;
+top: 5px;
+right: -490px;
+background-color: #232531;
+color: white;
+padding: 15px;
+border-radius: 12px;
+box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+display: flex;
+align-items: center;
+justify-content: space-between;
+min-width: 250px;
+z-index: 10000;
+opacity: 1;
+visibility: visible;
+animation: slide-in 0.3s ease-out, slide-out 0.3s ease-out 5s;
+}
+
+@keyframes slide-in {
+0% {
+  right: -490px;
+}
+100% {
+  right: 20px;
+}
+}
+
+@keyframes slide-out {
+0% {
+  right: 20px;
+}
+100% {
+  right: -490px;
+}
+}
+
+.profile-page .toast-content {
+display: flex;
+align-items: center;
+}
+
+.profile-page .toast-icon {
+background-color: rgba(255, 255, 255, 0.1);
+padding: 8px;
+border-radius: 8px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.profile-page .toast-icon .icon {
+width: 24px;
+height: 24px;
+color: #2b9875; /* Icon color */
+}
+
+.profile-page .toast-title {
+margin-left: 10px;
+color: white;
+font-size: 1rem;
+}
+
+.profile-page .close-toast {
+background: none;
+border: none;
+color: white;
+font-size: 18px;
+cursor: pointer;
+padding: 8px;
+margin-left: 10px;
+transition: background-color 0.3s ease;
+}
+
+.profile-page .close-toast:hover {
+background-color: rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+}
+
+@keyframes fade-in {
+0% {
+    opacity: 0;
+    visibility: visible;
+}
+100% {
+    opacity: 1;
+    visibility: visible;
+}
+}
+
+@keyframes fade-out {
+0% {
+    opacity: 1;
+    visibility: visible;
+}
+100% {
+    opacity: 0;
+    visibility: hidden;
+}
+}
