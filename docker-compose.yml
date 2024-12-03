@@ -42,8 +42,7 @@ services:
     ports:
       - '3001:3001'
     depends_on:
-      db:
-        condition: service_healthy
+      - db  # Corrected to use an array
     networks:
       - backend_network
     volumes:
@@ -61,13 +60,12 @@ services:
       REACT_APP_API_URL: ${REACT_APP_API_URL}
       REACT_APP_SPLINE_VIEWER_URL: ${REACT_APP_SPLINE_VIEWER_URL}
       REACT_APP_RAPIDAPI_KEY_1: ${RAPIDAPI_KEY_1}
-      REACT_APP_RAPIDAPI_KEY_2: ${RAPIDAPI_KEY_2}
-      REACT_APP_RAPIDAPI_KEY_3: ${RAPIDAPI_KEY_3}
+      REACT_APP_RAPIDAPI_KEY_2: ${REACT_APP_RAPIDAPI_KEY_2}
+      REACT_APP_RAPIDAPI_KEY_3: ${REACT_APP_RAPIDAPI_KEY_3}
     ports:
       - '3000:3000'
     depends_on:
-      backend:
-        condition: service_started
+      - backend  # Corrected to use an array
     networks:
       - backend_network
     volumes:
@@ -84,3 +82,4 @@ volumes:
   db_data:
   node_modules_backend:
   node_modules_frontend:
+
