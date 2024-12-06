@@ -19,7 +19,7 @@ function ClearingCacheTool() {
 
     return (
         <div className="clearing-cache-tool">
-            <h2>Adware Cache Clearer</h2>
+            <h2>Data Sanitization Tool</h2>
 
             {/* Development Notice */}
             <div className="development-notice">

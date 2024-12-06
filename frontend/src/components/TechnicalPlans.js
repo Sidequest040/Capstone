@@ -6,7 +6,7 @@ function TechnicalPlans() {
         <div className="technical-plans-page">
             <div className="technical-card">
                 <div className="technical-card_title__container">
-                    <h2 className="card_title">Technical Process Plans</h2>
+                    <h2 className="card_title">Security Plans</h2>
                 </div>
                 <p className="technical-card_paragraph">
                     The development of this AI-powered cybersecurity tool involves several key technical components:

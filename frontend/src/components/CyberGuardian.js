@@ -250,7 +250,7 @@ function CyberGuardian() {
   return (
     <div className="CyberGuardian">
       <header className="CyberGuardian-header">
-        <h1>CyberGuardian Dashboard</h1>
+        <h1>Security Center</h1>
         <p>Protecting your network and monitoring threats in real-time.</p>
 
         {/* Initiate Network Scan Button */}

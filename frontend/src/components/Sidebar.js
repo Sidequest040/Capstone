@@ -5,44 +5,48 @@ function Sidebar({ setActiveSection }) {
     const navigate = useNavigate();
     const [profileName, setProfileName] = useState('');
     const [profilePic, setProfilePic] = useState('');
-    const [searchQuery, setSearchQuery] = useState(''); // New state for the search bar
+    const [searchQuery, setSearchQuery] = useState('');
 
+    // Updated, more professional labels
     const sidebarItems = [
-        { id: 'overview', label: 'Discover' },
-        { id: 'technical', label: 'Technical Plans' },
-        { id: 'threat-detection', label: 'Threat Detection' },
-        { id: 'threat-detection-page', label: 'Run Threat Detection' },
-        { id: 'help', label: 'Help' },
-        { id: 'profile', label: 'Profile' },
-        { id: 'dark-mode', label: 'Cyber Guardian' },
-        { id: 'clearing-cache', label: 'Clearing Tool' },
+        { id: 'overview', label: 'Dashboard' },
+        { id: 'technical', label: 'Security Plans' },
+        { id: 'threat-detection', label: 'Threat Intelligence' },
+        { id: 'threat-detection-page', label: 'Log Analyzer' },
+        { id: 'help', label: 'Support' },
+        { id: 'profile', label: 'My Profile' },
+        { id: 'dark-mode', label: 'Security Center' },
+        { id: 'clearing-cache', label: 'Data Sanitization Tool' },
     ];
 
     useEffect(() => {
         const storedEmail = localStorage.getItem('email');
         if (storedEmail) {
             const storedProfile = JSON.parse(localStorage.getItem(`profile_${storedEmail}`));
-            if (storedProfile && storedProfile.name) {
-                setProfileName(storedProfile.name);
-            }
-            if (storedProfile && storedProfile.profilePicture) {
-                setProfilePic(storedProfile.profilePicture);
+            if (storedProfile) {
+                if (storedProfile.name) {
+                    setProfileName(storedProfile.name);
+                }
+                if (storedProfile.profilePicture) {
+                    setProfilePic(storedProfile.profilePicture);
+                }
             }
         }
 
         const handleStorageChange = () => {
             const updatedEmail = localStorage.getItem('email');
             const updatedProfile = JSON.parse(localStorage.getItem(`profile_${updatedEmail}`));
-            if (updatedProfile && updatedProfile.name) {
-                setProfileName(updatedProfile.name);
-            }
-            if (updatedProfile && updatedProfile.profilePicture) {
-                setProfilePic(updatedProfile.profilePicture);
+            if (updatedProfile) {
+                if (updatedProfile.name) {
+                    setProfileName(updatedProfile.name);
+                }
+                if (updatedProfile.profilePicture) {
+                    setProfilePic(updatedProfile.profilePicture);
+                }
             }
         };
 
         window.addEventListener('storage', handleStorageChange);
-
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
@@ -59,12 +63,10 @@ function Sidebar({ setActiveSection }) {
         const activeButton = document.querySelector(`#${section}`);
         if (activeButton) {
             activeButton.classList.add("active");
-        } else {
-            console.warn(`No button found with id "${section}"`);
         }
     };
 
-    const handleLogout = () => {
+    const handleSignOut = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('profile');
         localStorage.removeItem('email');
@@ -127,9 +129,9 @@ function Sidebar({ setActiveSection }) {
         <div className="sidebar">
             <input
                 type="text"
-                placeholder="Search"
-                value={searchQuery} // Bind input to state
-                onChange={(e) => setSearchQuery(e.target.value)} // Update state on input change
+                placeholder="Search Features"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
             />
             <ul>
                 {filteredItems.map((item) => (
@@ -146,8 +148,8 @@ function Sidebar({ setActiveSection }) {
             <div className="profile">
                 <label htmlFor="profilePicUpload">
                     <img
-                        src={profilePic ? profilePic : 'https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg'}
-                        alt="Profile Pic"
+                        src={profilePic || 'https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e.jpg'}
+                        alt="Profile"
                         style={{ cursor: 'pointer' }}
                     />
                 </label>
@@ -158,9 +160,9 @@ function Sidebar({ setActiveSection }) {
                     accept="image/*"
                     onChange={handleProfilePicUpload}
                 />
-                <h1>{profileName ? profileName : 'Guest'}</h1>
+                <h1>{profileName || 'Guest'}</h1>
             </div>
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
+            <button className="logout-button" onClick={handleSignOut}>Sign Out</button>
         </div>
     );
 }

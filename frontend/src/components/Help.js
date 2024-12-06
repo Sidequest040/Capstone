@@ -95,9 +95,8 @@ By prioritizing cybersecurity, you protect not only your assets but also the tru
 
     return (
         <div className="help-page">
-            <h1>Help & Documentation</h1>
+            <h1>Support</h1>
             <section>
-                <h2>How to Use Threat Detection</h2>
                 <p>This page explains how to run threat detection, read logs, and apply filters.</p>
                 <div className="video-container">
                     <iframe 

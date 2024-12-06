@@ -6,7 +6,7 @@ function Overview() {
         <div className="card">
             <div className="card__border"></div>
             <div className="card_title__container">
-                <h2 className="card_title">Project Overview</h2>
+                <h2 className="card_title">Dashboard</h2>
                 <p className="card_paragraph">
                     This project aims to develop a robust AI-powered tool for cybersecurity threat detection and response.
                     Leveraging advanced machine learning algorithms, the tool will identify and mitigate potential security threats in real-time.

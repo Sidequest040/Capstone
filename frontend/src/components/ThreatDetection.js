@@ -90,7 +90,7 @@ function ThreatDetection() {
 
     return (
         <div className="threat-detection-page">
-            <h2>Threat Detection</h2>
+            <h2>Threat Intelligence</h2>
             <p>Monitor and analyze detected threats in real-time.</p>
 
             {/* Filter Section */}

@@ -151,7 +151,7 @@ function ThreatDetectionPage() {
 
   return (
     <div className="threat-detection-page">
-      <h2>Threat Detection</h2>
+      <h2>Log Analyzer</h2>
       <textarea
         value={logData}
         onChange={(e) => setLogData(e.target.value)}
