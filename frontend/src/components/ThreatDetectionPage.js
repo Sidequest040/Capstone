@@ -6,7 +6,6 @@ import Toast from './Toast';
 function ThreatDetectionPage() {
   const { setThreatData } = useContext(ThreatContext);
 
-  // Convert the default array into a newline-separated string
   const defaultLogs = [
     "[00:00] User login attempt from IP 192.168.1.1",
     "[00:00] User login attempt from IP 192.168.1.1",
@@ -25,15 +24,14 @@ function ThreatDetectionPage() {
     "[00:50] User login attempt succeeded from IP 192.168.1.1"
   ].join('\n');
 
-  const [logData, setLogData] = useState(() => {
-    return sessionStorage.getItem('logData') || defaultLogs;
-  });
-
+  const [logData, setLogData] = useState(() => sessionStorage.getItem('logData') || defaultLogs);
   const [responseMessage, setResponseMessage] = useState(() => sessionStorage.getItem('responseMessage') || '');
   const [loading, setLoading] = useState(false);
   const [formattedData, setFormattedData] = useState([]);
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [showOnlyCritical, setShowOnlyCritical] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     sessionStorage.setItem('logData', logData);
@@ -44,20 +42,24 @@ function ThreatDetectionPage() {
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
-
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [logData, responseMessage]);
 
   const handleSendDataClick = async () => {
+    // Input validation
+    if (!logData.trim()) {
+      setErrorMsg("Log data is empty. Please provide logs before analyzing.");
+      return;
+    }
+
     setLoading(true);
+    setErrorMsg('');
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/test-connection`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ logData }),
       });
 
@@ -73,38 +75,48 @@ function ThreatDetectionPage() {
 
       setResponseMessage(result.message);
 
-      // Parse the log data by splitting lines, not JSON
-      const parsedData = logData.split('\n').filter(line => line.trim() !== '');
-      const newData = [];
-
-      parsedData.forEach((log) => {
-        const timeMatch = log.match(/\[(.*?)\]/);
-        const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
-        const ip = ipMatch ? ipMatch[1] : 'Unknown';
-        const critical = log.toLowerCase().includes('unauthorized') || log.toLowerCase().includes('malware');
-        const existingEntry = newData.find((entry) => entry.time === (timeMatch ? timeMatch[1] : 'Unknown') && entry.ip === ip);
-
-        if (existingEntry) {
-          existingEntry.threats += 1;
-        } else {
-          newData.push({
-            time: timeMatch ? timeMatch[1] : 'Unknown',
-            threats: 1,
-            ip: ip,
-            critical: critical,
-            date: new Date().toISOString().slice(0, 10),
-          });
-        }
-      });
-
+      // Parse and structure the log data
+      const newData = parseLogs(logData);
       setThreatData(newData);
       setFormattedData(newData);
     } catch (error) {
       console.error('Error testing connection:', error);
-      setResponseMessage('There was an error connecting to the backend.');
+      setResponseMessage('');
+      setErrorMsg('There was an error connecting to the backend. Please try again later.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const parseLogs = (logs) => {
+    const parsedData = logs.split('\n').filter(line => line.trim() !== '');
+    const newData = [];
+
+    parsedData.forEach((log) => {
+      const timeMatch = log.match(/\[(.*?)\]/);
+      const ipMatch = log.match(/IP\s(\d+\.\d+\.\d+\.\d+)/);
+      const ip = ipMatch ? ipMatch[1] : 'Unknown';
+      const critical = log.toLowerCase().includes('unauthorized') || log.toLowerCase().includes('malware');
+      const time = timeMatch ? timeMatch[1] : 'Unknown';
+
+      // Check if there's an existing entry for the same time & IP
+      const existingEntry = newData.find((entry) => entry.time === time && entry.ip === ip);
+
+      if (existingEntry) {
+        existingEntry.threats += 1;
+        existingEntry.critical = existingEntry.critical || critical; 
+      } else {
+        newData.push({
+          time: time,
+          threats: 1,
+          ip: ip,
+          critical: critical,
+          date: new Date().toISOString().slice(0, 10),
+        });
+      }
+    });
+
+    return newData;
   };
 
   const formatResponseMessage = (message) => {
@@ -149,9 +161,20 @@ function ThreatDetectionPage() {
     setIsToastVisible(false);
   };
 
+  const resetData = () => {
+    setLogData(defaultLogs);
+    setResponseMessage('');
+    setFormattedData([]);
+    setShowOnlyCritical(false);
+    setErrorMsg('');
+  };
+
+  const filteredData = showOnlyCritical ? formattedData.filter(entry => entry.critical) : formattedData;
+
   return (
     <div className="threat-detection-page">
       <h2>Log Analyzer</h2>
+      {errorMsg && <p className="error-message">{errorMsg}</p>}
       <textarea
         value={logData}
         onChange={(e) => setLogData(e.target.value)}
@@ -159,9 +182,12 @@ function ThreatDetectionPage() {
         rows="10"
         cols="50"
       />
-      <button onClick={handleSendDataClick} disabled={loading}>
-        {loading ? <div className="loader"></div> : "Analyze Logs"}
-      </button>
+      <div className="actions">
+        <button onClick={handleSendDataClick} disabled={loading}>
+          {loading ? <div className="loader"></div> : "Analyze Logs"}
+        </button>
+        <button onClick={resetData}>Reset Data</button>
+      </div>
 
       {responseMessage && (
         <div className="response-message">
@@ -181,6 +207,44 @@ function ThreatDetectionPage() {
                 <button onClick={copyToClipboard}>Copy Analysis</button>
                 <button onClick={downloadJSON}>Download JSON</button>
               </div>
+
+              <div className="filters">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={showOnlyCritical}
+                    onChange={(e) => setShowOnlyCritical(e.target.checked)}
+                  />
+                  Show Only Critical Threats
+                </label>
+              </div>
+
+              {filteredData.length > 0 ? (
+                <table className="results-table">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>IP Address</th>
+                      <th>Threats</th>
+                      <th>Critical?</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((entry, index) => (
+                      <tr key={index}>
+                        <td>{entry.time}</td>
+                        <td>{entry.ip}</td>
+                        <td>{entry.threats}</td>
+                        <td>{entry.critical ? 'Yes' : 'No'}</td>
+                        <td>{entry.date}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p>No threats found under the current filter.</p>
+              )}
             </div>
           )}
         </div>
