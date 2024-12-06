@@ -1,32 +1,96 @@
-import React from 'react';
-import './ClearingCacheTool.css';  // Import the specific CSS file
+import React, { useState } from 'react'; 
+import './ClearingCacheTool.css';
 
 function ClearingCacheTool() {
+    const [timeRange, setTimeRange] = useState('1h'); // default to last 1 hour
+    const [isClearing, setIsClearing] = useState(false);
+    const [isCleared, setIsCleared] = useState(false);
+
+    const handleClearData = () => {
+        setIsClearing(true);
+        setIsCleared(false);
+        
+        // Simulate an async clearing operation
+        setTimeout(() => {
+            setIsClearing(false);
+            setIsCleared(true);
+        }, 2000);
+    };
+
     return (
         <div className="clearing-cache-tool">
             <h2>Adware Cache Clearer</h2>
+
+            {/* Development Notice */}
+            <div className="development-notice">
+                <p><strong>Note:</strong> This feature is currently in development. Some functionalities, such as data clearing, may not be fully operational yet. We appreciate your understanding and patience as we continue to improve this part of the project.</p>
+            </div>
+
             <p>
                 The <strong>Adware Cache Clearer</strong> extension helps you protect your privacy and security by automatically
                 clearing cached data, cookies, and browsing history that may be associated with unwanted tracking or adware scams, 
                 such as the <em>Microsoft Trojan Horse Scam</em>.
             </p>
             <p>
-                With this tool, you can select the time range for which you want to clear your browser data. Options include:
+                Select the time range for clearing your browser data:
             </p>
-            <ul>
-                <li><strong>Last 1 Hour</strong> – Quickly remove recent cache and cookies.</li>
-                <li><strong>Last 24 Hours</strong> – Clear browsing data from the last day.</li>
-                <li><strong>All Time</strong> – Remove all cached data, cookies, and browsing history.</li>
-            </ul>
+            <div className="time-range-options">
+                <label>
+                    <input 
+                        type="radio" 
+                        name="timeRange" 
+                        value="1h" 
+                        checked={timeRange === '1h'} 
+                        onChange={(e) => setTimeRange(e.target.value)} 
+                    />
+                    Last 1 Hour
+                </label>
+                <label>
+                    <input 
+                        type="radio" 
+                        name="timeRange" 
+                        value="24h" 
+                        checked={timeRange === '24h'} 
+                        onChange={(e) => setTimeRange(e.target.value)} 
+                    />
+                    Last 24 Hours
+                </label>
+                <label>
+                    <input 
+                        type="radio" 
+                        name="timeRange" 
+                        value="all" 
+                        checked={timeRange === 'all'} 
+                        onChange={(e) => setTimeRange(e.target.value)} 
+                    />
+                    All Time
+                </label>
+            </div>
+
             <p>
-                In addition to clearing cache and cookies, the extension <strong>automatically signs you out of websites </strong> 
-                when the data is cleared. This ensures that you’re fully logged out of potentially compromised sessions that 
-                could be affected by adware or phishing scams.
+                By clearing this data, the extension <strong>signs you out of websites</strong> to prevent any compromised sessions 
+                from persisting.
             </p>
-            <p>
-                This extension is particularly useful if you’ve encountered suspicious ads, fake scam warnings, or phishing attempts. 
-                It helps prevent further tracking by clearing all relevant data and ensuring your browser is secure.
-            </p>
+
+            <button className="clear-button" onClick={handleClearData} disabled={isClearing}>
+                {isClearing ? 'Clearing...' : 'Clear Now'}
+            </button>
+
+            {/* Show loading spinner when clearing */}
+            {isClearing && (
+                <div className="status-message">
+                    <div className="spinner"></div>
+                    <p>Clearing your {timeRange === '1h' ? 'last hour' : timeRange === '24h' ? '24 hours' : 'all-time'} data...</p>
+                </div>
+            )}
+
+            {/* Show success message once cleared */}
+            {isCleared && !isClearing && (
+                <div className="status-message success">
+                    <p><strong>All data cleared successfully!</strong></p>
+                    <p>You have been signed out of all websites for enhanced security.</p>
+                </div>
+            )}
         </div>
     );
 }

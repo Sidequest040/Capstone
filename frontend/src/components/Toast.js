@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import './Toast.css'; // Assuming you have a separate CSS file for toast
+import './Toast.css';
 
 const Toast = ({ message, isVisible, onClose }) => {
   useEffect(() => {
     if (isVisible) {
       // Auto close after 5 seconds
-      const timer = setTimeout(() => {
-        onClose();
-      }, 5000);
-      return () => clearTimeout(timer); // Clean up timer
+      const timer = setTimeout(onClose, 5000);
+      return () => clearTimeout(timer);
     }
   }, [isVisible, onClose]);
 
@@ -32,26 +30,8 @@ const Toast = ({ message, isVisible, onClose }) => {
               />
             </svg>
           </div>
-          <div className="toast-text">
-            <p className="toast-title">{message}</p>
-          </div>
+          <p className="toast-title">{message}</p>
         </div>
-        <button className="close-toast" onClick={onClose}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="close-icon"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
       </div>
     )
   );

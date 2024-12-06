@@ -297,10 +297,62 @@ p {
     font-size: 1rem;
 }
 
+/* Filter Panel */
+.filter-panel {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.filter-panel h3 {
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 0.9rem;
+}
+
 /* Threat Detection Page */
 .threat-detection-page {
     padding: 20px;
     color: #e0e0e0;
+    font-family: "Poppins", sans-serif;
+}
+
+.threat-detection-page h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.threat-detection-page p {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
 }
 
 .threat-detection-page textarea {
@@ -358,4 +410,79 @@ p {
 .analysis-result em {
     color: #FFD700;
     font-style: italic;
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Charts Container */
+.chart-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.chart-container h3 {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* Logs Container */
+.logs-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+
+.logs-container h3 {
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.logs-box {
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.log-entry {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.log-entry.critical {
+    color: #ff5555;
+}
+
+/* Scrollbar styling */
+.logs-box::-webkit-scrollbar {
+    width: 6px;
+}
+.logs-box::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+}
+.logs-box::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
 }

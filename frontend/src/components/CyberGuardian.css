@@ -6,7 +6,7 @@
     width: 80%;
     max-width: 1000px;
     margin: 0 auto;
-    background-color: hsla(240, 15%, 9%, 0.8); /* Darker card-like background */
+    background-color: #000; /* Solid black background */
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
@@ -16,7 +16,7 @@
 
 /* Header Styling */
 .CyberGuardian-header {
-    background-color: hsla(240, 15%, 9%, 1); /* Consistent dark theme */
+    background-color: #000; /* Solid black, consistent with the card */
     padding: 20px;
     border-radius: 10px;
     color: hsl(0, 0%, 100%); /* White text */
@@ -26,15 +26,17 @@
 .CyberGuardian-header h1 {
     font-size: 2rem;
     font-weight: bold;
-    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient header */
-    -webkit-background-clip: text;
-    color: transparent; /* Gradient color for the header */
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
+    background-clip: text;               
+    -webkit-background-clip: text;       
+    -webkit-text-fill-color: transparent; 
+    color: transparent;                 
 }
 
 .CyberGuardian-header p {
     font-size: 1.2rem;
     margin: 20px 0;
-    color: hsl(0, 0%, 83%); /* Lighter paragraph text */
+    color: hsl(0, 0%, 83%);
 }
 
 /* IP Information Styling */
@@ -46,7 +48,7 @@
 
 .ip-info h2 {
     font-size: 1.5rem;
-    color: var(--white);
+    color: white;
     margin-bottom: 10px;
 }
 
@@ -74,25 +76,7 @@
 
 .threat-analysis h3 {
     font-size: 1.5rem;
-    color: var(--white);
-    margin-bottom: 10px;
-}
-
-.threat-analysis p {
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
-/* Threat Analysis Styling */
-.threat-analysis {
-    margin-top: 20px;
-    text-align: center;
-    color: hsl(0, 0%, 83%);
-}
-
-.threat-analysis h3 {
-    font-size: 1.5rem;
-    color: var(--white);
+    color: white;
     margin-bottom: 10px;
 }
 
@@ -116,17 +100,14 @@
 .threat-list li .threat-name {
     flex: 1;
     text-align: left;
-    color: var(--white);
+    color: white;
     font-size: 1rem;
 }
 
 .threat-list li .threat-status {
     font-size: 1.2rem;
-    color: hsl(48, 100%, 67%); /* Bright yellow for threat status */
     font-weight: bold;
-    /* Removed margin-bottom to fix alignment */
-    /* margin-bottom: 20px; */
-    align-self: center; /* Ensures vertical centering */
+    align-self: center;
 }
 
 .threat-list li .threat-status.ok {
@@ -137,9 +118,13 @@
     color: hsl(0, 100%, 67%); /* Red for threat */
 }
 
+.threat-list li .threat-status:not(.ok):not(.danger) {
+    color: hsl(48, 100%, 67%); /* Default bright yellow */
+}
+
 /* Button Styles */
 .network-scan-button, .collapse-button {
-    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient button */
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
     color: hsl(0, 0%, 100%);
     padding: 12px 24px;
     font-size: 1rem;
@@ -148,24 +133,14 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(193, 163, 98, 0.5); /* Shadow to match gradient */
+    box-shadow: 0 4px 15px rgba(193, 163, 98, 0.5);
 }
 
 .network-scan-button:hover, .collapse-button:hover {
-    background-color: hsl(193, 100%, 40%); /* Darker hover effect */
+    background-color: hsl(193, 100%, 40%);
     transform: scale(1.05);
 }
 
-/* Threat Status Styling */
-.threat-status {
-    /* This class is already defined above for threat-status */
-    /* font-size: 1.2rem;
-    color: hsl(48, 100%, 67%);
-    font-weight: bold;
-    margin-bottom: 20px; */
-}
-
-/* Other CSS remains unchanged */
 
 /* Scan Results Card */
 .scan-results-card {
@@ -181,12 +156,7 @@
     padding: 1.5rem;
     width: 100%;
     max-width: 600px;
-    background-color: hsla(240, 15%, 9%, 1); /* Dark background */
-    background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 46%, 1) 0px, transparent 85%),
-                      radial-gradient(at 49% 30%, hsla(193, 100%, 50%, 1) 0px, transparent 85%),
-                      radial-gradient(at 14% 26%, hsla(168, 76%, 42%, 1) 0px, transparent 85%),
-                      radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 1) 0px, transparent 85%),
-                      radial-gradient(at 41% 94%, hsl(0, 100%, 40%) 0px, transparent 85%);
+    background-color: #000; /* Solid black background */
     border-radius: 1rem;
     box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
     margin: 20px auto;
@@ -212,7 +182,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0 10px; /* Adjust left-right padding */
+    padding: 0 10px;
 }
 
 .scan-results-card .card__list_item {
@@ -220,12 +190,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.1); /* Light background */
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    width: 95%; /* Decreased width for better alignment */
+    width: 95%;
     box-sizing: border-box;
     margin-left: auto;
-    margin-right: auto; /* Centers the bars inside the card */
+    margin-right: auto;
 }
 
 .scan-results-card .check {
@@ -258,7 +228,7 @@
 }
 
 .tooltip-box {
-    background-color: hsl(240, 15%, 9%);
+    background-color: #000;
     color: hsl(0, 0%, 100%);
     border-radius: 5px;
     padding: 10px;
@@ -275,7 +245,7 @@
 /* Tooltip Hover */
 .scan-results-card .tooltip:hover::after {
     content: attr(data-tooltip);
-    background: hsl(240, 15%, 9%);
+    background: #000;
     color: white;
     padding: 5px;
     border-radius: 5px;
@@ -287,7 +257,7 @@
 /* Button Inside Scan Results */
 .scan-results-card button {
     padding: 10px;
-    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient button */
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
     color: hsl(0, 0%, 100%);
     border: none;
     border-radius: 8px;

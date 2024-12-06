@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 /* General Card-like Styling */
 .threat-detection-page {
   width: 80%;
   max-width: 1000px;
-  margin: 0 auto;
-  background-color: hsla(240, 15%, 9%, 0.9); /* Slightly darker background */
-  border: 1px solid hsla(193, 100%, 60%, 0.8); /* Neon Blue border */
+  margin: 40px auto;
+  background-color: hsla(240, 15%, 9%, 0.9);
+  border: 1px solid hsla(193, 100%, 60%, 0.8);
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(12px);
@@ -12,54 +14,13 @@
   padding: 20px;
   color: white;
   font-family: 'Poppins', sans-serif;
-  position: relative; /* Needed for card border */
+  position: relative;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0.1));
-}
-
-/* Dynamic Border Effect */
-.threat-detection-page .card__border {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: -10;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-  background-image: linear-gradient(0deg, hsl(0, 0%, 100%) -50%, hsl(0, 0%, 40%) 100%);
-  border-radius: 12px;
-}
-
-.threat-detection-page .card__border::before {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  z-index: 200;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: left;
-  width: 200%;
-  height: 10rem;
-  background-image: linear-gradient(
-    0deg, hsla(0, 0%, 100%, 0) 0%, hsl(193, 100%, 60%) 40%, /* Brighter Neon Blue */
-    hsl(283, 39%, 50%) 60%, /* Softer Purple */
-    hsla(0, 0%, 40%, 0) 100%
-  );
-  animation: rotate 8s linear infinite;
-}
-
-/* Animation for Border Rotation */
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* Header Styling */
 .threat-detection-page h2 {
-  background-color: hsla(193, 100%, 60%, 0.85); /* Brighter Neon Blue for header */
+  background-color: hsla(193, 100%, 60%, 0.85);
   color: white;
   padding: 12px;
   border-top-left-radius: 12px;
@@ -67,45 +28,56 @@
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   font-size: 1.7rem;
+  margin: -20px -20px 20px -20px; /* to blend with top border */
 }
 
 /* Textarea for Logs */
 .threat-detection-page textarea {
-  width: calc(100% - 30px);
+  width: 100%;
   height: 200px;
-  margin: 0 auto 20px;
+  margin-bottom: 20px;
   padding: 15px;
   border-radius: 8px;
   border: none;
   font-size: 14px;
   color: white;
-  background-color: hsla(193, 100%, 60%, 0.1); /* Brighter light blue background for textarea */
+  background-color: hsla(193, 100%, 60%, 0.1);
   transition: background-color 0.3s;
   resize: none;
-  overflow-y: scroll;
+  overflow-y: auto;
   white-space: pre-wrap;
+}
+.threat-detection-page textarea:focus {
+  background-color: hsla(193, 100%, 60%, 0.2);
+  outline: none;
 }
 
 /* Button Styling */
 .threat-detection-page button {
   width: 100%;
   padding: 12px 20px;
-  background-image: linear-gradient(45deg, hsl(193, 100%, 60%), hsl(283, 39%, 50%)); /* Gradient for button */
+  background-image: linear-gradient(45deg, hsl(193, 100%, 60%), hsl(283, 39%, 50%));
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
+}
+.threat-detection-page button:hover:enabled {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.threat-detection-page button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.threat-detection-page button:hover {
-  background-color: hsl(193, 100%, 50%); /* Brighter blue hover */
-}
 
 /* Response Box Styling */
 .response-message {
@@ -116,39 +88,75 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 900px;
-  background-color: hsla(240, 15%, 9%, 0.9); /* Dark background */
-  background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 50%, 1) 0px, transparent 85%),
-                    radial-gradient(at 49% 30%, hsla(193, 100%, 60%, 1) 0px, transparent 85%);
+  background-color: hsla(240, 15%, 9%, 0.9);
+  background-image:
+    radial-gradient(at 88% 40%, hsla(283, 39%, 50%, 1) 0px, transparent 85%),
+    radial-gradient(at 49% 30%, hsla(193, 100%, 60%, 1) 0px, transparent 85%);
   border-radius: 12px;
-  box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.25) inset;
-  margin: 20px auto;
+  box-shadow: 0px -16px 24px 0px rgba(255, 255, 255, 0.98) inset;
+  margin: 20px auto 0;
   color: white;
 }
-
-.formatted-response {
-  white-space: pre-line;
-  font-size: 14px;
-  color: white;
-}
-
-/* Additional styling for text formatting and alignment */
 .response-message h3 {
   text-align: center;
   font-size: 1.6rem;
   color: white;
 }
 
-.response-message .line {
-  width: 100%;
-  height: 0.1rem;
-  background-color: hsl(240, 9%, 17%);
+/* Formatted Response */
+.formatted-response {
+  white-space: pre-line;
+  font-size: 14px;
+  color: white;
+}
+
+/* Analysis Summary */
+.analysis-summary {
+  background-color: hsla(0, 0%, 100%, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.analysis-summary h4 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+.analysis-summary p {
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+.summary-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.summary-actions button {
+  flex: 1;
+  padding: 8px;
   border: none;
-  margin: 10px 0;
+  border-radius: 6px;
+  background: linear-gradient(45deg, #00c4ff, #9f00ff);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.summary-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
   .threat-detection-page {
       width: 100%;
+      margin: 20px auto;
+  }
+  .threat-detection-page textarea {
+      height: 150px;
+  }
+  .summary-actions {
+      flex-direction: column;
   }
 }

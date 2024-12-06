@@ -4,6 +4,7 @@ import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
+
 // Fix for default icon issues in React-Leaflet
 import L from 'leaflet';
 delete L.Icon.Default.prototype._getIconUrl;

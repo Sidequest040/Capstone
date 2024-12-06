@@ -13,12 +13,7 @@
     padding: 2rem;
     width: 80%;
     max-width: 1000px;
-    background-color: hsla(240, 15%, 9%, 0.9); /* Darker background */
-    background-image: radial-gradient(at 88% 40%, hsla(283, 39%, 50%, 1) 0px, transparent 85%), /* Purple */
-                      radial-gradient(at 49% 30%, hsla(193, 100%, 60%, 1) 0px, transparent 85%), /* Neon Blue */
-                      radial-gradient(at 14% 26%, hsla(168, 76%, 45%, 1) 0px, transparent 85%), /* Teal */
-                      radial-gradient(at 0% 64%, hsla(0, 0%, 100%, 0.1) 0px, transparent 85%), /* Subtle White */
-                      radial-gradient(at 41% 94%, hsl(0, 100%, 45%) 0px, transparent 85%); /* Red accent */
+    background-color: #000; /* Changed to solid black background */
     border-radius: 1.5rem;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
     margin: 20px auto;
@@ -104,7 +99,7 @@
 }
 
 .card__list_item:hover {
-    background-color: rgba(193, 163, 98, 0.3); /* Subtle glow hover */
+    background-color: rgba(138, 98, 193, 0.3); /* Subtle glow hover */
     transform: scale(1.05);
 }
 
