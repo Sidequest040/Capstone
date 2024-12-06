@@ -8,16 +8,22 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 10px;
+    max-width: 800px; 
+    margin: 0 auto; /* Center the help page horizontally */
+}
+
+.help-page section {
+    margin-bottom: 40px;
 }
 
 h1, h2 {
     background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
-    background-clip: text;               /* Standard property */
-    -webkit-background-clip: text;       /* For older WebKit browsers */
-    -webkit-text-fill-color: transparent;/* For Safari */
-    color: transparent;                  /* Fallback */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* Fallback */
+    margin-bottom: 20px;
 }
-
 
 /* Video Container */
 .video-container {
@@ -30,7 +36,8 @@ h1, h2 {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px; /* Increased gap for better readability */
+    margin-bottom: 30px; /* Space after FAQs */
 }
 
 /* FAQ Item Styling */
@@ -43,7 +50,7 @@ h1, h2 {
 
 /* FAQ Item Button */
 .faq-item button {
-    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%)); /* Gradient for FAQ buttons */
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
     color: white;
     border: none;
     padding: 10px 15px;
@@ -53,10 +60,15 @@ h1, h2 {
     transition: background-color 0.3s ease-in-out;
     font-size: 1rem;
     font-weight: bold;
+    outline: none; 
 }
 
 .faq-item button:hover {
     background-color: hsl(193, 100%, 40%); /* Darker blue on hover */
+}
+
+.faq-item button:focus {
+    box-shadow: 0 0 0 3px hsla(193, 100%, 50%, 0.5); /* Visible focus outline */
 }
 
 /* FAQ Item Text */
@@ -66,8 +78,106 @@ h1, h2 {
     font-size: 0.9rem;
     line-height: 1.5;
     width: 100%;
-    background-color: hsla(193, 100%, 50%, 0.1); /* Light background for FAQ answers */
+    background-color: hsla(193, 100%, 50%, 0.1); 
     padding: 10px;
     border-radius: 8px;
     transition: background-color 0.3s;
+}
+
+.faq-item p:hover {
+    background-color: hsla(193, 100%, 50%, 0.15); 
+}
+
+/* Help Bot Section */
+.help-bot-section {
+    margin-bottom: 40px;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    background-color: hsla(240, 15%, 9%, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(193, 100%, 50%) transparent;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: hsl(193, 100%, 50%);
+    border-radius: 4px;
+}
+
+/* Chat Messages */
+.chat-message {
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 60%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: hsl(0, 0%, 100%);
+}
+
+/* Differentiate bot and user messages */
+.chat-message.bot {
+    align-self: flex-start;
+    background-color: hsla(240, 100%, 20%, 0.3);
+}
+
+.chat-message.user {
+    align-self: flex-end;
+    background-color: hsla(193, 100%, 50%, 0.2);
+}
+
+/* Chat Input */
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-container input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid hsl(0, 0%, 50%);
+    background-color: hsla(0, 0%, 15%, 0.6);
+    color: hsl(0, 0%, 100%);
+    outline: none;
+}
+
+.chat-input-container input::placeholder {
+    color: hsl(0, 0%, 70%);
+}
+
+.chat-input-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-image: linear-gradient(90deg, hsl(193, 100%, 50%), hsl(283, 39%, 46%));
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-input-container button:hover {
+    background-color: hsl(193, 100%, 40%);
 }
