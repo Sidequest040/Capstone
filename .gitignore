@@ -79,3 +79,5 @@ capstoneproject/
 cybersecurity_project/
 
 >>>>>>> 7d6abc7b0b19247d79fc81d104764cf7b4f2344f
+.gitlab-ci.yml
+build-and-push.sh

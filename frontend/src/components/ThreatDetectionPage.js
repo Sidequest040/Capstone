@@ -5,24 +5,28 @@ import Toast from './Toast';
 
 function ThreatDetectionPage() {
   const { setThreatData } = useContext(ThreatContext);
+
+  // Convert the default array into a newline-separated string
+  const defaultLogs = [
+    "[00:00] User login attempt from IP 192.168.1.1",
+    "[00:00] User login attempt from IP 192.168.1.1",
+    "[00:00] User login attempt from IP 192.168.1.1",
+    "[00:10] Potential phishing email detected from IP 192.168.1.1",
+    "[00:20] Malware detected in file upload from IP 192.168.1.3",
+    "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+    "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+    "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+    "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+    "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
+    "[00:40] User login attempt failed from IP 192.168.1.1",
+    "[00:40] User login attempt failed from IP 192.168.1.1",
+    "[00:40] User login attempt failed from IP 192.168.1.1",
+    "[00:40] User login attempt failed from IP 192.168.1.1",
+    "[00:50] User login attempt succeeded from IP 192.168.1.1"
+  ].join('\n');
+
   const [logData, setLogData] = useState(() => {
-    return sessionStorage.getItem('logData') || [
-      "[00:00] User login attempt from IP 192.168.1.1",
-      "[00:00] User login attempt from IP 192.168.1.1",
-      "[00:00] User login attempt from IP 192.168.1.1",
-      "[00:10] Potential phishing email detected from IP 192.168.1.1",
-      "[00:20] Malware detected in file upload from IP 192.168.1.3",
-      "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-      "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-      "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-      "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-      "[00:30] Unauthorized access attempt blocked from IP 192.168.1.4",
-      "[00:40] User login attempt failed from IP 192.168.1.1",
-      "[00:40] User login attempt failed from IP 192.168.1.1",
-      "[00:40] User login attempt failed from IP 192.168.1.1",
-      "[00:40] User login attempt failed from IP 192.168.1.1",
-      "[00:50] User login attempt succeeded from IP 192.168.1.1"
-    ];
+    return sessionStorage.getItem('logData') || defaultLogs;
   });
 
   const [responseMessage, setResponseMessage] = useState(() => sessionStorage.getItem('responseMessage') || '');
@@ -69,7 +73,8 @@ function ThreatDetectionPage() {
 
       setResponseMessage(result.message);
 
-      const parsedData = JSON.parse(logData);
+      // Parse the log data by splitting lines, not JSON
+      const parsedData = logData.split('\n').filter(line => line.trim() !== '');
       const newData = [];
 
       parsedData.forEach((log) => {
